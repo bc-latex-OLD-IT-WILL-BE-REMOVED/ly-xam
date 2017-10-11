@@ -1,0 +1,33 @@
+\documentclass[a4,12pt]{article}
+    \usepackage[utf8x]{inputenc}
+    \usepackage{ucs}
+    \usepackage{lipsum}
+
+% Our style
+    \usepackage{apmep}
+
+
+\begin{document}
+
+\makeatletter
+    \@build@layout[%
+        nb        = 1,%
+        subnb     = Subject A,%
+        kind      = Test,%
+        subject   = Mathematics,%
+        theme     = Probability \& Functions,%
+        sector    = Scientific Cursus,%
+        class     = 1S4,%
+        location  = Lycée France (Paris),%
+        date      = 2017-09-23,%
+        time      = 4h,%
+        longtime  = Durée : 4h,%
+        preambule = {{\lipsum[1]}},%
+    ]
+\makeatother
+
+\lipsum
+
+\lipsum
+
+\end{document}

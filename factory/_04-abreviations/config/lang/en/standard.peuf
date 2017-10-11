@@ -1,0 +1,26 @@
+test::
+    test
+
+test-cor::
+    correction of the test
+
+homework::
+    homework
+
+homework-cor::
+    correction of the homework
+
+short::
+    short test
+
+short-cor::
+    correction of the short test
+
+duration::
+    durée
+
+handback::
+    first and last names
+
+nb::
+    \#

@@ -1,0 +1,5 @@
+==========
+2012-10-03
+==========
+
+**Un nouveau type d'exercices :** il est maintenant possible de rédiger des bonus en plus des traditionnels exercices et problèmes.

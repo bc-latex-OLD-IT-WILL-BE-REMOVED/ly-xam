@@ -1,0 +1,68 @@
+// STANDARD EXAMS
+
+exam::
+    time = Durée
+    name = Prénom NOM
+    nb   = N$^\circ$
+
+    short    = Interrogation rapide
+    shortCor = Corrigé de l'Interrogation rapide
+
+    test    = Devoir Surveillé
+    testCor = Corrigé du Devoir Surveillé
+
+    home    = Devoir à la Maison
+    homeCor = Corrigé du Devoir à la Maison
+
+exercise::
+    title::
+        exercise = Exercice
+        problem  = Problème
+        bonus    = Bonus
+        subPart  = Partie
+
+    them::
+        numAct  = Activité Numérique
+        geomAct = Activité Géométrique
+        algAct  = Activité Algébrique
+
+    trueFalse::
+        prop = Proposition
+
+        true    = Vrai
+        trueFem = Vraie
+
+        false    = Faux
+        falseFem = Fausse
+
+info::
+    noCalc::
+        Dans ce devoir, l'usage de la calculatrice est strictement interdit.
+
+    opened::
+        Dans cette question toute trace de recherche, même incomplète,
+        sera prise en compte dans l'évaluation.
+
+    justify::
+        Vous justifierez chacune de vos réponses.
+
+    justifyHere::
+        Directement sur l'énoncé, vous justifierez chacune de vos réponses.
+
+    choiceSingle::
+        Sur votre feuille, donnez la bonne réponse dans chacun des cas suivants.
+
+    choiceSingleHere::
+        Directement sur l'énoncé, cochez la bonne réponse dans chacun des cas suivants.
+
+    choiceMutliple::
+        Sur votre feuille, donnez la ou les bonnes réponses dans chacun des cas suivants.
+
+    choiceMutlipleHere::
+        Directement sur l'énoncé, cochez la ou les bonnes réponses dans chacun des cas suivants.
+
+    trueFalse::
+        Sur votre feuille, répondez par VRAI ou FAUX dans chacun des cas suivants.
+
+    trueFalseHere::
+        Directement sur l'énoncé, répondez par VRAI ou FAUX dans chacun des cas suivants.

@@ -1,0 +1,5 @@
+==========
+2012-04-24
+==========
+
+**Correction d'un oubli :** la mise à zéro du compteur des parties d'un exercice n'était pas faite pour les exercices et les problèmes dont on indique la source. Cet oubli a été réparé.

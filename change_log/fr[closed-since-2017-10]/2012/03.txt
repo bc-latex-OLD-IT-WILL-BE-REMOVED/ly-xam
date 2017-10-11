@@ -1,0 +1,55 @@
+==========
+2012-03-25
+==========
+
+**Corrigés d'examens :** pour le moment, seulement des titres automatisés sont disponibles via le paramètre ``kind`` de la commande ``exam[...]``. Par exemple, ``kind = testCor`` produira la titre  "Corrigé du Devoir Surveillé".
+
+
+==========
+2012-03-13
+==========
+
+**Titres personnalisés de devoirs :** dorénavant si vous indiquez une valeur inconnue du paramètre ``kind`` pour la commande ``exam[...]``, ce type inconnu sera pris comme nom du devoir.
+
+**Rédaction de VRAI-FAUX :** tout comme pour les QCM, la présentation est sobre, peu gourmande en espace et facile à mettre en place du côté du rédacteur. Tout se fait via l'environnement lat::``\begin{trueFalse} ... \end{trueFalse}``.
+
+
+==========
+2012-03-11
+==========
+
+**De nouveaux types d'examens :** il est enfin possible de taper de simples devoirs surveillés, devoirs à la maison ou interrogations courtes. Ceci a nécessité l'ajout d'un nouveau paramètre ``theme`` à la commande ``exam[...]`` afin de pouvoir indiquer un ou des thèmes abordés dans un devoir.
+
+**Amélioration des QCM :** il est dorénavant possible de redéfinir la numérotation des questions ou le symbole utilisé pour les QCM à remplir directement sur la copie. Ceci a nécessité de revoir la méthode d'indentation des QCM.
+
+
+==========
+2012-03-09
+==========
+
+**Numérotation des examens :** le paramètre ``nb`` utilisé avec ``exam`` permet d'indiquer un chiffre pour numéroter un examen (cela peut être utile pour les examens blancs).
+
+**Meilleure gestion des traits pour les en-têtes et les pieds de page :** dorénavant, ces traits n'apparaîtront que si cela est nécessaire.
+
+
+==========
+2012-03-07
+==========
+
+**Support de différents styles de mise en forme :** le code a été aménagé afin de rendre possible l'ajout simple de différents styles de mise en forme. Pour le moment, seul le style ``apmep`` est disponible.
+
+
+==========
+2012-03-05
+==========
+
+**Support de différentes langues :** le code a été aménagé afin de rendre possible l'usage de différentes langues pour les textes généraux. Pour le moment, seulement l'anglais et le français sont proposés.
+
+**Correction d'un oubli :** les exercices et les problèmes dont on indique la source n'avaient pas de versions étoilées pour les cas où le candidat répond directement dans l'énoncé. Cet oubli a été comblé.
+
+
+==========
+2012-03-04
+==========
+
+**Rédaction de QCM :** la présentation des QCM se veut sobre, peu gourmande en espace et facile à mettre en place du côté du rédacteur. Tout se fait via les deux environnements lat::``\begin{choices} ... \end{choices}`` et lat::``\begin{inlineChoices} ... \end{inlineChoices}``.

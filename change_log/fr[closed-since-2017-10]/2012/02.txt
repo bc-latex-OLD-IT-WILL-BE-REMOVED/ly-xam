@@ -1,0 +1,47 @@
+==========
+2012-02-27
+==========
+
+**Amélioration de l'affichage de la zone où rédiger nom et prénom :** l'ancienne méthode pouvait faire apparaître un texte plus gras que souhaité dans quelques cas comme la présence dans une même feuille de plusieurs exercices où les élèves répondent directement.
+
+
+==========
+2012-02-26
+==========
+
+**Version étoilée de la commande lat::``\emptyPage`` :** dorénavant lat::``\emptyPage`` aboutit à une page totalement blanche, ce qui correspond mieux à l'effet souhaité, tandis que la version étoilée lat::``\emptyPage*`` fait apparaître, en cas de besoin très particulier, les en-têtes et les pieds de page dans la page blanche.
+
+**Nouvelle option ``handBack`` pour la commande lat::``\exam`` :** par défaut cette option a pour valeur `0`. Si vous indiquez une autre valeur comme `1`, alors un texte centré horizontalement du type "Prénom NOM : ________" apparaîtra sur *toutes* les pages de l'énoncé (utile pour un devoir sur lequel les élèves répondent directement). Techniquement, la commande lat::``\handBack`` est appliquée sur toutes les pages.
+
+**Amélioration des versions étoilées des exercices et des problèmes :** dorénavant, le texte pour le nom et le prénom des élèves apparait depuis la page où débute l'énoncé de l'exercice ou du problème étoilé, jusqu'à celle où l'énoncé se finit (ce qui peut être utile pour un QCM ou un Vrai-Faux ne tenant pas sur une seule page). Tout ceci est rendu possible par l'utilisation de l'environnement lat::``\begin{handBack} ... \end{handBack}``.
+
+**Un nouvel environnement lat::``\begin{handBack} ... \end{handBack}`` :** ceci vous permet d'afficher un texte centré horizontalement du type "Prénom NOM : ________" pour toutes les pages où se trouve le texte à l'intérieur de lat::``\begin{handBack} ... \end{handBack}``, et non juste au début de ce contenu comme le faisait la commande lat::``handBack`` qui devient obsolète.
+
+**La commande lat::``\handBack`` n'existe plus :** elle est remplacée par l'environnement lat::``\begin{handBack} ... \end{handBack}`` qui est bien plus efficace.
+
+
+==========
+2012-02-25
+==========
+
+**Versions étoilées des exercices et des problèmes :** ceci a pour effet d'appeler automatiquement la commande lat::``\handBack`` qui est présentée juste après.
+
+**Ajout de la commande lat::``\handBack`` :** cette nouvelle commande permet d'ajouter au-dessus de l'en-tête de la page où elle est utilisée un texte centré horizontalement du type "Prénom NOM : ________" pour les feuilles de sujet que les élèves doivent rendre avec leur copie. Le texte "Prénom NOM" est facilement modifiable car il est contenu dans la commande lat::``\handBackText``, et la mise en forme est gérée par la commande lat::``\handBackUp`` qui peut aussi être adaptée.
+
+**Ajout de la commande lat::``\emptyPage`` :** cette nouvelle commande permet d'avoir une page blanche, ce qui peut par exemple être utile pour isoler une feuille à rende, comme un graphique à compléter, du reste de l'énoncé.
+
+
+==========
+2012-02-19
+==========
+
+**Simplification de l'interface pour l'utilisateur :** les macros redondantes comme lat::``\bac`` et lat::``\bacBlanc`` ont été remplacées par une unique commande lat::``\exam`` utilisant un système de clé-valeur beaucoup plus souple et intuitif.
+
+**Amélioration de la commande lat::``\subPart`` :** on peut dorénavant utiliser une version étoilée pour ne pas avoir d'espace avant. Par exemple, pour obtenir une présentation pas trop aérée, l'emploi de lat::``\subPart*`` est indispensable pour une sous-partie commençant directement un exercice.
+
+
+==========
+2012-02-16
+==========
+
+Cette toute première version permet de **taper des sujets de type BAC, BAC blanc, Brevet des collèges et Brevet blanc**. La ¨mef est celle utilisée pour les BACS disponibles sur le site de l'cf::``APMEP;http://www.apmep.asso.fr/``.

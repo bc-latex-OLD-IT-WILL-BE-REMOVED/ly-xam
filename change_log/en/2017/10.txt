@@ -1,0 +1,11 @@
+==========
+2017-10-11
+==========
+
+**Starting a total refactoring of the code :** we will use a factory so as to ease customizations of styles, internationalization of messages and internal development. Here is what has been done for the moment.
+
+    1) Management of title, headers and footers of an exam.
+
+    2) An API using ``pgfkeys`` gives a very easy way to implement new style (for a ¨latex developer).
+
+    3) Translation of terms are done locally (even if we will give later a single file to allow efficient translation).

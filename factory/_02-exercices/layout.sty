@@ -1,0 +1,86 @@
+% == PACKAGES USED == %
+
+\usepackage{pgfkeys}
+\usepackage{xstring}
+
+
+% == DEFINITIONS == %
+
+\makeatletter
+% Which style to use ?
+    \newcommand{\@style@choosen}{default}
+    \DeclareOption{default}{}
+    \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+
+% Processing the options
+    \ProcessOptions
+
+% Setting of the keys for the formatting and the infos of the @exam.
+    \pgfkeys{
+        /examkeys/.is family,
+        /examkeys,
+            nb/.initial        = 0,  % Number of the exam
+            subnb/.initial     = {}, % For different subjects at the same time
+            kind/.initial      = {}, % "Homework" for example
+            subject/.initial   = {}, % "Math" for example
+            theme/.initial     = {}, % "Complex Numbers" for example
+            sector/.initial    = {}, % "Série scientifique" for example
+            class/.initial     = {}, % Name of a class
+            location/.initial  = {}, % An institute or a school
+            date/.initial      = {}, % Date of the exam
+            time/.initial      = {}, % Duration of the exam
+            longtime/.initial  = {}, % Text "Duration:" plus the value of time
+            preambule/.initial = {}, % Main preambule
+            @firstuse/.initial = 0
+    }
+
+% The general layout command.
+    \newcommand\exam[1][]{%
+% User's options
+        \pgfkeys{/examkeys, #1}
+        \pgfkeysgetvalue{/examkeys/@firstuse}{\@firstuse}
+% First use ?
+        \ifnum\@firstuse=1
+            \PackageError{lyxam}{command 'exam' can be used only one time}
+        \fi
+        \pgfkeyssetvalue{/examkeys/@firstuse}{1}
+% Management of the keys.
+        \pgfkeysgetvalue{/examkeys/nb}{\@nb@exam}
+        \pgfkeysgetvalue{/examkeys/subnb}{\@subnb@exam}
+        \pgfkeysgetvalue{/examkeys/kind}{\@kind@exam}
+        \pgfkeysgetvalue{/examkeys/subject}{\@subject@exam}
+        \pgfkeysgetvalue{/examkeys/theme}{\@theme@exam}
+        \pgfkeysgetvalue{/examkeys/sector}{\@sector@exam}
+        \pgfkeysgetvalue{/examkeys/class}{\@class@exam}
+        \pgfkeysgetvalue{/examkeys/location}{\@location@exam}
+        \pgfkeysgetvalue{/examkeys/date}{\@date@exam}
+        \pgfkeysgetvalue{/examkeys/time}{\@time@exam}
+        \pgfkeysgetvalue{/examkeys/longtime}{\@longtime@exam}
+        \pgfkeysgetvalue{/examkeys/preambule}{\@preambule@exam}
+% Building the layout.
+        \@build@layout[%
+            nb        = \@nb@exam,%
+            subnb     = \@subnb@exam,%
+            kind      = \@kind@exam,%
+            subject   = \@subject@exam,%
+            theme     = \@theme@exam,%
+            sector    = \@sector@exam,%
+            class     = \@class@exam,%
+            location  = \@location@exam,%
+            date      = \@date@exam,%
+            time      = \@time@exam,%
+            longtime  = \@longtime@exam,%
+            preambule = \@preambule@exam,%
+        ]
+    }
+
+
+% Loading the good style
+    \IfStrEqCase{\@style@choosen}{
+        {apmep}{
+            \input{config/style/apmep.sty}
+        }{default}{
+            \PackageError{lyxam}{no default layout for the moment}
+        }
+    }
+\makeatother
