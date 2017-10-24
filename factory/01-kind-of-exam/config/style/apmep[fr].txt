@@ -1,0 +1,6 @@
+% VERY SHORT DESCRIPTION OF THE STYLE
+% -----------------------------------
+%
+% Use LaTeX syntax, this is for the documentation !
+
+Le style \verb+apmep+ est inspiré fortement de la mise en forme des sujets de BAC que l'on trouve sur le site \href{https://www.apmep.fr}{APMEP} (Association des Professeurs de Mathématiques de l'Enseignement Public).

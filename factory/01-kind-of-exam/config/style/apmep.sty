@@ -1,19 +1,40 @@
 % == READ ME == %
-
+%
 % TODO
 % ----
 %
-% You must define a command @build@layout which has the same structure than
-% the command exam in layout.sty. The automatic Python builder will add this
-% minimalistic code for you.
+% You must define two commands :
+%
+%    1) ``@build@layout`` which builds the main layout.
+%
+%    2) ``@add@render`` which adds material where the students must give
+%       their name.
 %
 % NOTE
 % ----
 %
 %    1) The name of the actual STY file will be the name of your style.
-%    2) ``\@apmep@nb@exam`` and ``\@apmep@kind@exam`` can't be both empty.
-%    3) The package ``fancyhdr`` is always loaded by ``lyxam``.
-%    4) The package ``lastpage`` is always loaded by ``lyxam``.
+%    2) The package ``fancyhdr`` is always loaded by ``lyxam``.
+%    3) The package ``lastpage`` is always loaded by ``lyxam``.
+%    4) You have the following important global constants to use for the render
+%       material.
+%        * ``\examname``
+%        * ``\examfirstname``
+%    5) You have the following important global constants to use for the layout.
+%        * ``\examkind``
+%        * ``\examrender``
+%        * ``\examnb``
+%        * ``\examsubnb``
+%        * ``\examsubject``
+%        * ``\examtheme``
+%        * ``\examsector``
+%        * ``\examclass``
+%        * ``\examlocation``
+%        * ``\examdate``
+%        * ``\examtime``
+%        * ``\examlongtime`` (text "Duration:" plus the value of time)
+%        * ``\exampreambule``
+%
 %
 % GOOD PRACTICE
 % -------------
@@ -25,9 +46,12 @@
 % == PACKAGES USED == %
 
 \usepackage{pgfkeys}
+\usepackage{xstring}
 
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+
+\usepackage{tcolorbox}
 
 \usepackage{fourier}
 
@@ -64,7 +88,7 @@
     \newcommand\@apmep@space@after{\par \bigskip \par}
 
     \newcommand\@apmep@write@preambule[1]{%
-        {\small\emph{#1}}%
+        {\setlength\parindent{0pt}\small\emph{#1}}%
     }
 
 % For the headers and the footers.
@@ -75,56 +99,36 @@
         \fancyfoot[C]{\footnotesize \thepage\ / \pageref{LastPage}}
     }
 
+% The render command [START].
+    \newcommand\@add@render{
+    	\begin{tcolorbox}[width=\linewidth]
+            \medskip
+            \examname : \hrulefill
 
-% Setting of the keys for the formatting and the infos of the @exam.
-    \pgfkeys{
-        /@apmep@examkeys/.is family,
-        /@apmep@examkeys,
-            nb/.initial        = 0,  % Number of the exam
-            subnb/.initial     = {}, % For different subjects at the same time
-            kind/.initial      = {}, % "Homework" for example
-            subject/.initial   = {}, % "Math" for example
-            theme/.initial     = {}, % "Complex Numbers" for example
-            sector/.initial    = {}, % "Série scientifique" for example
-            class/.initial     = {}, % Name of a class
-            location/.initial  = {}, % An institute or a school
-            date/.initial      = {}, % Date of the exam
-            time/.initial      = {}, % Duration of the exam
-            longtime/.initial  = {}, % Text "Duration:" plus the value of time
-            preambule/.initial = {}, % Main preambule
-            @firstuse/.initial = 0
+            \bigskip
+            \examfirstname : \hrulefill
+
+            \medskip
+        \end{tcolorbox}
+
+        \medskip
     }
+% The render command [END].
 
 % The layout command [START].
-    \newcommand\@build@layout[1][]{%
-        \pgfkeys{/@apmep@examkeys, #1}
-        \pgfkeysgetvalue{/@apmep@examkeys/nb}{\@apmep@nb@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/subnb}{\@apmep@subnb@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/kind}{\@apmep@kind@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/subject}{\@apmep@subject@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/theme}{\@apmep@theme@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/sector}{\@apmep@sector@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/class}{\@apmep@class@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/location}{\@apmep@location@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/date}{\@apmep@date@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/time}{\@apmep@time@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/longtime}{\@apmep@longtime@exam}
-        \pgfkeysgetvalue{/@apmep@examkeys/preambule}{\@apmep@preambule@exam}
-
-% The layout command [CUSTOMIZATION].
-
+    \newcommand\@build@layout{
 % Internal constants.
         \newcommand\@apmep@subject@id{%
-            \if\relax \@apmep@subnb@exam\relax \else
-                (\@apmep@subnb@exam{})%
+            \if\relax \examsubnb\relax \else
+                (\examsubnb{})%
             \fi
         }
 
-        \newcommand\@apmep@kind@exam@numbered{%
-            \ifnum\@apmep@nb@exam=0
-                \@apmep@kind@exam{}%
+        \newcommand\@apmep@exam@kind@numbered{%
+            \ifnum\examnb=0
+                \examkind{}%
             \else
-                \@apmep@collapse@kind@nb@exam{\@apmep@kind@exam{}}{\@apmep@nb@exam{}}%
+                \@apmep@collapse@kind@nb@exam{\examkind{}}{\examnb{}}%
             \fi
             \@apmep@subject@id{}%
         }
@@ -132,24 +136,27 @@
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
         \newcommand\@apmep@main@title{%
             \decofourleft ~%
-            \@apmep@collapse@title{\@apmep@kind@exam@numbered{}}{\@apmep@subject@exam{}}%
+            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\examsubject{}}%
             ~ \decofourright
         }
 
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
         \newcommand\@apmep@second@title{%
-            \@apmep@collapse@title{\@apmep@sector@exam{}}{\@apmep@theme@exam{}}%
+            \@apmep@collapse@title{\examsector{}}{\examtheme{}}%
         }
 
 % The 3rd title looks like "Name - Institute" or nothing.
         \newcommand\@apmep@third@title{%
-            \@apmep@collapse@title{\@apmep@class@exam{}}{\@apmep@location@exam{}}%
+            \@apmep@collapse@title{\examclass{}}{\examlocation{}}%
         }
 
 % The 4th title looks like "Date - Time" or nothing.
         \newcommand\@apmep@fourth@title{%
-            \@apmep@collapse@title{\@apmep@date@exam{}}{\@apmep@longtime@exam{}}%
+                \@apmep@collapse@title{\examdate{}}{\examlongtime{}}%
         }
+
+% Render or not ? That is the question !.
+        \IfStrEq{\examrender}{yes}{\@add@render{}}{}
 
 % The title of the document.
         \begin{center}
@@ -165,8 +172,8 @@
             \fi
         \end{center}
         %
-        \if\relax \@apmep@preambule@exam\relax \else
-            \@apmep@write@preambule{\@apmep@preambule@exam{}}
+        \if\relax \exampreambule\relax \else
+            \@apmep@write@preambule{\exampreambule{}}
         \fi
         \@apmep@space@after
 
@@ -177,14 +184,14 @@
 
         \lhead{%
             \small
-            \@apmep@collapse@title{\@apmep@kind@exam@numbered{}}{\@apmep@theme@exam{}}
+            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\examtheme{}}
         }
 %        \chead{\small CENTER UP}
-        \rhead{\small \@apmep@collapse@title{\@apmep@class@exam}{\@apmep@sector@exam}}
+        \rhead{\small \@apmep@collapse@title{\examclass}{\examsector}}
 
-        \lfoot{\small \@apmep@location@exam}
+        \lfoot{\small \examlocation}
         \cfoot{\thepage\ / \pageref{LastPage}}
-        \rfoot{\small \@apmep@date@exam}
+        \rfoot{\small \examdate}
 
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}

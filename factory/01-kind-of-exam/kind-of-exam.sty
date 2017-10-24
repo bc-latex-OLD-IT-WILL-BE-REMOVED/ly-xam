@@ -12,16 +12,31 @@
     \DeclareOption{default}{}
     \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
 
+% Which language to use ?
+    \newcommand{\@lang@choosen}{en}
+    \DeclareOption{en}{}
+    \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
+
 % Processing the options
     \ProcessOptions
+
+% Loading the good language
+    \IfStrEqCase{\@lang@choosen}{
+        {en}{
+            \input{config/lang/en.sty}
+        }{fr}{
+            \input{config/lang/fr.sty}
+        }
+    }
 
 % Setting of the keys for the formatting and the infos of the @exam.
     \pgfkeys{
         /examkeys/.is family,
         /examkeys,
+            kind/.initial      = {}, % "Homework" for example
+            render/.initial    = no, % Render the subject or not
             nb/.initial        = 0,  % Number of the exam
             subnb/.initial     = {}, % For different subjects at the same time
-            kind/.initial      = {}, % "Homework" for example
             subject/.initial   = {}, % "Math" for example
             theme/.initial     = {}, % "Complex Numbers" for example
             sector/.initial    = {}, % "Série scientifique" for example
@@ -29,7 +44,6 @@
             location/.initial  = {}, % An institute or a school
             date/.initial      = {}, % Date of the exam
             time/.initial      = {}, % Duration of the exam
-            longtime/.initial  = {}, % Text "Duration:" plus the value of time
             preambule/.initial = {}, % Main preambule
             @firstuse/.initial = 0
     }
@@ -39,39 +53,41 @@
 % User's options
         \pgfkeys{/examkeys, #1}
         \pgfkeysgetvalue{/examkeys/@firstuse}{\@firstuse}
+
 % First use ?
         \ifnum\@firstuse=1
             \PackageError{lyxam}{command 'exam' can be used only one time}
         \fi
         \pgfkeyssetvalue{/examkeys/@firstuse}{1}
-% Management of the keys.
-        \pgfkeysgetvalue{/examkeys/nb}{\@nb@exam}
-        \pgfkeysgetvalue{/examkeys/subnb}{\@subnb@exam}
-        \pgfkeysgetvalue{/examkeys/kind}{\@kind@exam}
-        \pgfkeysgetvalue{/examkeys/subject}{\@subject@exam}
-        \pgfkeysgetvalue{/examkeys/theme}{\@theme@exam}
-        \pgfkeysgetvalue{/examkeys/sector}{\@sector@exam}
-        \pgfkeysgetvalue{/examkeys/class}{\@class@exam}
-        \pgfkeysgetvalue{/examkeys/location}{\@location@exam}
-        \pgfkeysgetvalue{/examkeys/date}{\@date@exam}
-        \pgfkeysgetvalue{/examkeys/time}{\@time@exam}
-        \pgfkeysgetvalue{/examkeys/longtime}{\@longtime@exam}
-        \pgfkeysgetvalue{/examkeys/preambule}{\@preambule@exam}
+
+% Management of the keys : we use public constants !
+        \pgfkeysgetvalue{/examkeys/kind}{\examkind}
+        \pgfkeysgetvalue{/examkeys/render}{\examrender}
+        \pgfkeysgetvalue{/examkeys/nb}{\examnb}
+        \pgfkeysgetvalue{/examkeys/subnb}{\examsubnb}
+        \pgfkeysgetvalue{/examkeys/subject}{\examsubject}
+        \pgfkeysgetvalue{/examkeys/theme}{\examtheme}
+        \pgfkeysgetvalue{/examkeys/sector}{\examsector}
+        \pgfkeysgetvalue{/examkeys/class}{\examclass}
+        \pgfkeysgetvalue{/examkeys/location}{\examlocation}
+        \pgfkeysgetvalue{/examkeys/date}{\examdate}
+        \pgfkeysgetvalue{/examkeys/time}{\examtime}
+        \pgfkeysgetvalue{/examkeys/preambule}{\exampreambule}
+
+% Make the long time version.
+        \if\relax\examkind\relax
+        	\PackageError{lyxam}{the option 'kind' can't be empty}
+		\fi
+
+% Make the long time version.
+        \newcommand\examlongtime{
+	        \if\relax\examtime\relax \else
+	        	\examduration{} : \examtime{}
+	    	\fi
+		}
+
 % Building the layout.
-        \@build@layout[%
-            nb        = \@nb@exam,%
-            subnb     = \@subnb@exam,%
-            kind      = \@kind@exam,%
-            subject   = \@subject@exam,%
-            theme     = \@theme@exam,%
-            sector    = \@sector@exam,%
-            class     = \@class@exam,%
-            location  = \@location@exam,%
-            date      = \@date@exam,%
-            time      = \@time@exam,%
-            longtime  = \@longtime@exam,%
-            preambule = \@preambule@exam,%
-        ]
+        \@build@layout{}
     }
 
 

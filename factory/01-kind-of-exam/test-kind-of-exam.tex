@@ -1,16 +1,17 @@
 \documentclass[12pt]{article}
     \usepackage[utf8x]{inputenc}
     \usepackage{ucs}
-    \usepackage[apmep, fr]{layout}
+    \usepackage[apmep, fr]{kind-of-exam}
     \usepackage{lipsum}
 
 
 \begin{document}
 
 \exam[%
+	kind      = Test,%
+	render    = yes,%
     nb        = 1,%
     subnb     = Subject A,%
-    kind      = Test,%
     subject   = Mathematics,%
     theme     = Probability \& Functions,%
     sector    = Scientific Cursus,%
@@ -22,6 +23,14 @@
 ]
 
 \lipsum
+
+\lipsum
+
+\newpage
+
+\makeatletter
+    \@add@render{}
+\makeatother
 
 \lipsum
 
