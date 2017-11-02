@@ -1,0 +1,16 @@
+// * indicates to no reset of counters by one of its parent.
+
+_1::
+    topic*
+
+_2::
+    activity*
+    bonus*
+    exercise*
+    mcq*
+    praticalwork*
+    problem*
+
+_3::
+// part can't be used !
+    subpart

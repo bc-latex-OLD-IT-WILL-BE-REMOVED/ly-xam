@@ -1,0 +1,40 @@
+==========
+2017-10-31
+==========
+
+**Style APMEP finished:** total factorisation of titles for topics, exercices and co has been done. The API has changed : we use now a key-value interface that is longer to write but easier to use !
+
+
+==========
+2017-10-24
+==========
+
+**Changes in the style APMEP.**
+
+    1) The way to define new main layouts of exams has been simplified : new layouts will use global constants.
+
+    2) It is now possible to show a frame where the student will write his first and second names.
+
+
+==========
+2017-10-21
+==========
+
+**Changes in the style APMEP.**
+
+    1) Now there are no indentations for paragraphs inside the preambule (this wanted feature was not tested and so not implemented).
+
+    2) The little descriptions for the documentation has been written (french and english versions done).
+
+
+==========
+2017-10-11
+==========
+
+**Starting a total refactoring of the code :** we will use a factory so as to ease customizations of styles, internationalization of messages and internal development. Here is what has been done for the moment.
+
+    1) Management of title, headers and footers of an exam.
+
+    2) An API using ``pgfkeys`` gives a very easy way to implement new style (for a ¨latex developer at least).
+
+    3) Translation of terms are done locally (even if we will give later a single file to allow efficient translation by extrenal none programmers contributors).

@@ -22,17 +22,14 @@
 
 % Loading the good language
     \IfStrEqCase{\@lang@choosen}{
-        {en}{
-            \input{config/lang/en.sty}
-        }{fr}{
-            \input{config/lang/fr.sty}
-        }
+        {en}{\input{config/lang/en.sty}}%
+        {fr}{\input{config/lang/fr.sty}}
     }
 
 % Setting of the keys for the formatting and the infos of the @exam.
     \pgfkeys{
-        /examkeys/.is family,
-        /examkeys,
+        /lyxam@examkeys/.is family,
+        /lyxam@examkeys,
             kind/.initial      = {}, % "Homework" for example
             render/.initial    = no, % Render the subject or not
             nb/.initial        = 0,  % Number of the exam
@@ -49,42 +46,41 @@
     }
 
 % The general layout command.
+    \newcommand\lyxam@longtime[1]{%
+        \if\relax#1\relax \else
+            \lyxam@text@duration{}: #1
+        \fi%
+    }
+
     \newcommand\exam[1][]{%
 % User's options
-        \pgfkeys{/examkeys, #1}
-        \pgfkeysgetvalue{/examkeys/@firstuse}{\@firstuse}
+        \pgfkeys{/lyxam@examkeys, #1}
+        \pgfkeysgetvalue{/lyxam@examkeys/@firstuse}{\@firstuse}
 
 % First use ?
         \ifnum\@firstuse=1
             \PackageError{lyxam}{command 'exam' can be used only one time}
         \fi
-        \pgfkeyssetvalue{/examkeys/@firstuse}{1}
+        \pgfkeyssetvalue{/lyxam@examkeys/@firstuse}{1}
 
 % Management of the keys : we use public constants !
-        \pgfkeysgetvalue{/examkeys/kind}{\examkind}
-        \pgfkeysgetvalue{/examkeys/render}{\examrender}
-        \pgfkeysgetvalue{/examkeys/nb}{\examnb}
-        \pgfkeysgetvalue{/examkeys/subnb}{\examsubnb}
-        \pgfkeysgetvalue{/examkeys/subject}{\examsubject}
-        \pgfkeysgetvalue{/examkeys/theme}{\examtheme}
-        \pgfkeysgetvalue{/examkeys/sector}{\examsector}
-        \pgfkeysgetvalue{/examkeys/class}{\examclass}
-        \pgfkeysgetvalue{/examkeys/location}{\examlocation}
-        \pgfkeysgetvalue{/examkeys/date}{\examdate}
-        \pgfkeysgetvalue{/examkeys/time}{\examtime}
-        \pgfkeysgetvalue{/examkeys/preambule}{\exampreambule}
+        \pgfkeysgetvalue{/lyxam@examkeys/kind}{\lyxam@kind}
+        \pgfkeysgetvalue{/lyxam@examkeys/render}{\lyxam@render}
+        \pgfkeysgetvalue{/lyxam@examkeys/nb}{\lyxam@nb}
+        \pgfkeysgetvalue{/lyxam@examkeys/subnb}{\lyxam@subnb}
+        \pgfkeysgetvalue{/lyxam@examkeys/subject}{\lyxam@subject}
+        \pgfkeysgetvalue{/lyxam@examkeys/theme}{\lyxam@theme}
+        \pgfkeysgetvalue{/lyxam@examkeys/sector}{\lyxam@sector}
+        \pgfkeysgetvalue{/lyxam@examkeys/class}{\lyxam@class}
+        \pgfkeysgetvalue{/lyxam@examkeys/location}{\lyxam@location}
+        \pgfkeysgetvalue{/lyxam@examkeys/date}{\lyxam@date}
+        \pgfkeysgetvalue{/lyxam@examkeys/time}{\lyxam@time}
+        \pgfkeysgetvalue{/lyxam@examkeys/preambule}{\lyxam@preambule}
 
 % Make the long time version.
-        \if\relax\examkind\relax
-        	\PackageError{lyxam}{the option 'kind' can't be empty}
-		\fi
-
-% Make the long time version.
-        \newcommand\examlongtime{
-	        \if\relax\examtime\relax \else
-	        	\examduration{} : \examtime{}
-	    	\fi
-		}
+        \if\relax\lyxam@kind\relax
+              \PackageError{lyxam}{the option 'kind' can't be empty}
+            \fi
 
 % Building the layout.
         \@build@layout{}
@@ -93,10 +89,7 @@
 
 % Loading the good style
     \IfStrEqCase{\@style@choosen}{
-        {apmep}{
-            \input{config/style/apmep.sty}
-        }{default}{
-            \PackageError{lyxam}{no default layout for the moment}
-        }
+        {apmep}{\input{config/style/apmep.sty}}%
+        {default}{\PackageError{lyxam}{no default layout for the moment}}
     }
 \makeatother

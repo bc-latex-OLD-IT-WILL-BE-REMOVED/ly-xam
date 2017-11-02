@@ -1,4 +1,7 @@
 \documentclass[12pt,a4paper]{article}
+
+% == FOR DOC AND TESTS - START == %
+
 \usepackage[utf8]{inputenc}
 \usepackage{ucs}
 \usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
@@ -27,35 +30,11 @@
 % MISC
 
 \setlength{\parindent}{0cm}
+\setlist{noitemsep}
 
-\usepackage[raggedright]{titlesec}
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
 
-\titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
-
-\makeatother
-	\newcommand\resetallcnt{
-		\setcounter{lyxam@topic@counter}{0}
-		\setcounter{lyxam@exercise@counter}{0}
-		\setcounter{lyxam@problem@counter}{0}
-		\setcounter{lyxam@bonus@counter}{0}
-		\setcounter{lyxam@subpart@counter}{0}
-	}
-\makeatletter
-
-\newcommand\exosoptions{
-\IDoption*{pts} donne le nombre de points avec le cas particulier de $0$ qui demande d'afficher "Non noté".
-
-\IDoption*{id} remplace le numéro par le texte de votre choix (ceci a pour effet de bloquer temporairement la numérotation).
-
-\IDoption*{title} permet d'ajouter un titre. 
-
-\IDoption*{hidectxt} peut prendre deux valeurs: \verb+yes+ pour cacher le type d'exercice, et par défaut \verb+no+ affiche le type d'exercice.
-
-\IDoption*{note} rend possible l'ajouter d'une petite note liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
-
-\IDoption*{src} est la source utilisée pour confectionner l'exercice.
-}
 
 % Technical IDs
 
@@ -121,26 +100,38 @@
 	}
 \makeatother
 
+% == FOR DOC AND TESTS - END == %
+
+% == EXTRA == %
+
+% == PACKAGES USED == %
+
+% == DEFINITIONS == %
+
 
 \begin{document}
 
-\begin{remark}
-	Just on remark...
-\end{remark}
+\LaTeX{} is a great tool for writing mathematics, maybe it is the best, but the power of \LaTeX{} allows very poor semantic writings.
+The modest purpose of the package \verb+lymath+ is to give some semantic macros to write elementary mathematic formulas.
+Here is an example of \LaTeX{} code that you can use with \verb+lymath+.
 
+\begin{tcblisting}{listing only}
+% Without lymath
 
-\IDmacro{test}{1}{1}
+Knowing that $\frac{df}{dx}(x) = 4 cos(x^2)$ on $[a ; b]$, we have: 
+$\int_a^b cos(x^2) dx = \left[ \frac{1){4} f(x) \right]_a^b$.
 
-\IDmacro{test}{2}{2}
+% With lymath
 
-\IDmacro*{test}{3}
+Knowing that $\derfrac{f}{x}(x) = 4 cos(x^2)$ on $\intervalC{a}{b}$, we have: 
+$\int_a^b cos(x^2) \dd{x} = \hook{\frac{1){4} f(x)}{a}{b}$.
+\end{tcblisting}
 
-\IDoption{} about the only option...
+Even if some commands are longest to write than direct \LaTeX{} commands, there are two benefits.
+\begin{enumerate}
+	\item The formatting inside your document is consistent.
 
-\IDarg{} about the only argument...
-
-\IDoption{1} about the 1st option...
-
-\IDarg{1} about the 1st argument...
+	\item \verb+lymath+ resolves some "complex" problems automatically for you.
+\end{enumerate}
 
 \end{document}

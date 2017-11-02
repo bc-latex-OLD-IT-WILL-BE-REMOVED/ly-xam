@@ -1,0 +1,27 @@
+==========
+2017-11-02
+==========
+
+**First public version version::``0.0.0-beta`` of ¨lyxam :** because of refactorization, we see the actual project as a new one.
+
+
+**New way to hide contexts:** the options ``hidectxt`` has been deleted. To hide context, we just have to use star version of macro.
+
+
+**One new feature coming from Chronos:** the option ``time`` allows to indicate the time of a context.
+
+
+**One bug found:** the writing of the french documentation shows a case where isolated problems and bonus still have their number: the problem came just from reseting the counters anywhere (this was not intended to be used in an exam, but this will be useful in a book).
+
+
+==========
+2017-11-01
+==========
+
+**Changes for exercises and co.**
+
+    1) The package options ``ref`` and ``noref`` becomes ``src`` and ``nosrc``. This is more logical !
+
+    2) Two new package options ``pts`` and ``nopts`` allows to see or hide the points. By default, the package shows the points.
+
+    3) The styles no longer need to manage the hiding or showing of points and sources (see the package options ``nosrc`` and ``nopts``). Instead they just know that the points and the sources are empty or not.

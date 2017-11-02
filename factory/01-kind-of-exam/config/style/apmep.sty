@@ -1,40 +1,50 @@
 % == READ ME == %
+
+% WARNING
+% -------
+%
+% First of all, you have to keep the following special comments :
+%     * ``% == PACKAGES USED == %``
+%     * ``% == DEFINITIONS == %``
 %
 % TODO
 % ----
 %
 % You must define two commands :
 %
-%    1) ``@build@layout`` which builds the main layout.
+%     1) ``@build@layout`` which builds the main layout.
 %
-%    2) ``@add@render`` which adds material where the students must give
-%       their name.
+%     2) ``@add@render`` which adds material where the students must give
+%        their name.
 %
 % NOTE
 % ----
 %
-%    1) The name of the actual STY file will be the name of your style.
-%    2) The package ``fancyhdr`` is always loaded by ``lyxam``.
-%    3) The package ``lastpage`` is always loaded by ``lyxam``.
-%    4) You have the following important global constants to use for the render
-%       material.
-%        * ``\examname``
-%        * ``\examfirstname``
-%    5) You have the following important global constants to use for the layout.
-%        * ``\examkind``
-%        * ``\examrender``
-%        * ``\examnb``
-%        * ``\examsubnb``
-%        * ``\examsubject``
-%        * ``\examtheme``
-%        * ``\examsector``
-%        * ``\examclass``
-%        * ``\examlocation``
-%        * ``\examdate``
-%        * ``\examtime``
-%        * ``\examlongtime`` (text "Duration:" plus the value of time)
-%        * ``\exampreambule``
+%     1) The name of the actual STY file will be the name of your style.
 %
+%     2) The package ``fancyhdr`` is always loaded by ``lyxam``.
+%
+%     3) The package ``lastpage`` is always loaded by ``lyxam``.
+%
+%     4) You have the following important constants to use for the render
+%        material.
+%         * ``\lyxam@text@name``
+%         * ``\lyxam@text@firstname``
+%
+%     5) You have the following important constants to use for the layout.
+%         * ``\lyxam@kind``
+%         * ``\lyxam@render``
+%         * ``\lyxam@nb``
+%         * ``\lyxam@subnb``
+%         * ``\lyxam@subject``
+%         * ``\lyxam@theme``
+%         * ``\lyxam@sector``
+%         * ``\lyxam@class``
+%         * ``\lyxam@location``
+%         * ``\lyxam@date``
+%         * ``\lyxam@time``
+%         * ``\lyxam@longtime{#1}`` (text "Duration:" plus the value of #1)
+%         * ``\lyxam@preambule``
 %
 % GOOD PRACTICE
 % -------------
@@ -45,7 +55,6 @@
 
 % == PACKAGES USED == %
 
-\usepackage{pgfkeys}
 \usepackage{xstring}
 
 \usepackage{fancyhdr}
@@ -85,7 +94,6 @@
     }
 
     \newcommand\@apmep@space@before{\par \medskip \par}
-    \newcommand\@apmep@space@after{\par \bigskip \par}
 
     \newcommand\@apmep@write@preambule[1]{%
         {\setlength\parindent{0pt}\small\emph{#1}}%
@@ -101,12 +109,12 @@
 
 % The render command [START].
     \newcommand\@add@render{
-    	\begin{tcolorbox}[width=\linewidth]
+        \begin{tcolorbox}[width=\linewidth]
             \medskip
-            \examname : \hrulefill
+            \lyxam@text@name : \hrulefill
 
             \bigskip
-            \examfirstname : \hrulefill
+            \lyxam@text@firstname : \hrulefill
 
             \medskip
         \end{tcolorbox}
@@ -119,16 +127,16 @@
     \newcommand\@build@layout{
 % Internal constants.
         \newcommand\@apmep@subject@id{%
-            \if\relax \examsubnb\relax \else
-                (\examsubnb{})%
+            \if\relax \lyxam@subnb\relax \else
+                (\lyxam@subnb{})%
             \fi
         }
 
         \newcommand\@apmep@exam@kind@numbered{%
-            \ifnum\examnb=0
-                \examkind{}%
+            \ifnum\lyxam@nb=0
+                \lyxam@kind{}%
             \else
-                \@apmep@collapse@kind@nb@exam{\examkind{}}{\examnb{}}%
+                \@apmep@collapse@kind@nb@exam{\lyxam@kind{}}{\lyxam@nb{}}%
             \fi
             \@apmep@subject@id{}%
         }
@@ -136,27 +144,27 @@
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
         \newcommand\@apmep@main@title{%
             \decofourleft ~%
-            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\examsubject{}}%
+            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\lyxam@subject{}}%
             ~ \decofourright
         }
 
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
         \newcommand\@apmep@second@title{%
-            \@apmep@collapse@title{\examsector{}}{\examtheme{}}%
+            \@apmep@collapse@title{\lyxam@sector{}}{\lyxam@theme{}}%
         }
 
 % The 3rd title looks like "Name - Institute" or nothing.
         \newcommand\@apmep@third@title{%
-            \@apmep@collapse@title{\examclass{}}{\examlocation{}}%
+            \@apmep@collapse@title{\lyxam@class{}}{\lyxam@location{}}%
         }
 
 % The 4th title looks like "Date - Time" or nothing.
         \newcommand\@apmep@fourth@title{%
-                \@apmep@collapse@title{\examdate{}}{\examlongtime{}}%
+                \@apmep@collapse@title{\lyxam@date{}}{\lyxam@longtime{\lyxam@time}}%
         }
 
 % Render or not ? That is the question !.
-        \IfStrEq{\examrender}{yes}{\@add@render{}}{}
+        \IfStrEq{\lyxam@render}{yes}{\@add@render{}}{}
 
 % The title of the document.
         \begin{center}
@@ -172,10 +180,9 @@
             \fi
         \end{center}
         %
-        \if\relax \exampreambule\relax \else
-            \@apmep@write@preambule{\exampreambule{}}
+        \if\relax \lyxam@preambule\relax \else
+            \@apmep@write@preambule{\lyxam@preambule{}}
         \fi
-        \@apmep@space@after
 
 % Headers and footers
         \pagestyle{fancy}
@@ -184,14 +191,14 @@
 
         \lhead{%
             \small
-            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\examtheme{}}
+            \@apmep@collapse@title{\@apmep@exam@kind@numbered{}}{\lyxam@theme{}}
         }
 %        \chead{\small CENTER UP}
-        \rhead{\small \@apmep@collapse@title{\examclass}{\examsector}}
+        \rhead{\small \@apmep@collapse@title{\lyxam@class}{\lyxam@sector}}
 
-        \lfoot{\small \examlocation}
+        \lfoot{\small \lyxam@location}
         \cfoot{\thepage\ / \pageref{LastPage}}
-        \rfoot{\small \examdate}
+        \rfoot{\small \lyxam@date}
 
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}

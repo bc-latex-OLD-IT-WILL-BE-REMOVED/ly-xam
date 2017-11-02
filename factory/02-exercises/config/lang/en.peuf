@@ -1,0 +1,16 @@
+contexts::
+    activity     = Activity
+    bonus        = Bonus
+    exercise     = Exercise
+    mcq          = M.C.Q
+    praticalwork = Pratical Work
+    problem      = Problem
+    subpart      = Part
+    topic        = Topic
+
+extra::
+    point   = point
+    points  = points
+    nopoint = No point
+    source  = Source
+    time = Time
