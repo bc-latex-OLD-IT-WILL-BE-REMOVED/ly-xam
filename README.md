@@ -1,16 +1,15 @@
 What about this package  ?
 ==========================
 
-**ly-math**, which is a contraction of **ly-cée** and **math**, has been built to allow the writings of more semantical LaTeX documents at a very low level of mathematics.
-
+**ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
 
 
 What about this first version `0.0.0-beta` ?
 ============================================
 
-All informations are inside the PDF named `lymath-doc.pdf` inside the folder `lymath`.
+All informations are inside the PDF named `lyxam-doc.pdf` inside the folder `lyxam`.
 
-The only thing needed to use the package is the folder `lymath`.
+The only thing needed to use the package is the folder `lyxam`.
 
 
 I beg your pardon for my english...

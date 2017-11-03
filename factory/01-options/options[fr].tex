@@ -1,7 +1,12 @@
 \documentclass[12pt,a4paper]{article}
+
+% == FOR DOC AND TESTS - START == %
+
 \usepackage[utf8]{inputenc}
 \usepackage{ucs}
 \usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+
+\usepackage[francais]{babel}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,7 +23,7 @@
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
-\tcbuselibrary{listings}
+\tcbuselibrary{listingsutf8}
 
 \usepackage{pgffor}
 \usepackage{xstring}
@@ -28,6 +33,11 @@
 
 \setlength{\parindent}{0cm}
 
+\setlength{\parindent}{0cm}
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remarque}
+
 \usepackage[raggedright]{titlesec}
 
 \titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -35,11 +45,11 @@
 
 \makeatother
 	\newcommand\resetallcnt{
-		\setcounter{lyxam@topic@counter}{0}
-		\setcounter{lyxam@exercise@counter}{0}
-		\setcounter{lyxam@problem@counter}{0}
-		\setcounter{lyxam@bonus@counter}{0}
-		\setcounter{lyxam@subpart@counter}{0}
+		\setcounter{lyxam@counter@topic}{0}
+		\setcounter{lyxam@counter@exercise}{0}
+		\setcounter{lyxam@counter@problem}{0}
+		\setcounter{lyxam@counter@bonus}{0}
+		\setcounter{lyxam@counter@subpart}{0}
 	}
 \makeatletter
 
@@ -107,26 +117,30 @@
 	}
 \makeatother
 
+% == FOR DOC AND TESTS - END == %
+
 
 \begin{document}
 
+\section{Les options du package}
+
+Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
+
+\begin{itemize}[label=\textbullet]
+	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
+
+	\item \verb+fr+ permet d'indiquer d'utiliser le français pour tous les textes ajoutés par \verb+lyxam+.
+
+	\verb+en+ permet d'indiquer d'utiliser l'anglais. \textbf{C'est la valeur par défaut.} Sorry for the french frogs that we are...
+
+	\item \verb+src+ ou \verb+nosrc+ demande d'afficher ou non les sources utilisées.
+
+	\item \verb+pts+ ou \verb+nopts+ sert à voir ou non les points des exercices.
+\end{itemize}
+
 \begin{remark}
-	Just on remark...
+	Dans la suite de cette documentation, nous utilisons \verb+\usepackage[apmep, fr]{lyxam}+.
 \end{remark}
 
-
-\IDmacro{test}{1}{1}
-
-\IDmacro{test}{2}{2}
-
-\IDmacro*{test}{3}
-
-\IDoption{} about the only option...
-
-\IDarg{} about the only argument...
-
-\IDoption{1} about the 1st option...
-
-\IDarg{1} about the 1st argument...
 
 \end{document}

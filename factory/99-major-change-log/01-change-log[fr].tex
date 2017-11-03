@@ -1,7 +1,12 @@
 \documentclass[12pt,a4paper]{article}
+
+% == FOR DOC AND TESTS - START == %
+
 \usepackage[utf8]{inputenc}
 \usepackage{ucs}
 \usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+
+\usepackage[francais]{babel}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,7 +23,7 @@
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
-\tcbuselibrary{listings}
+\tcbuselibrary{listingsutf8}
 
 \usepackage{pgffor}
 \usepackage{xstring}
@@ -28,6 +33,11 @@
 
 \setlength{\parindent}{0cm}
 
+\setlength{\parindent}{0cm}
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remarque}
+
 \usepackage[raggedright]{titlesec}
 
 \titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -35,11 +45,11 @@
 
 \makeatother
 	\newcommand\resetallcnt{
-		\setcounter{lyxam@topic@counter}{0}
-		\setcounter{lyxam@exercise@counter}{0}
-		\setcounter{lyxam@problem@counter}{0}
-		\setcounter{lyxam@bonus@counter}{0}
-		\setcounter{lyxam@subpart@counter}{0}
+		\setcounter{lyxam@counter@topic}{0}
+		\setcounter{lyxam@counter@exercise}{0}
+		\setcounter{lyxam@counter@problem}{0}
+		\setcounter{lyxam@counter@bonus}{0}
+		\setcounter{lyxam@counter@subpart}{0}
 	}
 \makeatletter
 
@@ -107,26 +117,19 @@
 	}
 \makeatother
 
+% == FOR DOC AND TESTS - END == %
+
 
 \begin{document}
 
-\begin{remark}
-	Just on remark...
-\end{remark}
+\section{Historique}
 
+All the changes are described inside the folders \verb+change_log+ : see the sources of \verb+lyxam+ on \verb+github+. Here we just give a very short history of \verb+lyxam+.
 
-\IDmacro{test}{1}{1}
+\begin{description}
+	\setlength\itemsep{1em}
 
-\IDmacro{test}{2}{2}
-
-\IDmacro*{test}{3}
-
-\IDoption{} about the only option...
-
-\IDarg{} about the only argument...
-
-\IDoption{1} about the 1st option...
-
-\IDarg{1} about the 1st argument...
+	\item[2017-11-03] First public version \verb+0.0.0-beta+ of the package.
+\end{description}
 
 \end{document}

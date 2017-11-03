@@ -3,6 +3,8 @@
 \usepackage{ucs}
 \usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
+\usepackage[francais]{babel}
+
 \usepackage{color}
 \usepackage{hyperref}
 \hypersetup{
@@ -18,7 +20,7 @@
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
-\tcbuselibrary{listings}
+\tcbuselibrary{listingsutf8}
 
 \usepackage{pgffor}
 \usepackage{xstring}
@@ -28,6 +30,11 @@
 
 \setlength{\parindent}{0cm}
 
+\setlength{\parindent}{0cm}
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remarque}
+
 \usepackage[raggedright]{titlesec}
 
 \titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -35,11 +42,11 @@
 
 \makeatother
 	\newcommand\resetallcnt{
-		\setcounter{lyxam@topic@counter}{0}
-		\setcounter{lyxam@exercise@counter}{0}
-		\setcounter{lyxam@problem@counter}{0}
-		\setcounter{lyxam@bonus@counter}{0}
-		\setcounter{lyxam@subpart@counter}{0}
+		\setcounter{lyxam@counter@topic}{0}
+		\setcounter{lyxam@counter@exercise}{0}
+		\setcounter{lyxam@counter@problem}{0}
+		\setcounter{lyxam@counter@bonus}{0}
+		\setcounter{lyxam@counter@subpart}{0}
 	}
 \makeatletter
 
