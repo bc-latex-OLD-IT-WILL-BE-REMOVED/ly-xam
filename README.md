@@ -7,7 +7,7 @@ What about this package  ?
 What about this first version `0.0.0-beta` ?
 ============================================
 
-All informations are inside the PDF named `lyxam-doc.pdf` inside the folder `lyxam`.
+For the moment, there is only one french documentation `lyxam-doc[fr].pdf` inside the folder `lyxam`.
 
 The only thing needed to use the package is the folder `lyxam`.
 
