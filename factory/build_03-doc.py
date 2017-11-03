@@ -60,7 +60,8 @@ with open(
 # -- LOOKING FOR DOCS -- #
 # ---------------------- #
 
-CONTENTS = []
+CONTENTS   = []
+EXTRAFILES = []
 
 for subdir in THIS_DIR.walk("dir::"):
     subdir_name = str(subdir.name)
@@ -69,6 +70,10 @@ for subdir in THIS_DIR.walk("dir::"):
         "config",
     ] or subdir_name[:2] == "x-":
         continue
+
+
+    for extrafile in subdir.walk("file::**doc\[fr\]*.jpg"):
+        EXTRAFILES.append(extrafile)
 
     for latexfile in subdir.walk("file::**\[fr\].tex"):
         with latexfile.open(
@@ -112,6 +117,20 @@ with DOC_PATH.open(
 
 
 # ------------------------------- #
+# -- COPIES OF THE EXTRA FILES -- #
+# ------------------------------- #
+
+for extrafile in EXTRAFILES:
+    print(
+        f"{DECO}* Copying << {extrafile.name} >>."
+    )
+    extrafile.copy_to(
+        dest = DIR_DOC_PATH / extrafile.name,
+        safemode = False
+    )
+
+
+# ------------------------------- #
 # -- COMPILE ALL THE DOCS FILE -- #
 # ------------------------------- #
 
@@ -119,8 +138,7 @@ nbrepeat = 3
 
 for latexpath in DIR_DOC_PATH.walk("file::*.tex"):
     print(
-        f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times.",
-        sep = "\n"
+        f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times."
     )
 
     builder = Build(

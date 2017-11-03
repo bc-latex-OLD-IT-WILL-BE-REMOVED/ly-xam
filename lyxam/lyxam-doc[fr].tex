@@ -5,6 +5,8 @@
 
 \usepackage[francais]{babel}
 
+\usepackage{multicol}
+
 \usepackage{color}
 \usepackage{hyperref}
 \hypersetup{
@@ -45,6 +47,7 @@
     urlcolor=black
 }
 
+\usepackage{multicol}
 \usepackage{enumitem}
 
 \usepackage{amsthm}
@@ -58,7 +61,12 @@
 
 % MISC
 
-\setlength{\parindent}{0cm}
+\tcbset{%
+	sharp corners,%
+	left=1mm, right=1mm,%
+	bottom=1mm, top=1mm,%
+	colupper=red!75!blue% 
+}
 
 \setlength{\parindent}{0cm}
 
@@ -213,7 +221,9 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 La commande \verb+\exam+ est la commande à tout faire, ou presque, du package \verb+lyxam+.
 Elle doit être au tout début du contenu, et elle ne peut être utilisée qu'une seule fois.
 
+
 \medskip
+
 
 Le code ci-dessous donne tous les options disponibles où il est important de savoir que seul le paramètre \verb+kind+ est obligatoire.
 
@@ -234,7 +244,25 @@ Le code ci-dessous donne tous les options disponibles où il est important de sa
 ]
 \end{tcblisting}
 
-Expliquons en détail ce que sont chacun de ces paramètres qui ont tous des valeurs de type texte \emph{(comme c'est toujours le cas, ou presque, avec \LaTeX{})}.
+
+\newpage
+
+
+Vous obtiendrez alors une mise en page du type suivant où pas mal de choses sont gérées pour vous.
+
+\begin{center}
+	\begin{multicols}{2}
+		\setlength{\fboxsep}{5pt}
+		\setlength{\fboxrule}{1pt}
+
+		\fbox{\includegraphics[width=0.9\linewidth]{example-doc[fr]-0.jpg}}
+
+		\fbox{\includegraphics[width=0.9\linewidth]{example-doc[fr]-1.jpg}}
+	\end{multicols}
+\end{center}
+
+
+Expliquons en détail le rôle de chacun des paramètres qui ont tous des valeurs de type texte \emph{(comme c'est toujours le cas, ou presque, avec \LaTeX{})}.
 
 \begin{enumerate}
 	\item \verb+kind+, \emph{qui doit obligatoirement être renseigné}, est tout simplement le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
@@ -372,10 +400,16 @@ Bla, bla, bla, bla, bla, ...
 
 \problem
 Bla, bla, bla, bla, bla, ...
+
+\bonus
+Bla, bla, bla, bla, bla, ...
+
+\bonus
+Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
-Ci-dessous, il y a ce que l'on obtient si notre sujet ne contient qu'un seul problème et un seul bonus : pas besoin ici d'avoir un numéro pour ces derniers. Pas mal ! Non ?
+Ci-dessous, il y a ce que l'on obtient si notre sujet ne contient qu'un seul problème et un seul bonus : pas besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+. Pas mal ! Non ?
 
 \resetallcnt{}
 
@@ -421,7 +455,6 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
           title = Devinette,
           note  = Pour spécialistes uniquement,
           src   = Le livre des experts]
-
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
@@ -472,14 +505,19 @@ La commande \verb+\subpart+, qui possède les mêmes options que les commandes d
 
 \begin{tcblisting}{}
 \exercise
-\subpart
-Bla, bla, bla, bla, bla, ...
+
 \subpart
 Bla, bla, bla, bla, bla, ...
 
-\exercise
 \subpart
 Bla, bla, bla, bla, bla, ...
+
+
+\exercise
+
+\subpart
+Bla, bla, bla, bla, bla, ...
+
 \subpart
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
@@ -513,12 +551,16 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \begin{tcblisting}{}
 \topic
-\exercise
-Bla, bla, bla, bla, bla, ...
+
 \exercise
 Bla, bla, bla, bla, bla, ...
 
+\exercise
+Bla, bla, bla, bla, bla, ...
+
+
 \topic
+
 \exercise
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}

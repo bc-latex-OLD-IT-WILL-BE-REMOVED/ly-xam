@@ -18,6 +18,7 @@
     urlcolor=black
 }
 
+\usepackage{multicol}
 \usepackage{enumitem}
 
 \usepackage{amsthm}
@@ -31,7 +32,12 @@
 
 % MISC
 
-\setlength{\parindent}{0cm}
+\tcbset{%
+	sharp corners,%
+	left=1mm, right=1mm,%
+	bottom=1mm, top=1mm,%
+	colupper=red!75!blue% 
+}
 
 \setlength{\parindent}{0cm}
 
@@ -186,10 +192,16 @@ Bla, bla, bla, bla, bla, ...
 
 \problem
 Bla, bla, bla, bla, bla, ...
+
+\bonus
+Bla, bla, bla, bla, bla, ...
+
+\bonus
+Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
-Ci-dessous, il y a ce que l'on obtient si notre sujet ne contient qu'un seul problème et un seul bonus : pas besoin ici d'avoir un numéro pour ces derniers. Pas mal ! Non ?
+Ci-dessous, il y a ce que l'on obtient si notre sujet ne contient qu'un seul problème et un seul bonus : pas besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+. Pas mal ! Non ?
 
 \resetallcnt{}
 
@@ -235,7 +247,6 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
           title = Devinette,
           note  = Pour spécialistes uniquement,
           src   = Le livre des experts]
-
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
@@ -286,14 +297,19 @@ La commande \verb+\subpart+, qui possède les mêmes options que les commandes d
 
 \begin{tcblisting}{}
 \exercise
-\subpart
-Bla, bla, bla, bla, bla, ...
+
 \subpart
 Bla, bla, bla, bla, bla, ...
 
-\exercise
 \subpart
 Bla, bla, bla, bla, bla, ...
+
+
+\exercise
+
+\subpart
+Bla, bla, bla, bla, bla, ...
+
 \subpart
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
@@ -327,12 +343,16 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \begin{tcblisting}{}
 \topic
-\exercise
-Bla, bla, bla, bla, bla, ...
+
 \exercise
 Bla, bla, bla, bla, bla, ...
 
+\exercise
+Bla, bla, bla, bla, bla, ...
+
+
 \topic
+
 \exercise
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
