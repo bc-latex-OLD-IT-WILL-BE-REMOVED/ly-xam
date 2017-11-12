@@ -1,94 +1,66 @@
-%   {topic}{\large}{\small}{\footnotesize}
-
-
-
-
-
+% ============= %
 % == READ ME == %
-
-% \@exam@ctxt@longpoints{\@exam@ctxt@pts}}
-% \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}
-% \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}
+% ============= %
 %
-% \IfStrEq{#2}{hidectxt}{}{%%
-%     \csname lyxam@text@#1\endcsname{}
-%     \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb
-
-
+%
 % WARNING
 % -------
 %
-% First of all, you have to keep the following special comments :
-%     * ``% == PACKAGES USED == %``
-%     * ``% == DEFINITIONS == %``
+% You have to keep special comments ``% == ... == %`` where ``...`` is one
+% of the following text :
+%     * ``PACKAGES USED``
+%     * ``DEFINITIONS``
 %
 % TODO
 % ----
 %
-% You must several commands ``@build@<CONTEXT>`` with three semamtic levels
-% where ``<CONTEXT>`` is one of the following value.
+% You must define on single command ``\@build@ctxt`` whith two arguments.
 %
-%     1) First level : there is only one value.
-%         * "topic"
+%     1) Argument #1 is he kind of context: ``topic``, ``exercise``...
 %
-%     2) Second level : there are three values.
-%         * "exercise"
-%         * "problem"
-%         * "bonus"
-%
-%     3) Third level : there is one value.
-%         * "subpart"
-%
+%     2) Argument #2 is either ``hidectxt`` or ``showctxt`` so has to show
+%        or hide the text for the context.
+%        Just use ``\IfStrEq{#2}{hidectxt}{HIDE}{SHOW}`` in your code.
 %
 % NOTE
 % ----
 %
 %     1) The name of the actual STY file will be the name of your style.
 %
-%     2) The package ``fancyhdr`` is always loaded by ``lyxam``.
+%     2) The following packages are loaded by ``lyxam``.
+%         * ``calc``
+%         * ``fancyhdr``
+%         * ``lastpage``
+%         * ``listofitems``
+%         * ``simplekv``
+%         * ``xstring``
 %
-%     3) The package ``lastpage`` is always loaded by ``lyxam``.
+%     3) The options used are stored in macros ``\@exam@ctxt@<<KEY>>`` where
+%        ``<<KEY>>`` if one of the option but you must use
+%        ``\@if@val@empty{\@exam@ctxt@<<KEY>>}{TRUE}{FALSE}``
+%        if you want to know if the value is empty or not (this is because
+%        ``simplekv`` uses ``true`` as a default value).
 %
-%     4) For each context ``<CONTEXT>``, you can use the following constants.
+%     4) Two booleans must be managed.
+%         * ``showsource`` is to show or hide the source used.
+%         * ``showpoints`` is to show or hide the points.
 %
-%         i) The counter ``lyxam@counter@<CONTEXT>`` is the number of the
-%            context (``lyxam`` managed level imbrications and unnumbered %            contexts for you).
 %
-%         ii) ``\lyxam@text@<CONTEXT>`` is the translation of the text
-%             corresponding to the context ``<CONTEXT>``.
-%
-%         iii) For ``<KEY>`` one of the key ``id``, ``title``, ``time``,
-%              ``pts``, ``src`` or ``note``, you have a corresponding
-%              constant ``\lyxam@<CONTEXT>@<KEY>`` with the user's value.
-
-%    5) The LaTeX standard boolean ``\showctxt`` indicates to show or no
+%     4) To print the number of the context, just use
+%        ``\@exam@ctxt@nb{<<CTX>>}`` where ``<<CTX>>`` is the name of
 %        the context.
 %
-%     6) One last thing, you have three useful macros with a single argument.
+%     6) You can also use the following command where ``<<CTX>>`` is the name
+%        of the context.
 %
-%         i) ``\@lyxam@longpoints`` builds a long version of the points
-%            regarding to the language selected by the user. Here are typical
-%            examples in english.
+%         * ``\@exam@ctxt@longpoints{<<CTX>>}`` gives either nothing, or
+%           "No point", or "1 point" or "X points".
 %
-%             * ``\@lyxam@longpoints{ }`` returns an empty string.
-%             * ``\@lyxam@longpoints{0}`` returns "No point".
-%             * ``\@lyxam@longpoints{1}`` returns "1 point".
-%             * ``\@lyxam@longpoints{2}`` returns "2 points".
+%         * ``\@exam@ctxt@longpsource{<<CTX>>}`` gives either nothing, or
+%           "Source:...".
 %
-%         ii) ``\lyxam@longsource`` builds a long version of the source
-%            regarding to the language selected by the user. Here are typical
-%            examples in english.
-%
-%             * ``\@lyxam@longsource{ }`` returns an empty string.
-%             * ``\@lyxam@longsource{Book of the year}`` returns "Source: Book
-%               of the year".
-%
-%         iii) ``\lyxam@longtime`` builds a long version of the time regarding
-%            to the language selected by the user. Here are typical examples
-%            in english.
-%
-%             * ``\@lyxam@longtime{ }`` returns an empty string.
-%             * ``\@lyxam@longtime{20 min}`` returns "Time: 20 min".
+%         * ``\@exam@ctxt@longptime{<<CTX>>}`` gives either nothing, or
+%           "Time:...".
 %
 % GOOD PRACTICE
 % -------------
@@ -121,7 +93,7 @@
     \def\@apmep@exam@ctxt@pts{\@exam@ctxt@longpoints{\@exam@ctxt@pts}}%%
     \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}%%
     \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}%%
-%% Settings of the context
+% Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
         \def\@apmep@about@size{\small}%%
@@ -137,7 +109,7 @@
             \def\@apmep@source@size{\footnotesize}%%
         }%%
     }%%
-%% Centered or not ?
+% Centered or not ?
     \IfStrEq{#1}{subpart}{%%
         \apmepcentersubextrue%%
     }{%%
@@ -145,9 +117,9 @@
             {\apmepcentersubexfalse}%%
             {\apmepcentersubextrue}%%
     }
-%% Printing the context, time and points.
-%%
-%% Warning ! Sub exercises are always centered.
+% Printing the context, time and points.
+%
+% Warning ! Sub exercises are always centered.
     \IfStrEq{#1}{subpart}{\@apmep@space@before@subexercise}{\@apmep@space@before@exercise}
     \begin{absolutelynopagebreak}
         \IfStrEq{#2}{hidectxt}{%%
@@ -165,6 +137,7 @@
                 }%%
             }%%
         }%%
+% Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
                 \@if@val@empty{\@exam@ctxt@time}{}{%%
@@ -172,7 +145,7 @@
                 }%%
                 \@if@val@empty{\@exam@ctxt@pts}{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\@apmep@exam@ctxt@pts{}]%%
+                    [\,\@apmep@exam@ctxt@pts{}\,]%%
                 }%%
             }%%
         }%%
@@ -183,7 +156,7 @@
                 \@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}%%
             }%%
         }%%
-%% About note.
+% About note.
         \@if@val@empty{\@exam@ctxt@about}{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
@@ -194,7 +167,7 @@
                 \fi%%
             }%%
         }%%
-%% Source.
+% Source.
         \@if@val@empty{\@exam@ctxt@src}{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%

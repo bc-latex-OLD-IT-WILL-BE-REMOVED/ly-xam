@@ -1,11 +1,15 @@
-% == READ ME == %        \@is@empty@val
-
+% ============= %
+% == READ ME == %
+% ============= %
+%
+%
 % WARNING
 % -------
 %
-%     1) First of all, you have to keep the following special comments :
-%         * ``% == PACKAGES USED == %``
-%         * ``% == DEFINITIONS == %``
+% You have to keep special comments ``% == ... == %`` where ``...`` is one
+% of the following text :
+%     * ``PACKAGES USED``
+%     * ``DEFINITIONS``
 %
 % TODO
 % ----
@@ -17,27 +21,37 @@
 %     2) ``@add@render`` which adds material where the students must give
 %        their name.
 %
-%     3) You can redefine th environment ``preambule``.
+%     3) You can redefine the environment ``preambule``.
 %
 % NOTE
 % ----
 %
 %     1) The name of the actual STY file will be the name of your style.
 %
-%     2) The package ``fancyhdr`` is always loaded by ``lyxam``.
+%     2) The following packages are loaded by ``lyxam``.
+%         * ``calc``
+%         * ``fancyhdr``
+%         * ``lastpage``
+%         * ``listofitems``
+%         * ``simplekv``
+%         * ``xstring``
 %
-%     3) The package ``lastpage`` is always loaded by ``lyxam``.
+%     3) The options used are stored in macros ``\@exam@<<KEY>>`` where
+%        ``<<KEY>>`` if one of the option but you must use
+%        ``\@if@val@empty{\@exam@<<KEY>>}{TRUE}{FALSE}``
+%        if you want to know if the value is empty or not (this is because
+%        ``simplekv`` uses ``true`` as a default value).
 %
-%     4) You have the following important translated texts to use for the render
+%     4) Two booleans must be managed.
+%         * ``showrender`` is to know if the sheet must be rendered.
+%         * ``showheadersfooters`` is to show or hide the headers and footers.
+%
+%     5) You have the following important translated texts to use for the render
 %        material.
 %         * ``\lyxam@text@name``
 %         * ``\lyxam@text@firstname``
 %
-%     5) The options used are stored in macros``\@use@exam@key{<<KEY>>}`` where ``<<KEY>>`` if one of the option.
-%
-%     6) ``\showrender`` is a boolen to know if the sheet must be rendered.
-%
-%     7) You can also use ``\lyxam@longduration{#1}`` which gives the text
+%     6) You can also use ``\@exam@longduration{#1}`` which gives the text
 %        "Duration:", or its translated version, followed by the value of #1.
 %
 % GOOD PRACTICE
@@ -52,11 +66,7 @@
 \usepackage{fourier-orns}
 \usepackage{tcolorbox}
 
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-
 \usepackage{etoolbox}
-\usepackage{simplekv}
 \usepackage{xstring}
 
 
@@ -71,9 +81,8 @@
 % Global boolean
 %
 % Source: https://tex.stackexchange.com/a/122641/6880
-
+%
 % Settings
-% Spacings
 \newcommand\@apmep@space@before@all@titles{\par\addvspace{2.2em}}
 \newcommand\@apmep@space@after@all@titles{\par\addvspace{1.9em}}
 
@@ -164,7 +173,7 @@
         \@if@val@empty{\@exam@date}{}{\@exam@date}%%
         \@if@val@empty{\@exam@time}{}{%%
             \@if@val@empty{\@exam@date}{}{\@apmep@minus}%%
-            \lyxam@longduration{\@exam@time}%%
+            \@exam@longduration{\@exam@time}%%
         }%%
     }%%
 % Update all the booleans !

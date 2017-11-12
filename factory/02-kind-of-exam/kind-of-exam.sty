@@ -1,5 +1,8 @@
 % == PACKAGES USED == %
 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
 \usepackage{simplekv}
 \usepackage{xstring}
 
@@ -55,7 +58,7 @@
 \newcommand\@use@exam@key[1]{\useKV[exam@keys]{#1}}
 
 % Layout API Tools
-\newcommand\lyxam@longduration[1]{%%
+\newcommand\@exam@longduration[1]{%%
     \@if@val@empty{#1}{}{\lyxam@text@duration{}: #1}%%
 }
 

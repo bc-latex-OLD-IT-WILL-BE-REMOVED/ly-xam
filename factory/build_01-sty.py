@@ -13,10 +13,15 @@ from orpyste.data import ReadBlock
 
 THIS_DIR = PPath( __file__ ).parent
 
-STY_PATH  = THIS_DIR.parent / "lyxam" / "lyxam.sty"
-CONF_PATH = THIS_DIR.parent / "lyxam" / "config"
+STY_PATH   = THIS_DIR.parent / "lyxam" / "lyxam.sty"
+CONF_PATH  = THIS_DIR.parent / "lyxam" / "config"
+CONF_LANG  = CONF_PATH / "lang"
+CONF_STYLE = CONF_PATH / "style"
 
-LANGS_STYLES = defaultdict(dict)
+LANGS = defaultdict(list)
+
+STYLES_PACKAGES = defaultdict(list)
+STYLES_DEFS     = defaultdict(list)
 
 DECO = " "*4
 
@@ -107,28 +112,53 @@ for subdir in THIS_DIR.walk("dir::"):
 
     for latexfile in subdir.walk("file::*.sty"):
         relative_path = latexfile - THIS_DIR
-        relative_depth = latexfile.depth_in(THIS_DIR)
+        parentname    = latexfile.parent.name
 
         print(f"{DECO}* Analyzing << {relative_path} >>")
 
-        if relative_depth != 1:
+# LANGS
+        if parentname == "lang":
+            lang = latexfile.stem
+
             with open(
                 file     = latexfile,
                 encoding = "utf-8"
             ) as filetocopy:
                 content = filetocopy.read()
 
-            config = LANGS_STYLES[latexfile.parent.name]
-            kind   = latexfile.stem
+            LANGS[lang] += ["\n", content]
 
-            if kind in config:
-                config[kind] += ["\n", content]
+# STYLES
+        elif parentname == "style":
+            style = latexfile.stem
 
-            else:
-                config[kind] = [content]
+            with open(
+                file     = latexfile,
+                encoding = "utf-8"
+            ) as filetoupdate:
+                _, packages, defs = between(
+                    text = filetoupdate.read(),
+                    seps = [
+                        "% == PACKAGES USED == %",
+                        "% == DEFINITIONS == %"
+                    ],
+                    # keepseps = True
+                )
 
+            STYLES_PACKAGES[style] += [
+                x.strip()
+                for x in packages.strip().split("\n")
+            ]
 
-        else:  # TODO EVITER REPETITION et pb Process Option !!!!
+            defs = cleansource(defs)
+
+            if style in STYLES_DEFS:
+                STYLES_DEFS[style].append("")
+
+            STYLES_DEFS[style].append(defs)
+
+# MAIN STY
+        else:
             with open(
                 file     = latexfile,
                 encoding = "utf-8"
@@ -224,33 +254,69 @@ ALL_LOCAL_SETTINGS = "\n\n".join(ALL_LOCAL_SETTINGS)
 ALL_MACROS         = "\n".join(ALL_MACROS)
 
 
-# -------------------------------- #
-# -- UPDATE LANG AN STYLE FILES -- #
-# -------------------------------- #
-
-for kind, configs in LANGS_STYLES.items():
-    for subkind, lines in configs.items():
-        confpath = CONF_PATH / kind / f"{subkind}.sty"
-        confpath.create("file")
-
-        with confpath.open(
-            mode     = "w",
-            encoding = "utf-8"
-        ) as source:
-            source.write("\n".join(lines) + "\n")
-
-
 # --------------------------------- #
 # -- ORGANIZING LIST OF PACKAGES -- #
 # --------------------------------- #
 
 ALL_PACKAGES = organize_packages(ALL_PACKAGES)
-ALL_PACKAGES = "\n".join(ALL_PACKAGES)
+
+for style, packages in STYLES_PACKAGES.items():
+    STYLES_PACKAGES[style] = "\n".join([
+        p for p in organize_packages(packages)
+        if p not in ALL_PACKAGES
+    ])
+
+
+# ------------------------ #
+# -- UPDATE STYLE FILES -- #
+# ------------------------ #
+
+for style in STYLES_DEFS:
+    confpath = CONF_STYLE / f"{style}.sty"
+    confpath.create("file")
+
+    source = """{0}
+
+{1}
+
+
+{2}
+
+{3}
+""".format(
+        MYFRAME("EXTRA PACKAGES REQUIRED"),
+        STYLES_PACKAGES[style],
+        MYFRAME("DEFINITIONS"),
+        "\n".join(STYLES_DEFS[style])
+    )
+
+    with confpath.open(
+        mode     = "w",
+        encoding = "utf-8"
+    ) as stylefile:
+        stylefile.write(source)
+
+
+# ----------------------- #
+# -- UPDATE LANG FILES -- #
+# ----------------------- #
+
+for lang, lines in LANGS.items():
+    confpath = CONF_LANG / f"{lang}.sty"
+    confpath.create("file")
+
+    with confpath.open(
+        mode     = "w",
+        encoding = "utf-8"
+    ) as langfile:
+        langfile.write("\n".join(lines[1:]) + "\n")
 
 
 # ------------------------------ #
 # -- UPDATE THE MAIN STY FILE -- #
 # ------------------------------ #
+
+ALL_PACKAGES = "\n".join(ALL_PACKAGES)
 
 source = """{0}
 

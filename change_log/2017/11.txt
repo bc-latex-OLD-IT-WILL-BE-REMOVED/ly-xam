@@ -1,62 +1,36 @@
 ==========
-2017-11-????
+2017-11-12
 ==========
 
-chgt mineur de version
-
-apmep ???
-    environnement premabule
+**New minor version version::``0.1.0-beta`` of ¨lyxam:** see all the changes below.
 
 
+**Two new options ``hf`` and ``nohf`` for the pacakage:** this is for showing or hiding the headers and footers.
 
 
-gestion plus fine des packages, on vire ceux en commun et on utilise RequirePackage !!!!
+**Changes for `\exam`.**
+
+    1) The option `preambule` has been removed, and all other options are now optional.
+
+    2) The macro `\exam` can be used several times in the same document.
 
 
+**New environment `\begin{preambule}...\end{preambule}`:** this can be used anywhere.
 
 
+**Changes for macros like `\exercise`:** the option `note` has been renamed `about`.
 
 
+**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preambule.
 
 
+**Internal changes.**
 
-n'avoir qu'à gérer une seule macro buildlayout{kind} puis on a macro qui donne accès facilment aux val des clés dont argument unique est ensemble de clés accessibels via une macro maison
+    1) The code has been totally rebuild and simplified thanks to the package `simplekv`.
 
+    2) The packages of styles are now really managed.
 
-
-l'option note ---->  about (pour éviter "confusion" avec note celle de l'élève)
-
-
-
-
-==========
-2017-11-10   (doc tech et publique a jour !!!)
-==========
-
-refacto 1 : simplification du code et surtout de l'API côté mef modulo l'utilisation de
-
-
-pgfkeys ---> simplekv : ok pour titre
-
-simplification du cocde au passage
-
-kind \exam optionnel come les autres
-
-\exam utilisable pmusiseur fois sans souci mais souci de page !!! à l'utilisateur de gérer !
-
-clé premabule : dipsaru
-
-à la palce on passe par un environnement d'où la possibilité d'y mettre plein de choses (cf notation pour un exam par exemple)
-
-nelle option hf et nohf package : header no header
-
-
-
-
-	\item \verb+preambule+ vous aidera à indiquer un texte en préambule qui apparaîtra avant vos exercices pour par exemple rappeler des obligations légales ou bien des choses importantes.
-
-\IDkey{preambule} un texte en préambule du devoir pour rappeler des obligations légales ou bien des choses importantes.
-
+    3) For styles, there is only one command ``buildlayout`` to be coded.
 
 
 ==========

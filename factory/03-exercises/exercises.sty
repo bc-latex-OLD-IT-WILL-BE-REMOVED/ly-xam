@@ -156,7 +156,6 @@
 }
 
 % Making the commands for each contexts
-%     #1: the kind of context
 \newcommand\@build@values[1]{
     \useKVdefault[context@keys]%%
     \setKV[context@keys]{#1}%%
@@ -178,9 +177,6 @@
     }
 
 % User's commands for contexts
-%     #1: name of the context
-%     #2: "showctxt" otr "hidectxt"
-%     #3: user's option
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
         \@if@val@empty{\@use@context@key{title}}{

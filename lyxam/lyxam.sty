@@ -3,6 +3,8 @@
 % ----------------------- %
 
 \RequirePackage{calc}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
 \RequirePackage{listofitems}
 \RequirePackage{simplekv}
 \RequirePackage{xstring}
@@ -71,7 +73,7 @@
 \newcommand\@use@exam@key[1]{\useKV[exam@keys]{#1}}
 
 % Layout API Tools
-\newcommand\lyxam@longduration[1]{%%
+\newcommand\@exam@longduration[1]{%%
     \@if@val@empty{#1}{}{\lyxam@text@duration{}: #1}%%
 }
 
@@ -216,7 +218,6 @@
 }
 
 % Making the commands for each contexts
-%     #1: the kind of context
 \newcommand\@build@values[1]{
     \useKVdefault[context@keys]%%
     \setKV[context@keys]{#1}%%
@@ -238,9 +239,6 @@
     }
 
 % User's commands for contexts
-%     #1: name of the context
-%     #2: "showctxt" otr "hidectxt"
-%     #3: user's option
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
         \@if@val@empty{\@use@context@key{title}}{

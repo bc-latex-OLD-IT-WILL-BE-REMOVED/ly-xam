@@ -403,7 +403,7 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
           time  = 3 jours,
           id    = facultatif,
           title = Devinette,
-          about  = Pour spécialistes uniquement,
+          about = Pour spécialistes uniquement,
           src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
@@ -525,7 +525,7 @@ L'environnement \verb+\preambule+ sans aucune option sert à rédiger un ou plus
 
 \begin{tcblisting}{}
 \begin{preambule}
-	Les exercices 1 et 2 sont indépendantes l'un de l'autre.
+	Les exercices 1 et 2 sont indépendants l'un de l'autre.
 \end{preambule}
 
 \exercise
@@ -545,10 +545,14 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
 	\item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
 	\begin{itemize}
-		\item L'option \verb+preambule+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preambule}...\end{preambule}+ utilisable n'importe où.
+        \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
-		\item Pour la macro \verb+\exam+, tous les paramètres sont optionnels.
-		
+        \item L'option \verb+preambule+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preambule}...\end{preambule}+ utilisable n'importe où.
+
+        \item Pour la macro \verb+\exam+, tous les paramètres sont optionnels.
+
+        \item Pour les macros du type \verb+\exercise+, le paramètre \verb+note+ a été renommé \verb+about+.
+
 		\item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
 	\end{itemize}
 

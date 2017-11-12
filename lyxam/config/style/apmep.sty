@@ -1,66 +1,15 @@
-% == READ ME == %        \@is@empty@val
+% ----------------------------- %
+% -- EXTRA PACKAGES REQUIRED -- %
+% ----------------------------- %
 
-% WARNING
-% -------
-%
-%     1) First of all, you have to keep the following special comments :
-%         * ``% == PACKAGES USED == %``
-%         * ``% == DEFINITIONS == %``
-%
-% TODO
-% ----
-%
-% You must define two commands and eventually one environment :
-%
-%     1) ``@build@layout`` which builds the main layout.
-%
-%     2) ``@add@render`` which adds material where the students must give
-%        their name.
-%
-%     3) You can redefine th environment ``preambule``.
-%
-% NOTE
-% ----
-%
-%     1) The name of the actual STY file will be the name of your style.
-%
-%     2) The package ``fancyhdr`` is always loaded by ``lyxam``.
-%
-%     3) The package ``lastpage`` is always loaded by ``lyxam``.
-%
-%     4) You have the following important translated texts to use for the render
-%        material.
-%         * ``\lyxam@text@name``
-%         * ``\lyxam@text@firstname``
-%
-%     5) The options used are stored in macros``\@use@exam@key{<<KEY>>}`` where ``<<KEY>>`` if one of the option.
-%
-%     6) ``\showrender`` is a boolen to know if the sheet must be rendered.
-%
-%     7) You can also use ``\lyxam@longduration{#1}`` which gives the text
-%        "Duration:", or its translated version, followed by the value of #1.
-%
-% GOOD PRACTICE
-% -------------
-%
-% For your own commands, use a prefix like ``@nameofmystyle`` such as to avoid
-% conflict with global commands or another style.
+\RequirePackage{etoolbox}
+\RequirePackage{fourier-orns}
+\RequirePackage{tcolorbox}
 
 
-% == PACKAGES USED == %
-
-\usepackage{fourier-orns}
-\usepackage{tcolorbox}
-
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-
-\usepackage{etoolbox}
-\usepackage{simplekv}
-\usepackage{xstring}
-
-
-% == DEFINITIONS == %
+% ----------------- %
+% -- DEFINITIONS -- %
+% ----------------- %
 
 \setlength{\parindent}{0cm}
 
@@ -71,9 +20,8 @@
 % Global boolean
 %
 % Source: https://tex.stackexchange.com/a/122641/6880
-
+%
 % Settings
-% Spacings
 \newcommand\@apmep@space@before@all@titles{\par\addvspace{2.2em}}
 \newcommand\@apmep@space@after@all@titles{\par\addvspace{1.9em}}
 
@@ -164,7 +112,7 @@
         \@if@val@empty{\@exam@date}{}{\@exam@date}%%
         \@if@val@empty{\@exam@time}{}{%%
             \@if@val@empty{\@exam@date}{}{\@apmep@minus}%%
-            \lyxam@longduration{\@exam@time}%%
+            \@exam@longduration{\@exam@time}%%
         }%%
     }%%
 % Update all the booleans !
@@ -252,112 +200,6 @@
 }
 % The layout command [END].
 
-
-
-%   {topic}{\large}{\small}{\footnotesize}
-
-
-
-
-
-% == READ ME == %
-
-% \@exam@ctxt@longpoints{\@exam@ctxt@pts}}
-% \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}
-% \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}
-%
-% \IfStrEq{#2}{hidectxt}{}{%%
-%     \csname lyxam@text@#1\endcsname{}
-%     \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb
-
-
-% WARNING
-% -------
-%
-% First of all, you have to keep the following special comments :
-%     * ``% == PACKAGES USED == %``
-%     * ``% == DEFINITIONS == %``
-%
-% TODO
-% ----
-%
-% You must several commands ``@build@<CONTEXT>`` with three semamtic levels
-% where ``<CONTEXT>`` is one of the following value.
-%
-%     1) First level : there is only one value.
-%         * "topic"
-%
-%     2) Second level : there are three values.
-%         * "exercise"
-%         * "problem"
-%         * "bonus"
-%
-%     3) Third level : there is one value.
-%         * "subpart"
-%
-%
-% NOTE
-% ----
-%
-%     1) The name of the actual STY file will be the name of your style.
-%
-%     2) The package ``fancyhdr`` is always loaded by ``lyxam``.
-%
-%     3) The package ``lastpage`` is always loaded by ``lyxam``.
-%
-%     4) For each context ``<CONTEXT>``, you can use the following constants.
-%
-%         i) The counter ``lyxam@counter@<CONTEXT>`` is the number of the
-%            context (``lyxam`` managed level imbrications and unnumbered %            contexts for you).
-%
-%         ii) ``\lyxam@text@<CONTEXT>`` is the translation of the text
-%             corresponding to the context ``<CONTEXT>``.
-%
-%         iii) For ``<KEY>`` one of the key ``id``, ``title``, ``time``,
-%              ``pts``, ``src`` or ``note``, you have a corresponding
-%              constant ``\lyxam@<CONTEXT>@<KEY>`` with the user's value.
-
-%    5) The LaTeX standard boolean ``\showctxt`` indicates to show or no
-%        the context.
-%
-%     6) One last thing, you have three useful macros with a single argument.
-%
-%         i) ``\@lyxam@longpoints`` builds a long version of the points
-%            regarding to the language selected by the user. Here are typical
-%            examples in english.
-%
-%             * ``\@lyxam@longpoints{ }`` returns an empty string.
-%             * ``\@lyxam@longpoints{0}`` returns "No point".
-%             * ``\@lyxam@longpoints{1}`` returns "1 point".
-%             * ``\@lyxam@longpoints{2}`` returns "2 points".
-%
-%         ii) ``\lyxam@longsource`` builds a long version of the source
-%            regarding to the language selected by the user. Here are typical
-%            examples in english.
-%
-%             * ``\@lyxam@longsource{ }`` returns an empty string.
-%             * ``\@lyxam@longsource{Book of the year}`` returns "Source: Book
-%               of the year".
-%
-%         iii) ``\lyxam@longtime`` builds a long version of the time regarding
-%            to the language selected by the user. Here are typical examples
-%            in english.
-%
-%             * ``\@lyxam@longtime{ }`` returns an empty string.
-%             * ``\@lyxam@longtime{20 min}`` returns "Time: 20 min".
-%
-% GOOD PRACTICE
-% -------------
-%
-% For your own commands, use a prefix like ``@nameofmystyle`` such as to avoid
-% conflict with global commands.
-
-
-% == PACKAGES USED == %
-
-
-% == DEFINITIONS == %
-
 % Spacings
 \newcommand\@apmep@space@before@topic{\par\addvspace{1.8em}}
 \newcommand\@apmep@space@before@exercise{\par\addvspace{1.8em}}
@@ -377,7 +219,7 @@
     \def\@apmep@exam@ctxt@pts{\@exam@ctxt@longpoints{\@exam@ctxt@pts}}%%
     \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}%%
     \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}%%
-%% Settings of the context
+% Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
         \def\@apmep@about@size{\small}%%
@@ -393,7 +235,7 @@
             \def\@apmep@source@size{\footnotesize}%%
         }%%
     }%%
-%% Centered or not ?
+% Centered or not ?
     \IfStrEq{#1}{subpart}{%%
         \apmepcentersubextrue%%
     }{%%
@@ -401,9 +243,9 @@
             {\apmepcentersubexfalse}%%
             {\apmepcentersubextrue}%%
     }
-%% Printing the context, time and points.
-%%
-%% Warning ! Sub exercises are always centered.
+% Printing the context, time and points.
+%
+% Warning ! Sub exercises are always centered.
     \IfStrEq{#1}{subpart}{\@apmep@space@before@subexercise}{\@apmep@space@before@exercise}
     \begin{absolutelynopagebreak}
         \IfStrEq{#2}{hidectxt}{%%
@@ -421,6 +263,7 @@
                 }%%
             }%%
         }%%
+% Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
                 \@if@val@empty{\@exam@ctxt@time}{}{%%
@@ -428,7 +271,7 @@
                 }%%
                 \@if@val@empty{\@exam@ctxt@pts}{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\@apmep@exam@ctxt@pts{}]%%
+                    [\,\@apmep@exam@ctxt@pts{}\,]%%
                 }%%
             }%%
         }%%
@@ -439,7 +282,7 @@
                 \@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}%%
             }%%
         }%%
-%% About note.
+% About note.
         \@if@val@empty{\@exam@ctxt@about}{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
@@ -450,7 +293,7 @@
                 \fi%%
             }%%
         }%%
-%% Source.
+% Source.
         \@if@val@empty{\@exam@ctxt@src}{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
@@ -464,4 +307,3 @@
     \end{absolutelynopagebreak}%%
     \@apmep@space@before@content%%
 }
-
