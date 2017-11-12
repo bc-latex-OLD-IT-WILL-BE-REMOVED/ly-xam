@@ -33,6 +33,9 @@ for subdir in THIS_DIR.walk("dir::"):
         continue
 
     for latexfile in subdir.walk("file::**\[fr\].tex"):
+        if latexfile.stem.endswith("-nodoc[fr]"):
+            continue
+
         print(f"{DECO}* Updating << {latexfile - THIS_DIR} >>")
 
         with open(

@@ -66,14 +66,14 @@ for level, ctxs in CTXTS.items():
 
 inside += [r"""
 % Reseting of counters.
-    \setsepchar{,}
+\setsepchar{,}
 
-    \newcommand\@auto@reset@by[2]{
-        \readlist\parentcounters{#2}
-        \foreachitem\onecounter\in\parentcounters{
-            \@addtoreset{#1}{\onecounter}
-        }
-    }
+\newcommand\@auto@reset@by[2]{
+    \readlist\parentcounters{#2}%%
+    \foreachitem\onecounter\in\parentcounters{%%
+        \@addtoreset{#1}{\onecounter}%%
+    }%%
+}
 """]
 
 level = 1
@@ -101,7 +101,7 @@ while level in CTXTS:
 
     level += 1
 
-inside = TAB + f"\n{TAB}".join(inside[1:])
+inside = "\n".join(inside[1:])
 
 with EXERCISES_STY.open(
     mode     = "w",
@@ -111,6 +111,7 @@ with EXERCISES_STY.open(
 f"""{before}
 {inside}
 
-{after}
+
+{after.rstrip()}
 """
     )

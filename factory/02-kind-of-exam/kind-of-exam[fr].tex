@@ -1,14 +1,18 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
 
-\usepackage{fourier}
+\usepackage[apmep, fr]{kind-of-exam}
 
 % == FOR DOC AND TESTS - START == %
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -20,16 +24,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -38,7 +42,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -75,7 +79,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -96,7 +100,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%
@@ -134,60 +138,44 @@
 
 	\subsection{La commande \texttt{\textbackslash exam}}
 
-La commande \verb+\exam+ est la commande à tout faire, ou presque, du package \verb+lyxam+.
-Elle doit être au tout début du contenu, et elle ne peut être utilisée qu'une seule fois.
-
-
-\medskip
-
-
-Le code ci-dessous donne tous les options disponibles où il est important de savoir que seul le paramètre \verb+kind+ est obligatoire.
+La commande \verb+\exam+ permet de donner des informations générales à propos du devoir. 
+Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
 
 \begin{tcblisting}{listing only}
-\exam[%
-    kind      = D.S.,%
-    render    = yes,%
-    nb        = 1,%
-    subnb     = Sujet A,%
-    subject   = Mathématiques,%
-    theme     = Probabilités \& Fonctions,%
-    sector    = Série Scientifique,%
-    class     = 1S4,%
-    location  = Lycée MONGE (Chambéry),%
-    date      = 20/10/2017,%
-    time      = 2h,%
-    preambule = Ne pas oublier de réfléchir dans ce devoir !%
-]
+\exam[render   = true,%
+      kind     = D.S.,%
+      nb       = 1,%
+      subnb    = Sujet A,%
+      subject  = Mathématiques,%
+      theme    = Probabilités,%
+      sector   = Série Scientifique,%
+      class    = 1S4,%
+      location = Lycée MONGE (Chambéry),%
+      date     = 20/10/2017,%
+      time     = 2h]
 \end{tcblisting}
 
 
-\newpage
+\begin{figure}[!tbp]
+  \setlength{\fboxrule}{1.5pt}
+  \centering
+  \fbox{\includegraphics[width=0.47\linewidth]{example-doc[fr]-0.jpg}}
+  \hfill
+  \fbox{\includegraphics[width=0.47\linewidth]{example-doc[fr]-1.jpg}}
+  \caption{Style \texttt{apmep}.}
+  \label{style:apmep}
+\end{figure}
 
-
-Vous obtiendrez alors une mise en page du type suivant où pas mal de choses sont gérées pour vous.
-
-\begin{center}
-	\begin{multicols}{2}
-		\setlength{\fboxsep}{5pt}
-		\setlength{\fboxrule}{1pt}
-
-		\fbox{\includegraphics[width=0.9\linewidth]{example-doc[fr]-0.jpg}}
-
-		\fbox{\includegraphics[width=0.9\linewidth]{example-doc[fr]-1.jpg}}
-	\end{multicols}
-\end{center}
-
-
-Expliquons en détail le rôle de chacun des paramètres qui ont tous des valeurs de type texte \emph{(comme c'est toujours le cas, ou presque, avec \LaTeX{})}.
+Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+kind+, \emph{qui doit obligatoirement être renseigné}, est tout simplement le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
-	Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
-
-	\item \verb+render+ est à utiliser pour un sujet à rendre avec la copie : utiliser \verb+yes+ ou \verb+no+ pour \emph{"oui"} ou \emph{"non"}.
+	\item \verb+render+, valant \verb+false+ par défaut, est à utiliser pour un sujet à rendre avec la copie : utiliser \verb+false+, la valeur par défaut, ou  \verb+true+ pour \emph{"non"} ou \emph{"oui"}.
 	Ceci a pour conséquence que le sujet débutera, ou non, par une zone où l'élève devra indiquer son nom et son prénom.
 
-	\item \verb+nb+ porte bien son nom : c'est le numéro du devoir.
+	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
+	Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
+
+	\item \verb+nb+ est le numéro du devoir.
 
 	\item \verb+subnb+ permet d'indiquer une sorte de numérotation secondaire. C'est utile par exemple pour indiquer \emph{"Sujet A"}, \emph{"Sujet B"} ...
 
@@ -195,7 +183,7 @@ Expliquons en détail le rôle de chacun des paramètres qui ont tous des valeur
 
 	\item \verb+theme+ sert à compléter la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
 
-	\item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Bac S en France, on utiliserait \verb+sector = Série Scientifique+.
+	\item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
 
 	\item \verb+class+ indique la classe et/ou le groupe auquel est destiné le devoir.
 
@@ -204,30 +192,21 @@ Expliquons en détail le rôle de chacun des paramètres qui ont tous des valeur
 	\item \verb+date+ est pour la date du devoir.
 
 	\item \verb+time+ est pour la durée du devoir.
-
-	\item \verb+preambule+ vous aidera à indiquer un texte en préambule qui apparaîtra avant vos exercices pour par exemple rappeler des obligations légales ou bien des choses importantes.
-	 Si vous avez besoin de faire des retours à la ligne dans votre préambule, vous avez deux possibilités :
-
-	 \begin{enumerate}
-		\item Le mieux est de définir une macro commande où vous taperez votre texte.
-
-		\item Si vous ne savez pas comment créer une macro commande, vous pouvez simplement utiliser des accolades et \verb+\\+ pour chaque retour à la ligne comme par exemple dans la définition \verb+preambule = {Ligne 1\\Ligne 2\\Ligne 3}+.
-	\end{enumerate}
 \end{enumerate}
 
 
-	\subsection{Différentes mises en forme}
-
-Le package est fourni avec des exemples de fichiers \LaTeX{} afin d'observer ce que permet \verb+lyxam+. Explorez-les !
+%	\subsection{Différentes mises en forme}
+%
+%Le package est fourni avec des exemples de fichiers \LaTeX{} afin d'observer ce que permet \verb+lyxam+. Explorez-les !
 
 
 	\subsection{Fiche technique}
 
-\IDmacro{exam}{12}{0}
+\IDmacro{exam}{11}{}
 
-\IDkey{kind} le type de devoir. \emph{Ceci ne peut pas être un texte vide.}
+\IDkey{kind} le type de devoir, la valeur par défaut étant \verb+Test+.
 
-\IDkey{render} pour un sujet à rendre, ou non, avec une zone pour le nom et le prénom de l'étudiant. Deux valeurs possibles : \verb+yes+ ou \verb+no+ (valeur par défaut).
+\IDkey{render} pour un sujet à rendre, ou non, avec une zone pour le nom et le prénom de l'étudiant. Deux valeurs possibles : \verb+false+, valeur par défaut, ou \verb+true+.
 
 \IDkey{nb} le numéro du devoir.
 
@@ -246,7 +225,5 @@ Le package est fourni avec des exemples de fichiers \LaTeX{} afin d'observer ce 
 \IDkey{date} le texte donnant la date du devoir.
 
 \IDkey{time} le texte indiquant juste la durée du devoir.
-
-\IDkey{preambule} un texte en préambule du devoir pour rappeler des obligations légales ou bien des choses importantes.
 
 \end{document}

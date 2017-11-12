@@ -1,4 +1,19 @@
+%   {topic}{\large}{\small}{\footnotesize}
+
+
+
+
+
 % == READ ME == %
+
+% \@exam@ctxt@longpoints{\@exam@ctxt@pts}}
+% \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}
+% \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}
+%
+% \IfStrEq{#2}{hidectxt}{}{%%
+%     \csname lyxam@text@#1\endcsname{}
+%     \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb
+
 
 % WARNING
 % -------
@@ -87,177 +102,109 @@
 
 % == DEFINITIONS == %
 
-\makeatletter
 % Spacings
-    \newcommand\@apmep@space@before@topic{\par\addvspace{0.8em}}
-    \newcommand\@apmep@space@before@exercise{\par\addvspace{0.8em}}
-    \newcommand\@apmep@space@before@subexercise{\par\addvspace{0.7em}}
+\newcommand\@apmep@space@before@topic{\par\addvspace{1.8em}}
+\newcommand\@apmep@space@before@exercise{\par\addvspace{1.8em}}
+\newcommand\@apmep@space@before@subexercise{\par\addvspace{0.9em}}
 
-    \newcommand\@apmep@space@before@info{\par\addvspace{0.4em}}
-    \newcommand\@apmep@space@before@content{\par\addvspace{0.6em}}
+\newcommand\@apmep@space@before@info{\par\addvspace{0.4em}}
+\newcommand\@apmep@space@before@content{\par\addvspace{0.6em}}
 
-% Constants for center or not a part.
-    \gdef\@apmep@actual@context{}
-    \gdef\@apmep@centerme{yes}
+% For center or not the subexercises.
+\newif\ifapmepcentersubex
+\apmepcentersubextrue
 
-% Printing context title.
-%   #1 : context title
-%   #2 : time
-%   #3 : id
-%   #4 : title
-%   #5 : pts
-%   #6 : space before
-%   #7 : title size
-    \newcommand\@apmep@print@context@title[7]{%
-        #6 #7%
-        \gdef\@apmep@actual@title{%
-            \noindent \bfseries%
-% Context with its number and title
-            \ifshowctxt%
-                \textsc{#1 #3}%
-                \if\relax#4\relax \else%
-                    : #4%
-                \fi%
-            \else%
-% Context hidden : just the title
-                #4%
-            \fi%
-% Time
-            \if\relax#2\relax \else%
-                \kern 0.7em {%
-                    \IfStrEq{\@apmep@actual@context}{topic}{}{\normalfont}%
-                    \footnotesize%
-                    (\lyxam@longtime{#2})%
-                }%
-            \fi%
-% Points of the context
-            \if\relax#5\relax \else%
-                {%
-                    \IfStrEq{\@apmep@actual@context}{topic}{}{\normalfont}%
-                    \footnotesize%
-                    \IfStrEq{\@apmep@actual@context}{subpart}{%
-                        \kern 0.7em [\@lyxam@longpoints{#5}]%
-                    }{%
-                        \hfill [\@lyxam@longpoints{#5}]%
-                    }%
-                }%
-            \fi%
-        }%
-        \IfStrEq{\@apmep@actual@context}{subpart}{%
-            \IfStrEq{\@apmep@centerme}{yes}{%
-                \hfill\@apmep@actual@title\hfill{}
-            }{%
-                \@apmep@actual@title{}%
-            }%
-        }{%
-            \@apmep@actual@title{}%
-        }%
+% General builder for all contexts
+%     #1: name of the context
+%     #2: "showctxt" otr "hidectxt"
+\newcommand\@build@ctxt[2]{%%
+    \def\@apmep@exam@ctxt@pts{\@exam@ctxt@longpoints{\@exam@ctxt@pts}}%%
+    \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}%%
+    \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}%%
+%% Settings of the context
+    \IfStrEq{#1}{topic}{%%
+        \def\@apmep@title@size{\large}%%
+        \def\@apmep@about@size{\small}%%
+        \def\@apmep@source@size{\footnotesize}%%
+    }{%%
+        \IfStrEq{#1}{subpart}{%%
+            \def\@apmep@title@size{\small}%%
+            \def\@apmep@about@size{\footnotesize}%%
+            \def\@apmep@source@size{\scriptsize}%%
+        }{%%
+            \def\@apmep@title@size{}%%
+            \def\@apmep@about@size{\small}%%
+            \def\@apmep@source@size{\footnotesize}%%
+        }%%
+    }%%
+%% Centered or not ?
+    \IfStrEq{#1}{subpart}{%%
+        \apmepcentersubextrue%%
+    }{%%
+        \@if@val@empty{\@exam@ctxt@pts}%%
+            {\apmepcentersubexfalse}%%
+            {\apmepcentersubextrue}%%
     }
-
-% Printing note like infos.
-%   #1 : text to print
-%   #2 : yes or non suchas to center or not the text
-%   #3 : extra tools before the text
-%   #4 : \bfseries and co
-%   #5 : space before
-    \newcommand\@apmep@print@notelike[5]{%
-        \if\relax#1\relax\else%
-            #4#5\noindent#3%
-            \IfStrEq{#2}{yes}{%
-                \smash{\makebox[\textwidth][c]{#1\relax}}\par%
-            }{%
-                 #1\relax%
-            }%
-        \fi%
-    }
-
-% Building macros to print context titles.
-%   #1 : context
-%   #2 : space before context
-%   #3 : space after for the incoming content
-%   #4 : title size
-%   #5 : note size
-%   #6 : source size
-    \newcommand\@apmep@add@new@context[6]{
-        \expandafter\newcommand\csname @build@#1\endcsname{%
-            \begin{absolutelynopagebreak}
-% Some global constants
-                \gdef\@apmep@actual@context{#1}%
-                \IfStrEq{#1}{subpart}{}{%
-                    \if\expandafter\relax\csname lyxam@#1@pts\endcsname\relax%
-                        \gdef\@apmep@centerme{no}%
-                    \else%
-                        \gdef\@apmep@centerme{yes}%
-                    \fi%
-                }%
-% The title of the context
-                \@apmep@print@context@title{\csname lyxam@text@#1\endcsname}%
-                    {\csname lyxam@#1@time\endcsname}%
-                    {\csname lyxam@#1@id\endcsname}%
-                    {\csname lyxam@#1@title\endcsname}%
-                    {\csname lyxam@#1@pts\endcsname}%
-                    {#2}{#4}%
-% Notes used ?
-%
-%   #1 : text to print
-%   #2 : yes or non suchas to center or not the text
-%   #3 : extra tools before the text
-%   #4 : \bfseries and co
-%   #5 : space before
-                \if\expandafter\relax\csname lyxam@#1@note\endcsname\relax \else%
-                    \@apmep@print@notelike{\csname lyxam@#1@note\endcsname}%
-                        {\@apmep@centerme}%
-                        {}%
-                        {#5 \bfseries \itshape}%
-                        {\@apmep@space@before@info}%
-                \fi%
-% Source used ?
-%
-%   #1 : text to print
-%   #2 : yes or non suchas to center or not the text
-%   #3 : extra tools before the text
-%   #4 : \bfseries and co
-%   #5 : space before
-                \if\expandafter\relax\csname lyxam@#1@src\endcsname\relax\else%
-                    \@apmep@print@notelike{\lyxam@longsource\expandafter\csname lyxam@#1@src\endcsname}%
-                        {\@apmep@centerme}%
-                        {\hfill}%
-                        {#6 \normalfont}%
-                        {\@apmep@space@before@info}%
-                \fi%
-            \end{absolutelynopagebreak}%
-% Content must go away.
-            #3%
-        }
-    }
-
-% The layout commands for exercices like but not for sub parts.
-%   #1 : context
-%   #2 : space before context
-%   #3 : space after for the incoming content
-%   #4 : title size
-%   #5 : note size
-%   #6 : source size
-    \@apmep@add@new@context{topic}%
-        {\@apmep@space@before@topic}%
-        {\@apmep@space@before@content}%
-        {\large}{\small}{\footnotesize}
-
-    \@apmep@add@new@context{exercise}%
-        {\@apmep@space@before@exercise}%
-        {\@apmep@space@before@content}%
-        {}{\small}{\footnotesize}
-    \@apmep@add@new@context{problem}%
-        {\@apmep@space@before@exercise}%
-        {\@apmep@space@before@content}%
-        {}{\small}{\footnotesize}
-    \@apmep@add@new@context{bonus}%
-        {\@apmep@space@before@exercise}%
-        {\@apmep@space@before@content}%
-        {}{\small}{\footnotesize}
-
-    \@apmep@add@new@context{subpart}%
-        {\@apmep@space@before@subexercise}%
-        {\@apmep@space@before@content}%
-        {\small}{\footnotesize}{\scriptsize}
-\makeatother
+%% Printing the context, time and points.
+%%
+%% Warning ! Sub exercises are always centered.
+    \IfStrEq{#1}{subpart}{\@apmep@space@before@subexercise}{\@apmep@space@before@exercise}
+    \begin{absolutelynopagebreak}
+        \IfStrEq{#2}{hidectxt}{%%
+            \gdef\@apmep@ctxt@title{%%
+                \textsc{%%
+                    \@if@val@empty{\@exam@ctxt@title}{}{\@exam@ctxt@title}%%
+                }%%
+            }%%
+        }{%%
+            \gdef\@apmep@ctxt@title{%%
+                \textsc{%%
+                    \csname lyxam@text@#1\endcsname{}
+                    \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb{#1}}{\@exam@ctxt@id}%%
+                    \@if@val@empty{\@exam@ctxt@title}{}{: \@exam@ctxt@title}%%
+                }%%
+            }%%
+        }%%
+        \gdef\@apmep@ctxt@title@extra{%%
+            {\normalfont\scriptsize%%
+                \@if@val@empty{\@exam@ctxt@time}{}{%%
+                    \kern 0.8em (\@apmep@exam@ctxt@time)%%
+                }%%
+                \@if@val@empty{\@exam@ctxt@pts}{}{%%
+                    \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
+                    [\@apmep@exam@ctxt@pts{}]%%
+                }%%
+            }%%
+        }%%
+        {\noindent\bfseries\@apmep@title@size%%
+            \IfStrEq{#1}{subpart}{%%
+                \smash{\makebox[\textwidth][c]{\@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}}}%%
+            }{%%
+                \@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}%%
+            }%%
+        }%%
+%% About note.
+        \@if@val@empty{\@exam@ctxt@about}{}{%%
+            \@apmep@space@before@info
+            {\bfseries\itshape\@apmep@about@size%%
+                \ifapmepcentersubex%%
+                    \smash{\makebox[\textwidth][c]{\@exam@ctxt@about}}%%
+                \else%%
+                    \noindent\@exam@ctxt@about%%
+                \fi%%
+            }%%
+        }%%
+%% Source.
+        \@if@val@empty{\@exam@ctxt@src}{}{%%
+            \@apmep@space@before@info
+            {\normalfont\@apmep@source@size%%
+                \ifapmepcentersubex%%
+                    \smash{\makebox[\textwidth][c]{\@apmep@exam@ctxt@src}}%%
+                \else%%
+                    \hfill\@apmep@exam@ctxt@src%%
+                \fi%%
+            }%%
+        }%%
+    \end{absolutelynopagebreak}%%
+    \@apmep@space@before@content%%
+}

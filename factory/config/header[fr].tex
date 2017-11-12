@@ -1,9 +1,13 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -15,16 +19,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -33,7 +37,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -70,7 +74,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -91,7 +95,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%

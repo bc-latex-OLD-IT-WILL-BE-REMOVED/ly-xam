@@ -1,12 +1,18 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
+
+\usepackage[apmep, fr]{exercises}
 
 % == FOR DOC AND TESTS - START == %
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,16 +24,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -36,7 +42,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -73,7 +79,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -94,7 +100,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%
@@ -125,6 +131,8 @@
 
 % == FOR DOC AND TESTS - END == %
 
+\newenvironment{preambule}{}{}
+
 
 \begin{document}
 
@@ -147,7 +155,9 @@
 
     \subsection{Important pour la suite}
 
-Tous les exemples utilisés ci-dessous ont été obtenus en indiquant dans le préambule les options suivantes : \verb+\usepackage[apmep, fr]{lyxam}+.
+%Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[apmep, fr]{lyxam}+ dans le préambule.
+
+Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule.
 
 
     \subsection{Différents types d'exercices}
@@ -175,9 +185,9 @@ Voici l'ensemble des commandes disponibles pour indiquer un type d'exercice.
 Dans la suite, nous donnerons des exemples principalement avec la commande \verb+\exercise+. Ceci n'est pas gênant car le principe reste identique pour les autres commandes.
 
 
-    \subsection{Numérotation automatique "intelligente"}
+    \subsection{Numérotation minimaliste}
 
-En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une numérotation "intelligente" de vos exercices. Ci-dessous, on obtient classiquement des exercices tous numérotés où vous noterez que chaque type d'exercice a sa propre numérotation.
+En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une numérotation minimaliste de vos exercices. Tout d'abord, ci-dessous on obtient classiquement des exercices tous numérotés où vous noterez que chaque type d'exercice admet sa propre numérotation.
 
 
 \begin{tcblisting}{}
@@ -192,16 +202,10 @@ Bla, bla, bla, bla, bla, ...
 
 \problem
 Bla, bla, bla, bla, bla, ...
-
-\bonus
-Bla, bla, bla, bla, bla, ...
-
-\bonus
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
-Ci-dessous, il y a ce que l'on obtient si notre sujet ne contient qu'un seul problème et un seul bonus : pas besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+. Pas mal ! Non ?
+Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un seul bonus ? Nul besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+.
 
 \resetallcnt{}
 
@@ -223,15 +227,12 @@ Bla, bla, bla, bla, bla, ...
 
     \subsection{Indiquer le barème}
 
-La commande \verb+\exercise+ dispose de plusieurs options dont l'une permet de donner le nombre de points attribués à une exercice (en indiquant $0$ point, le package indiquera une exercice non noté : voir la section suivante pour un exemple). Voici comment indiquer un barème.
+La commande \verb+\exercise+ dispose de plusieurs options dont l'une permet de donner le nombre de points attribués à un exercice où lorsque l'on indique $0$ point le package indique une exercice non noté (voir la section suivante pour un exemple). Voici comment donner un barème.
 
 \resetallcnt{}
 
 \begin{tcblisting}{}
 \exercise[pts = 5]
-Bla, bla, bla, bla, bla, ...
-
-\exercise[pts = 15]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
@@ -245,7 +246,7 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
           time  = 3 jours,
           id    = facultatif,
           title = Devinette,
-          note  = Pour spécialistes uniquement,
+          about  = Pour spécialistes uniquement,
           src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
@@ -270,17 +271,17 @@ Toutes les options données ci-dessous sont facultatives.
 
 
 % IDmacro - All kind of level 2 contexts - START
-\IDmacro{activity}{6}{0}
+\IDmacro{activity}{6}{}
 
-\IDmacro{bonus}{6}{0}
+\IDmacro{bonus}{6}{}
 
-\IDmacro{exercise}{6}{0}
+\IDmacro{exercise}{6}{}
 
-\IDmacro{mcq}{6}{0}
+\IDmacro{mcq}{6}{}
 
-\IDmacro{praticalwork}{6}{0}
+\IDmacro{praticalwork}{6}{}
 
-\IDmacro{problem}{6}{0}
+\IDmacro{problem}{6}{}
 % IDmacro - All kind of level 2 contexts - END
 
 \exosoptions{}
@@ -291,27 +292,18 @@ Toutes les options données ci-dessous sont facultatives.
 
     \subsection{Un exemple suffit\dots{} ou presque}
 
-La commande \verb+\subpart+, qui possède les mêmes options que les commandes de type exercice, permet d'indiquer des sous-parties dans un exercice. La numérotation des sous-parties est remise à zéro à chaque nouvelle utilisation d'une commande de type exercice comme le montre l'exemple suivant.
+La commande \verb+\subpart+, avec les mêmes options que les commandes de type \verb+\exercice+, sert pour des sous-parties d'un exercice qui seront numérotées relativement aux exercices comme le montre l'exemple suivant.
 
 \resetallcnt{}
 
 \begin{tcblisting}{}
 \exercise
-
 \subpart
-Bla, bla, bla, bla, bla, ...
-
 \subpart
-Bla, bla, bla, bla, bla, ...
-
 
 \exercise
-
 \subpart
-Bla, bla, bla, bla, bla, ...
-
 \subpart
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -323,7 +315,7 @@ Toutes les options données ci-dessous sont facultatives et identiques à celles
 
 
 % IDmacro - All kind of level 3 contexts - START
-\IDmacro{subpart}{6}{0}
+\IDmacro{subpart}{6}{}
 % IDmacro - All kind of level 3 contexts - END
 
 \exosoptions{}
@@ -334,8 +326,8 @@ Toutes les options données ci-dessous sont facultatives et identiques à celles
 
     \subsection{Un exemple suffit\dots{} ou presque}
 
-La commande \verb+\topic+, qui possède les mêmes options que les commandes de type exercice, sert juste à regrouper des exercices par thématiques : fût un temps où dans les brevets du collège, il y avait une partie numérique et une autre géométrique.
-Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotation des sous-parties, et non celles des contextes de type exercice.
+La commande \verb+\topic+, avec les mêmes options que les commandes de type \verb+\exercice+, sert juste à regrouper des exercices par thématiques : fût un temps où dans les brevets du collège, il y avait une partie numérique et une autre géométrique.
+Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotation des sous-parties mais pas celles des contextes de type \verb+\exercice+.
 
 \resetallcnt{}
 
@@ -343,18 +335,11 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \begin{tcblisting}{}
 \topic
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 
 \topic
-
 \exercise
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -366,9 +351,29 @@ Toutes les options données ci-dessous sont facultatives et identiques à celles
 
 
 % IDmacro - All kind of level 1 contexts - START
-\IDmacro{topic}{6}{0}
+\IDmacro{topic}{6}{}
 % IDmacro - All kind of level 1 contexts - END
 
 \exosoptions{}
+
+
+
+\section{Utiliser un préambule}
+
+L'environnement \verb+\preambule+ sans aucune option sert à rédiger un ou plusieurs paragraphes en préambule de quelque chose.
+
+\resetallcnt{}
+
+\resetallcnt{}
+
+\begin{tcblisting}{}
+\begin{preambule}
+	Les exercices 1 et 2 sont indépendantes l'un de l'autre.
+\end{preambule}
+
+\exercise
+\exercise
+\end{tcblisting}
+
 
 \end{document}

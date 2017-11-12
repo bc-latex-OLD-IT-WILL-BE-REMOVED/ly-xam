@@ -1,99 +1,71 @@
 % == PACKAGES USED == %
 
 \usepackage{calc}
-\usepackage{pgfkeys}
-\usepackage{xstring}
 \usepackage{listofitems}
-\usepackage{etoolbox}
+\usepackage{simplekv}
+\usepackage{xstring}
 
 
-% == GENERAL SETTINGS == %
-\makeatletter
+% == COMMON SETTINGS == %
+
 % Which style to use ?
-    \newcommand{\@style@choosen}{apmep}
-    % \newcommand{\@style@choosen}{default}
-    % \DeclareOption{default}{}
-    \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+\newcommand{\@style@choosen}{apmep}
+% \newcommand{\@style@choosen}{default}
+% \DeclareOption{default}{}
+\DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
 
 % Which language to use ?
-    \newcommand{\@lang@choosen}{en}
-    \DeclareOption{en}{}
-    \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
+\newcommand{\@lang@choosen}{en}
+\DeclareOption{en}{}
+\DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
 
 
 % == LOCAL SETTINGS == %
 
 % Show source or not ? That is the question.
-    \newif\ifshowsource
-    \showsourcetrue
+\newif\ifshowsource
+\showsourcetrue
 
-    \DeclareOption{src}{}
-    \DeclareOption{nosrc}{\showsourcefalse}
+\DeclareOption{src}{}
+\DeclareOption{nosrc}{\showsourcefalse}
 
 % Show points or not ? That is the other question.
-    \newif\ifshowpoints
-    \showpointstrue
+\newif\ifshowpoints
+\showpointstrue
 
-    \DeclareOption{pts}{}
-    \DeclareOption{nopts}{\showpointsfalse}
+\DeclareOption{pts}{}
+\DeclareOption{nopts}{\showpointsfalse}
 
 
 % == PROCESSING OPTION - LOADING LANG == %
 
 % Processing the options
-    \ProcessOptions
+\ProcessOptions
 
 % Loading the good language
-    \IfStrEqCase{\@lang@choosen}{
-        {en}{\input{config/lang/en.sty}}%
-        {fr}{\input{config/lang/fr.sty}}
-    }
+\IfStrEqCase{\@lang@choosen}{
+    {en}{\input{config/lang/en.sty}}
+    {fr}{\input{config/lang/fr.sty}}
+}
 
 
-% == DEFINITIONS == %
+% == COMMON DEFINITIONS == %
 
-% General tools
+% Warning ! simplekv interprets empty value as a true value.
+\newcommand\@if@val@empty[3]{\IfStrEq{#1}{true}{#2}{#3}}
+
+
+% == LOCAL DEFINITIONS == %
+
+% General API Tools
 %
 % Source of the mystic unbreakable environment...
 %    * https://tex.stackexchange.com/a/94702/6880
-    \newenvironment{absolutelynopagebreak}{%
-        \par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup%
-    }{%
-        \par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd%
-    }
-
-% Long version for points
-%     #1: \lyxam@<CONTEXT>@pts (user initial points)
-    \newcommand\@lyxam@longpoints[1]{%
-        \if\relax#1\relax \else%
-            \IfStrEq{#1}{0}{%
-                \lyxam@text@nopoint{}%
-            }{%
-                #1
-                \IfStrEq{#1}{1}{%
-                    \lyxam@text@point{}%
-                }{%
-                    \lyxam@text@points{}%
-                }%
-            }%
-        \fi
-    }
-
-% Long version of sources
-%     #1: \lyxam@<CONTEXT>@source (user initial source)
-    \newcommand\lyxam@longsource[1]{%
-        \if\relax#1\relax%
-            \lyxam@text@source{}: #1%
-        \fi%
-    }
-
-% Long version of time
-%     #1: \lyxam@<CONTEXT>@time (user initial source)
-    \newcommand\lyxam@longtime[1]{%
-        \if\relax#1\relax\else%
-            \lyxam@text@time{}: #1%
-        \fi%
-    }
+\newenvironment{absolutelynopagebreak}{%%
+    \par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup%%
+}{%%
+    \par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd%%
+}
 
 % Smart counters
 %
@@ -101,248 +73,156 @@
 %    * https://tex.stackexchange.com/a/38564/6880
 %    * https://tex.stackexchange.com/a/30085/6880
 %    * https://tex.stackexchange.com/q/73349/6880
-    \newcounter{@next@counter}
+\newcounter{@next@counter}
 
-    \newcommand\@build@smart@counter[1]{%
-        \newcounter{#1}%
-        \setcounter{#1}{0}%
-        \newcounter{@last@#1}%
-        \newcounter{@cursor@#1}%
-        \setcounter{@cursor@#1}{0}%
-        \expandafter\gdef\csname @first@cnt@cursors@#1\endcsname{,}%
-        \expandafter\newcommand\csname smart@#1\endcsname{%
-            \refstepcounter{#1}%
-            \stepcounter{@cursor@#1}%
-            \setcounter{@last@#1}{\value{#1}}%
+\newcommand\@build@smart@counter[1]{%
+    \newcounter{#1}%%
+    \setcounter{#1}{0}%%
+    \newcounter{@last@#1}%%
+    \newcounter{@cursor@#1}%%
+    \setcounter{@cursor@#1}{0}%%
+    \expandafter\gdef\csname @first@cnt@cursors@#1\endcsname{,}%%
+    \expandafter\newcommand\csname smart@#1\endcsname{%%
+        \refstepcounter{#1}%%
+        \stepcounter{@cursor@#1}%%
+        \setcounter{@last@#1}{\value{#1}}%%
 % Storing cursors for inital values for the actual compilation.
-            \ifnum\value{#1}=1%
-                \immediate\write\@auxout{%
-                  \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%
-                }%
-            \fi%
+        \ifnum\value{#1}=1 %%
+            \immediate\write\@auxout{%%
+              \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%%
+            }%%
+        \fi%%
 % What do we print regarding the preceding compilation ?
-            \@ifundefined{@cursors@#1@\the\value{@cursor@#1}}{%
-                \arabic{#1}%
-            }{%
-                \setcounter{@next@counter}{\value{@cursor@#1} + 1}%
-                \@ifundefined{@cursors@#1@\the\value{@next@counter}}%
-                    {\arabic{#1}}%
-                    {}%
-            }%
-        }%
-        \AtEndDocument{%
+        \@ifundefined{@cursors@#1@\the\value{@cursor@#1}}{%%
+            \arabic{#1}%%
+        }{%%
+            \setcounter{@next@counter}{\value{@cursor@#1} + 1}%%
+            \@ifundefined{@cursors@#1@\the\value{@next@counter}}%%
+                {\arabic{#1}}%%
+                {}%%
+        }%%
+    }%%
+    \AtEndDocument{%%
 % Special case of one last counter initialized.
 %
 % We must take care of reseting the counters : this is why we use the "last"
 % counter ``@last@#1``.
-            \ifnum\value{@last@#1}=1%
-                \stepcounter{@cursor@#1}%
-                \immediate\write\@auxout{%
-                  \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%
-                }%
-            \fi%
-        }%
-    }
+        \ifnum\value{@last@#1}=1 %%
+            \stepcounter{@cursor@#1}%%
+            \immediate\write\@auxout{%%
+              \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%%
+            }%%
+        \fi%%
+    }%%
+}
+
+% Number of the context
+\newcommand\@exam@ctxt@nb[1]{%%
+    \csname smart@lyxam@counter@#1\endcsname%%
+}
+
+% Long version for points
+\newcommand\@exam@ctxt@longpoints[1]{%%
+    \IfStrEq{#1}{true}{}{%%
+        \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
+            #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
+        }%%
+    }%%
+}
+
+% Long version of sources
+%     #1: \lyxam@<CONTEXT>@source (user initial source)
+\newcommand\@exam@ctxt@longsource[1]{%%
+    \IfStrEq{#1}{true}{}{\lyxam@text@source{}: #1}%%
+}
+
+% Long version of time
+%     #1: \lyxam@<CONTEXT>@time (user initial source)
+\newcommand\@exam@ctxt@longtime[1]{%%
+    \IfStrEq{#1}{true}{}{\lyxam@text@time{}: #1}%%
+}
+
+% For keys and values
+\newcommand\@use@context@key[1]{\useKV[context@keys]{#1}}
+
+% The commands for contexts
+\setKVdefault[context@keys]{%
+    id   ,  % For "12 page 345" instead of an automaic number
+    title,  % You can add an extra title
+    time ,  % Use "no" to see only the title
+    pts  ,  % Number of points for the exercise
+    src  ,  % A short reference for a source used
+    about   % One additional special note
+}
 
 % Making the commands for each contexts
 %     #1: the kind of context
-%
-% Source for the pretty trick with csname, expandafter and pgfkeys:
-%    * https://tex.stackexchange.com/a/398104/6880
-    \newif\ifshowctxt
+\newcommand\@build@values[1]{
+    \useKVdefault[context@keys]%%
+    \setKV[context@keys]{#1}%%
+    \ifshowpoints\else\setKV[context@keys]{pts}\fi
+    \ifshowsource\else\setKV[context@keys]{src}\fi
+    \def\@exam@ctxt@id{\@use@context@key{id}}%%
+    \def\@exam@ctxt@title{\@use@context@key{title}}%%
+    \def\@exam@ctxt@time{\@use@context@key{time}}%%
+    \def\@exam@ctxt@pts{\@use@context@key{pts}}%%
+    \def\@exam@ctxt@src{\@use@context@key{src}}%%
+    \def\@exam@ctxt@about{\@use@context@key{about}}%%
+}
 
-    \newcommand\@add@context[1]{%
-        \@build@smart@counter{lyxam@counter@#1}
+\newcommand\@add@context[1]{%
+    \@build@smart@counter{lyxam@counter@#1}
 
-        \pgfkeys{
-            /lyxam@#1@keys/.is family,
-            /lyxam@#1@keys,
-                id/.initial    = {},  % Use to have "12 page 345" instead of
-                                      % an automaic number
-                title/.initial = {},  % You can add an extra title
-                time/.initial  = {},  % Use "no" to see only the title
-                pts/.initial   = {},  % Number of points for the exercise
-                src/.initial   = {},  % A short reference for a source used
-                note/.initial  = {}   % One additional special note
-        }
-
-        \expandafter\@add@context@pgfkeys
-            \csname#1star\expandafter\endcsname
-            \csname lyxam@#1@id\expandafter\endcsname
-            \csname lyxam@#1@title\expandafter\endcsname
-            \csname lyxam@#1@time\expandafter\endcsname
-            \csname lyxam@#1@pts\expandafter\endcsname
-            \csname lyxam@#1@src\expandafter\endcsname
-            \csname lyxam@#1@note\expandafter\endcsname
-            \csname @build@#1\expandafter\endcsname
-            {#1}
-
-        \expandafter\@add@context@pgfkeys
-            \csname#1nostar\expandafter\endcsname
-            \csname lyxam@#1@id\expandafter\endcsname
-            \csname lyxam@#1@title\expandafter\endcsname
-            \csname lyxam@#1@time\expandafter\endcsname
-            \csname lyxam@#1@pts\expandafter\endcsname
-            \csname lyxam@#1@src\expandafter\endcsname
-            \csname lyxam@#1@note\expandafter\endcsname
-            \csname @build@#1\expandafter\endcsname
-            {#1}
-
-        \expandafter\newcommand\csname#1\endcsname{
-            \@ifstar{\csname #1star\endcsname}{\csname #1nostar\endcsname}
-        }
+    \expandafter\newcommand\csname#1\endcsname{%%
+        \@ifstar{\csname @#1@star\endcsname}{\csname @#1@no@star\endcsname}%%
     }
 
-    \newcommand\@add@context@pgfkeys[9]{%
-% When call using \@add@ncontext{topic}, we have
-%     #1: \topic
-%     #2: \lyxam@topic@id
-%     #3: \lyxam@topic@title
-%     #4: \lyxam@topictime
-%     #5: \lyxam@topic@pts
-%     #6: \lyxam@topic@src
-%     #7: \lyxam@topic@note
-%     #8: \@build@topic
-%     #9: topic
-        \newcommand#1[1][]{%
-            \begingroup
-                \pgfkeys{/lyxam@#9@keys, ##1}
-                \pgfkeysgetvalue{/lyxam@#9@keys/id}{#2}
-                \pgfkeysgetvalue{/lyxam@#9@keys/title}{#3}
-                \pgfkeysgetvalue{/lyxam@#9@keys/time}{#4}
-                \pgfkeysgetvalue{/lyxam@#9@keys/pts}{#5}
-                \pgfkeysgetvalue{/lyxam@#9@keys/src}{#6}
-                \pgfkeysgetvalue{/lyxam@#9@keys/note}{#7}
-% Context hidden ? If yes, a title is needed.
-%
-% Warning ! We need the star version because ``\string`` uses catcodes 12
-% whereas teh words "nostar" uses letters with catcodes 11.
-% This explications were given to me by has the author explains it to me.
-                \IfEndWith*{\string#1}{nostar}{%
-                    \showctxttrue%
-                }{%
-                    \if\relax#3\relax%
-                        \PackageError{lyxam}{title needed if context hidden}%
-                    \fi%
-                    \showctxtfalse%
-                }
-% Number the context if it is shown !
-                \if\relax#2\relax%
-                    \ifshowctxt%
-                        \renewcommand#2{%
-                            \csname smart@lyxam@counter@#9\endcsname{}%
-                        }
-                    \fi
-                \fi
-% Source, or no source, taht is the question...
-                \ifshowsource\else
-                    \renewcommand#6{}
-                \fi
-% Points, or no points, taht is the other question...
-                \ifshowpoints\else
-                    \renewcommand#5{}
-                \fi
-% We can start the rendering...
-                #8{}
-            \endgroup
-        }%%
+% User's commands for contexts
+%     #1: name of the context
+%     #2: "showctxt" otr "hidectxt"
+%     #3: user's option
+    \expandafter\newcommand\csname @#1@star\endcsname[1][]{
+        \@build@values{##1}%%
+        \@if@val@empty{\@use@context@key{title}}{
+            \PackageError{lyxam}{no title and no context}{}%%
+        }{}%%
+        \@build@ctxt{#1}{hidectxt}%%
     }
+    \expandafter\newcommand\csname @#1@no@star\endcsname[1][]{
+        \@build@values{##1}%%
+        \@build@ctxt{#1}{showctxt}%%
+    }
+}
 
 % Let's build our contexts.
-    \@add@context{topic}
-    
-    \@add@context{activity}
-    \@add@context{bonus}
-    \@add@context{exercise}
-    \@add@context{mcq}
-    \@add@context{praticalwork}
-    \@add@context{problem}
-    
-    \@add@context{subpart}
-    
+\@add@context{topic}
+
+\@add@context{activity}
+\@add@context{bonus}
+\@add@context{exercise}
+\@add@context{mcq}
+\@add@context{praticalwork}
+\@add@context{problem}
+
+\@add@context{subpart}
+
 % Reseting of counters.
-    \setsepchar{,}
+\setsepchar{,}
 
-    \newcommand\@auto@reset@by[2]{
-        \readlist\parentcounters{#2}
-        \foreachitem\onecounter\in\parentcounters{
-            \@addtoreset{#1}{\onecounter}
-        }
-    }
+\newcommand\@auto@reset@by[2]{
+    \readlist\parentcounters{#2}%%
+    \foreachitem\onecounter\in\parentcounters{%%
+        \@addtoreset{#1}{\onecounter}%%
+    }%%
+}
 
-    \@auto@reset@by{lyxam@counter@subpart}{lyxam@counter@topic,lyxam@counter@activity,lyxam@counter@bonus,lyxam@counter@exercise,lyxam@counter@mcq,lyxam@counter@praticalwork,lyxam@counter@problem}
+\@auto@reset@by{lyxam@counter@subpart}{lyxam@counter@topic,lyxam@counter@activity,lyxam@counter@bonus,lyxam@counter@exercise,lyxam@counter@mcq,lyxam@counter@praticalwork,lyxam@counter@problem}
+
 
 % == LOADING THE STYLE == %
 
 % Loading the good style
-    \IfStrEqCase{\@style@choosen}{
-        {apmep}{\input{config/style/apmep.sty}}%
-    }
-\makeatother
+\IfStrEqCase{\@style@choosen}{%%
+    {apmep}{\input{config/style/apmep.sty}}%%
+}
 % == END == %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

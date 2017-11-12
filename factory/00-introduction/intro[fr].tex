@@ -1,12 +1,16 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
 
 % == FOR DOC AND TESTS - START == %
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,16 +22,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -36,7 +40,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -73,7 +77,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -94,7 +98,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%
@@ -130,8 +134,10 @@
 
 \section{Introduction}
 
-Le but du package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations.
-Pour le moment, un seul type de mise en forme est proposé mais il est assez facile pour qui connait la programmation \LaTeX{} de proposer de nouvelles mises en forme.
-En fait, il est prévu d'ajouter d'autres mises en forme mais pas dans l'immédiat faute de temps libre...
+Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
+%Pour le moment, un seul type de mise en forme est proposé mais il est prévu d'en proposer plus à l'avenir 
+%\footnote{
+%	De plus, le code \LaTeX{} va évoluer pour faciliter l'ajout de nouvelles mises en forme par des personnes connaissant un peu la programmation \LaTeX{}.
+%}.
 
 \end{document}

@@ -1,12 +1,16 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
 
 % == FOR DOC AND TESTS - START == %
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,16 +22,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -36,7 +40,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -73,7 +77,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -94,7 +98,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%
@@ -133,20 +137,26 @@
 Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
 
 \begin{itemize}[label=\textbullet]
-	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
+%	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
 
-	\item \verb+fr+ permet d'indiquer d'utiliser le français pour tous les textes ajoutés par \verb+lyxam+.
+	\item \verb+en+, valeur par défaut
+	\footnote{
+		Sorry for the french frogs that we are...
+	}, et \verb+fr+ permettent d'indiquer d'utiliser l'anglais ou le français pour tous les textes ajoutés par \verb+lyxam+.
 
-	\verb+en+ permet d'indiquer d'utiliser l'anglais. \textbf{C'est la valeur par défaut.} Sorry for the french frogs that we are...
+	\item \verb+hf+, valeur par défaut, et \verb+nohf+ demandent d'afficher ou non les en-têtes et les pieds de page.
+	Les lettres \verb+hf+ sont pour "\textbf{h}-eaders" et "\textbf{f}-ooters", soit "en-tête" et "pied de page" en français.
 
-	\item \verb+src+ ou \verb+nosrc+ demande d'afficher ou non les sources utilisées.
+	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
-	\item \verb+pts+ ou \verb+nopts+ sert à voir ou non les points des exercices.
+	\item \verb+pts+, valeur par défaut, et \verb+nopts+ servent à voir ou non les points donnés pour chaque exercice.
 \end{itemize}
 
+%\begin{remark}
+%	Dans la suite de cette documentation, nous utilisons les options \verb+apmep+ et \verb+fr+, c'est à dire via \verb+\usepackage[apmep, fr]{lyxam}+.
+%\end{remark}
 \begin{remark}
-	Dans la suite de cette documentation, nous utilisons \verb+\usepackage[apmep, fr]{lyxam}+.
+	Dans la suite de cette documentation, nous invoquons juste l'option \verb+fr+.Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+.
 \end{remark}
-
 
 \end{document}

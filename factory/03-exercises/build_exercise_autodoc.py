@@ -91,7 +91,7 @@ for level in range(1, 4):
         c, _ = parse_resetme(c)
 
         inside += [
-            f"\\IDmacro{{{c}}}{{6}}{{0}}",
+            f"\\IDmacro{{{c}}}{{6}}{{}}",
             ""
         ]
 

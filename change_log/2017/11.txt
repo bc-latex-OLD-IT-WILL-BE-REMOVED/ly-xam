@@ -1,4 +1,79 @@
 ==========
+2017-11-????
+==========
+
+chgt mineur de version
+
+apmep ???
+    environnement premabule
+
+
+
+
+gestion plus fine des packages, on vire ceux en commun et on utilise RequirePackage !!!!
+
+
+
+
+
+
+
+
+
+n'avoir qu'à gérer une seule macro buildlayout{kind} puis on a macro qui donne accès facilment aux val des clés dont argument unique est ensemble de clés accessibels via une macro maison
+
+
+
+l'option note ---->  about (pour éviter "confusion" avec note celle de l'élève)
+
+
+
+
+==========
+2017-11-10   (doc tech et publique a jour !!!)
+==========
+
+refacto 1 : simplification du code et surtout de l'API côté mef modulo l'utilisation de
+
+
+pgfkeys ---> simplekv : ok pour titre
+
+simplification du cocde au passage
+
+kind \exam optionnel come les autres
+
+\exam utilisable pmusiseur fois sans souci mais souci de page !!! à l'utilisateur de gérer !
+
+clé premabule : dipsaru
+
+à la palce on passe par un environnement d'où la possibilité d'y mettre plein de choses (cf notation pour un exam par exemple)
+
+nelle option hf et nohf package : header no header
+
+
+
+
+	\item \verb+preambule+ vous aidera à indiquer un texte en préambule qui apparaîtra avant vos exercices pour par exemple rappeler des obligations légales ou bien des choses importantes.
+
+\IDkey{preambule} un texte en préambule du devoir pour rappeler des obligations légales ou bien des choses importantes.
+
+
+
+==========
+2017-11-06
+==========
+
+**Bug in the style APMEP:** the font size command ``\footnotesize`` was missing for page numbers in the footers after the first page.
+
+
+==========
+2017-11-05
+==========
+
+**The styles will never use their own font:** the style APMEP uses now ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` such as to only use the ornaments. The choice of the font is just a user's one.
+
+
+==========
 2017-11-03
 ==========
 

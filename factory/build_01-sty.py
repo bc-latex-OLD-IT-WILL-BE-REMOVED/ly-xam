@@ -7,15 +7,14 @@ from mistool.string_use import between, joinand
 from mistool.term_use import ALL_FRAMES, withframe
 from orpyste.data import ReadBlock
 
+# ----------------------- #
+# -- TOOLS & CONSTANTS -- #
+# ----------------------- #
+
 THIS_DIR = PPath( __file__ ).parent
 
 STY_PATH  = THIS_DIR.parent / "lyxam" / "lyxam.sty"
 CONF_PATH = THIS_DIR.parent / "lyxam" / "config"
-
-
-# ----------------------- #
-# -- TOOLS & CONSTANTS -- #
-# ----------------------- #
 
 LANGS_STYLES = defaultdict(dict)
 
@@ -138,7 +137,7 @@ for subdir in THIS_DIR.walk("dir::"):
                     text = filetoupdate.read(),
                     seps = [
                         "% == PACKAGES USED == %",
-                        "% == GENERAL SETTINGS == %"
+                        "% == COMMON SETTINGS == %"
                     ],
                     keepseps = True
                 )
@@ -152,7 +151,7 @@ for subdir in THIS_DIR.walk("dir::"):
             _, general_settings, after = between(
                 text = after,
                 seps = [
-                    "% == GENERAL SETTINGS == %",
+                    "% == COMMON SETTINGS == %",
                     "% == LOCAL SETTINGS == %"
                 ],
                 keepseps = True
@@ -177,7 +176,7 @@ for subdir in THIS_DIR.walk("dir::"):
                 text = after,
                 seps = [
                     "% == PROCESSING OPTION - LOADING LANG == %",
-                    "% == DEFINITIONS == %"
+                    "% == LOCAL DEFINITIONS == %"
                 ],
                 keepseps = True
             )
@@ -188,14 +187,13 @@ for subdir in THIS_DIR.walk("dir::"):
             _, definitions, after = between(
                 text = after,
                 seps = [
-                    "% == DEFINITIONS == %",
+                    "% == LOCAL DEFINITIONS == %",
                     "% == LOADING THE STYLE == %"
                 ],
                 keepseps = True
             )
 
             definitions = cleansource(definitions)
-
 
             _, style_load, _ = between(
                 text = after,
@@ -222,7 +220,7 @@ for subdir in THIS_DIR.walk("dir::"):
                 ]
 
 
-ALL_LOCAL_SETTINGS = "\n".join(ALL_LOCAL_SETTINGS)
+ALL_LOCAL_SETTINGS = "\n\n".join(ALL_LOCAL_SETTINGS)
 ALL_MACROS         = "\n".join(ALL_MACROS)
 
 
@@ -279,7 +277,7 @@ source = """{0}
     ALL_PACKAGES,
     MYFRAME("OPTIONS"),
     general_settings,
-    local_settings,
+    ALL_LOCAL_SETTINGS,
     option_lang_load,
     ALL_MACROS,
     MYFRAME("OPTIONS"),

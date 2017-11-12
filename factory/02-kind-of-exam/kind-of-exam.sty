@@ -1,106 +1,107 @@
 % == PACKAGES USED == %
 
-\usepackage{pgfkeys}
+\usepackage{simplekv}
 \usepackage{xstring}
 
 
-% == GENERAL SETTINGS == %
-\makeatletter
+% == COMMON SETTINGS == %
+
 % Which style to use ?
-    \newcommand{\@style@choosen}{apmep}
-    % \newcommand{\@style@choosen}{default}
-    % \DeclareOption{default}{}
-    \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+\newcommand{\@style@choosen}{apmep}
+% \newcommand{\@style@choosen}{default}
+% \DeclareOption{default}{}
+\DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
 
 % Which language to use ?
-    \newcommand{\@lang@choosen}{en}
-    \DeclareOption{en}{}
-    \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
+\newcommand{\@lang@choosen}{en}
+\DeclareOption{en}{}
+\DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
 
 
 % == LOCAL SETTINGS == %
+
+% Headers and footers or not ?
+\newif\ifshowheadersfooters
+\showheadersfooterstrue
+
+\DeclareOption{hf}{}
+\DeclareOption{nohf}{\showheadersfootersfalse}
 
 
 % == PROCESSING OPTION - LOADING LANG == %
 
 % Processing the options
-    \ProcessOptions
+\ProcessOptions
 
 % Loading the good language
-    \IfStrEqCase{\@lang@choosen}{
-        {en}{\input{config/lang/en.sty}}%
-        {fr}{\input{config/lang/fr.sty}}
-    }
+\IfStrEqCase{\@lang@choosen}{
+    {en}{\input{config/lang/en.sty}}%
+    {fr}{\input{config/lang/fr.sty}}
+}
 
 
-% == DEFINITIONS == %
+% == COMMON DEFINITIONS == %
 
-% Setting of the keys for the formatting and the infos of the @exam.
-    \pgfkeys{
-        /lyxam@examkeys/.is family,
-        /lyxam@examkeys,
-            kind/.initial      = {}, % "Homework" for example
-            render/.initial    = no, % Render the subject or not
-            nb/.initial        = 0,  % Number of the exam
-            subnb/.initial     = {}, % For different subjects at the same time
-            subject/.initial   = {}, % "Math" for example
-            theme/.initial     = {}, % "Complex Numbers" for example
-            sector/.initial    = {}, % "Série scientifique" for example
-            class/.initial     = {}, % Name of a class
-            location/.initial  = {}, % An institute or a school
-            date/.initial      = {}, % Date of the exam
-            time/.initial      = {}, % Duration of the exam
-            preambule/.initial = {}, % Main preambule
-            @firstuse/.initial = 0
-    }
+% Warning ! simplekv interprets empty value as a true value.
+\newcommand\@if@val@empty[3]{\IfStrEq{#1}{true}{#2}{#3}}
+
+
+% == LOCAL DEFINITIONS == %
+
+% General API Tools
+\newif\ifshowrender
+\showrenderfalse
+
+\newcommand\@use@exam@key[1]{\useKV[exam@keys]{#1}}
+
+% Layout API Tools
+\newcommand\lyxam@longduration[1]{%%
+    \@if@val@empty{#1}{}{\lyxam@text@duration{}: #1}%%
+}
 
 % The general layout command.
-    \newcommand\lyxam@longduration[1]{%
-        \if\relax#1\relax \else
-            \lyxam@text@duration{}: #1
-        \fi%
-    }
+\setKVdefault[exam@keys]{%
+    render = false,  % Render the subject or not
+    kind   = Test,   % "Homework" for example
+    nb,              % Number of the exam
+    subnb,           % For different subjects at the same time
+    subject,         % "Math" for example
+    theme,           % "Complex Numbers" for example
+    sector,          % "Série scientifique" for example
+    class,           % Name of a class
+    location,        % An institute or a school
+    date,            % Date of the exam
+    time             % Duration of the exam
+}
 
-    \newcommand\exam[1][]{%
-% User's options
-        \pgfkeys{/lyxam@examkeys, #1}
-        \pgfkeysgetvalue{/lyxam@examkeys/@firstuse}{\@firstuse}
+\newcommand\exam[1][]{%
+    \useKVdefault[exam@keys]
+    \setKV[exam@keys]{#1}
+% Boolean key
+    \ifboolKV[exam@keys]{render}{\showrendertrue}{\showrenderfalse}
+% Other keys
+    \def\@exam@kind{\@use@exam@key{kind}}%%
+    \def\@exam@nb{\@use@exam@key{nb}}%%
+    \def\@exam@subnb{\@use@exam@key{subnb}}%%
+    \def\@exam@subject{\@use@exam@key{subject}}%%
+    \def\@exam@theme{\@use@exam@key{theme}}%%
+    \def\@exam@sector{\@use@exam@key{sector}}%%
+    \def\@exam@class{\@use@exam@key{class}}%%
+    \def\@exam@location{\@use@exam@key{location}}%%
+    \def\@exam@date{\@use@exam@key{date}}%%
+    \def\@exam@time{\@use@exam@key{time}}%%
+    \@build@layout{}
+}
 
-% First use ?
-        \ifnum\@firstuse=1
-            \PackageError{lyxam}{command 'exam' can be used only one time}
-        \fi
-        \pgfkeyssetvalue{/lyxam@examkeys/@firstuse}{1}
-
-% Management of the keys : we use public constants !
-        \pgfkeysgetvalue{/lyxam@examkeys/kind}{\lyxam@kind}
-        \pgfkeysgetvalue{/lyxam@examkeys/render}{\lyxam@render}
-        \pgfkeysgetvalue{/lyxam@examkeys/nb}{\lyxam@nb}
-        \pgfkeysgetvalue{/lyxam@examkeys/subnb}{\lyxam@subnb}
-        \pgfkeysgetvalue{/lyxam@examkeys/subject}{\lyxam@subject}
-        \pgfkeysgetvalue{/lyxam@examkeys/theme}{\lyxam@theme}
-        \pgfkeysgetvalue{/lyxam@examkeys/sector}{\lyxam@sector}
-        \pgfkeysgetvalue{/lyxam@examkeys/class}{\lyxam@class}
-        \pgfkeysgetvalue{/lyxam@examkeys/location}{\lyxam@location}
-        \pgfkeysgetvalue{/lyxam@examkeys/date}{\lyxam@date}
-        \pgfkeysgetvalue{/lyxam@examkeys/time}{\lyxam@time}
-        \pgfkeysgetvalue{/lyxam@examkeys/preambule}{\lyxam@preambule}
-
-% Make the long time version.
-        \if\relax\lyxam@kind\relax
-              \PackageError{lyxam}{the option 'kind' can't be empty}
-            \fi
-
-% Building the layout.
-        \@build@layout{}
-    }
+% The preambule environment to be redefined or not...
+\newenvironment{preambule}{}{}
 
 
 % == LOADING THE STYLE == %
 
 % Loading the good style
-    \IfStrEqCase{\@style@choosen}{
-        {apmep}{\input{config/style/apmep.sty}}%
-    }
-\makeatother
+\IfStrEqCase{\@style@choosen}{
+    {apmep}{\input{config/style/apmep.sty}}%
+}
+
 % == END == %

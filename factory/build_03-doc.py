@@ -76,6 +76,9 @@ for subdir in THIS_DIR.walk("dir::"):
         EXTRAFILES.append(extrafile)
 
     for latexfile in subdir.walk("file::**\[fr\].tex"):
+        if latexfile.stem.endswith("-nodoc[fr]"):
+            continue
+
         with latexfile.open(
             mode     = "r",
             encoding = "utf-8"

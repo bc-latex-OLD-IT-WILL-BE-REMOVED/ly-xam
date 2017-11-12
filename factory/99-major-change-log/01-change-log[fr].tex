@@ -1,12 +1,16 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
 
 % == FOR DOC AND TESTS - START == %
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{ucs}
-\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 
-\usepackage[francais]{babel}
+\usepackage[french]{babel,varioref}
+
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{enumitem}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -18,16 +22,16 @@
     urlcolor=black
 }
 
-\usepackage{multicol}
-\usepackage{enumitem}
-
 \usepackage{amsthm}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
-\usepackage{pgffor}
+\usepackage{ifplatform}
+
 \usepackage{xstring}
+
+\usepackage{fancyvrb}
 
 
 % MISC
@@ -36,7 +40,7 @@
 	sharp corners,%
 	left=1mm, right=1mm,%
 	bottom=1mm, top=1mm,%
-	colupper=red!75!blue% 
+	colupper=red!75!blue%
 }
 
 \setlength{\parindent}{0cm}
@@ -73,7 +77,7 @@
 
 \makeatletter
 	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
-	
+
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
@@ -94,7 +98,7 @@
     }
 
 	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
-	
+
 	\newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
 		--- \texttt{#1%
@@ -130,12 +134,21 @@
 
 \section{Historique}
 
-All the changes are described inside the folders \verb+change_log+ : see the sources of \verb+lyxam+ on \verb+github+. Here we just give a very short history of \verb+lyxam+.
+Tous les changements sont décrits en anglais uniquement dans le dossier \verb+change_log+ : voir le code source de \verb+lyxam+ sur \verb+github+. Nous ne donnons ici qu'un très bref historique de \verb+lyxam+.
 
-\begin{description}
+\begin{description}[leftmargin=1em]
 	\setlength\itemsep{1em}
 
-	\item[2017-11-03] First public version \verb+0.0.0-beta+ of the package.
+	\item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
+	\begin{itemize}
+		\item L'option \verb+preambule+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preambule}...\end{preambule}+ utilisable n'importe où.
+
+		\item Pour la macro \verb+\exam+, tous les paramètres sont optionnels.
+		
+		\item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
+	\end{itemize}
+
+	\item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
 \end{description}
 
 \end{document}
