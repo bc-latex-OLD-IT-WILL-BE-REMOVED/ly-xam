@@ -1,4 +1,15 @@
 ==========
+2017-11-13
+==========
+
+**Minor internal changes.**
+
+    1) The macro ``\@if@empty`` can be used for new styles.
+
+    2) Better use of the package ``simplekv`` : we use now "real" empty strings.
+
+
+==========
 2017-11-12
 ==========
 

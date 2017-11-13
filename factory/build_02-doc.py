@@ -42,18 +42,10 @@ MYFRAME = lambda x: withframe(
 # ------------ #
 
 with open(
-    file     = THIS_DIR / "config" / "header[fr].tex",
+    file     = THIS_DIR / "config" / "header[fr].sty",
     encoding = "utf-8"
 ) as headerfile:
-    _, HEADER, _ = between(
-        text = headerfile.read(),
-        seps = [
-            r"\documentclass[12pt,a4paper]{article}",
-            r"\begin{document}"
-        ]
-    )
-
-    HEADER = HEADER.strip()
+    HEADER = headerfile.read().strip()
 
 
 # ---------------------- #

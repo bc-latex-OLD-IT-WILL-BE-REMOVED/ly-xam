@@ -2,6 +2,7 @@
 
 \usepackage{calc}
 \usepackage{listofitems}
+
 \usepackage{simplekv}
 \usepackage{xstring}
 
@@ -51,8 +52,15 @@
 
 % == COMMON DEFINITIONS == %
 
-% Warning ! simplekv interprets empty value as a true value.
-\newcommand\@if@val@empty[3]{\IfStrEq{#1}{true}{#2}{#3}}
+% Source:
+%    * https://tex.stackexchange.com/a/53091/6880
+%
+%    #1: value to test
+%    #2: used if empty
+%    #3: used if none empty
+\newcommand\@if@empty[3]{%%
+    \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
+}
 
 
 % == LOCAL DEFINITIONS == %
@@ -123,7 +131,7 @@
 
 % Long version for points
 \newcommand\@exam@ctxt@longpoints[1]{%%
-    \IfStrEq{#1}{true}{}{%%
+    \@if@empty{#1}{}{%%
         \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
             #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
         }%%
@@ -133,13 +141,13 @@
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
 \newcommand\@exam@ctxt@longsource[1]{%%
-    \IfStrEq{#1}{true}{}{\lyxam@text@source{}: #1}%%
+    \@if@empty{#1}{}{\lyxam@text@source{}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
 \newcommand\@exam@ctxt@longtime[1]{%%
-    \IfStrEq{#1}{true}{}{\lyxam@text@time{}: #1}%%
+    \@if@empty{#1}{}{\lyxam@text@time{}: #1}%%
 }
 
 % For keys and values
@@ -147,20 +155,20 @@
 
 % The commands for contexts
 \setKVdefault[context@keys]{%
-    id   ,  % For "12 page 345" instead of an automaic number
-    title,  % You can add an extra title
-    time ,  % Use "no" to see only the title
-    pts  ,  % Number of points for the exercise
-    src  ,  % A short reference for a source used
-    about   % One additional special note
+    id    = {},  % For "12 page 345" instead of an automaic number
+    title = {},  % You can add an extra title
+    time  = {},  % Use "no" to see only the title
+    pts   = {},  % Number of points for the exercise
+    src   = {},  % A short reference for a source used
+    about = {}   % One additional special note
 }
 
 % Making the commands for each contexts
 \newcommand\@build@values[1]{
     \useKVdefault[context@keys]%%
     \setKV[context@keys]{#1}%%
-    \ifshowpoints\else\setKV[context@keys]{pts}\fi
-    \ifshowsource\else\setKV[context@keys]{src}\fi
+    \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
+    \ifshowsource\else\setKV[context@keys]{src={}}\fi
     \def\@exam@ctxt@id{\@use@context@key{id}}%%
     \def\@exam@ctxt@title{\@use@context@key{title}}%%
     \def\@exam@ctxt@time{\@use@context@key{time}}%%
@@ -179,7 +187,7 @@
 % User's commands for contexts
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
-        \@if@val@empty{\@use@context@key{title}}{
+        \@if@empty{\@exam@ctxt@title}{
             \PackageError{lyxam}{no title and no context}{}%%
         }{}%%
         \@build@ctxt{#1}{hidectxt}%%

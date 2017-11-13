@@ -1,4 +1,3 @@
-\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{ucs}
@@ -50,15 +49,16 @@
 \titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
 
-\makeatother
-	\newcommand\resetallcnt{
-		\setcounter{lyxam@counter@topic}{0}
-		\setcounter{lyxam@counter@exercise}{0}
-		\setcounter{lyxam@counter@problem}{0}
-		\setcounter{lyxam@counter@bonus}{0}
-		\setcounter{lyxam@counter@subpart}{0}
-	}
+
 \makeatletter
+    \newcommand\resetallcnt{
+    	\setcounter{lyxam@counter@topic}{0}
+    	\setcounter{lyxam@counter@exercise}{0}
+    	\setcounter{lyxam@counter@problem}{0}
+    	\setcounter{lyxam@counter@bonus}{0}
+    	\setcounter{lyxam@counter@subpart}{0}
+    }
+\makeatother
 
 % Technical IDs
 
@@ -68,25 +68,25 @@
 
 \AtEndDocument{\immediate\closeout\tempfile}
 
-\newcommand\IDconstant[1]{%
-    \immediate\write\tempfile{constant@#1}%
-}
-
 \makeatletter
-	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
+    \newcommand\IDconstant[1]{%
+        \immediate\write\tempfile{constant@#1}%
+    }
+
+    \newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
 
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
         	\IfStrEq{#2}{0}{}{%
         		\,\,[#2 Option%
-				\IfStrEq{#2}{1}{}{s}]%
-			}%
+    			\IfStrEq{#2}{1}{}{s}]%
+    		}%
     	    \IfStrEq{#3}{}{}{%
-	    		\,\,(#3 Argument%
-				\IfStrEq{#3}{1}{}{s})%
-			}
-	   	}
+        		\,\,(#3 Argument%
+    			\IfStrEq{#3}{1}{}{s})%
+    		}
+       	}
         \immediate\write\tempfile{macro@#1@#2@#3}%
     }
 
@@ -94,56 +94,32 @@
         \@IDmacroNoStar{#1}{0}{#2}%
     }
 
-	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
+    \newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
 
-	\newcommand\@IDoptargStar[2]{%
+    \newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
-		--- \texttt{#1%
-			\IfStrEq{#2}{}{:}{\,#2:}%
-		}%
-	}
+    	--- \texttt{#1%
+    		\IfStrEq{#2}{}{:}{\,#2:}%
+    	}%
+    }
 
-	\newcommand\@IDoptargNoStar[2]{%
+    \newcommand\@IDoptargNoStar[2]{%
     	\IfStrEq{#2}{}{%
-			\@IDoptargStar{#1}{}%
-		}{%
-			\@IDoptargStar{#1}{\##2}%
-		}%
-	}
+    		\@IDoptargStar{#1}{}%
+    	}{%
+    		\@IDoptargStar{#1}{\##2}%
+    	}%
+    }
 
-	\newcommand\IDkey[1]{%
+    \newcommand\IDkey[1]{%
     	\@IDoptarg*{Option}{{\itshape "#1"}}%
-	}
+    }
 
-	\newcommand\IDoption[1]{%
+    \newcommand\IDoption[1]{%
     	\@IDoptarg{Option}{#1}%
-	}
+    }
 
-	\newcommand\IDarg[1]{%
+    \newcommand\IDarg[1]{%
     	\@IDoptarg{Argument}{#1}%
-	}
+    }
 \makeatother
-
-
-\begin{document}
-
-\begin{remark}
-	Just on remark...
-\end{remark}
-
-
-\IDmacro{test}{1}{1}
-
-\IDmacro{test}{2}{2}
-
-\IDmacro*{test}{3}
-
-\IDoption{} about the only option...
-
-\IDarg{} about the only argument...
-
-\IDoption{1} about the 1st option...
-
-\IDarg{1} about the 1st argument...
-
-\end{document}

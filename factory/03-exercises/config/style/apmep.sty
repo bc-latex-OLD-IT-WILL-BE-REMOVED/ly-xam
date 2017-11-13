@@ -36,10 +36,8 @@
 %         * ``xstring``
 %
 %     3) The options used are stored in macros ``\@exam@ctxt@<<KEY>>`` where
-%        ``<<KEY>>`` if one of the option but you must use
-%        ``\@if@val@empty{\@exam@ctxt@<<KEY>>}{TRUE}{FALSE}``
-%        if you want to know if the value is empty or not (this is because
-%        ``simplekv`` uses ``true`` as a default value).
+%        ``<<KEY>>`` is one of the option. To test if a value is an empty
+%        string, you must use ``\@if@empty{\@exam@<<KEY>>}{TRUE}{FALSE}``.
 %
 %     4) Two booleans must be managed.
 %         * ``showsource`` is to show or hide the source used.
@@ -113,9 +111,7 @@
     \IfStrEq{#1}{subpart}{%%
         \apmepcentersubextrue%%
     }{%%
-        \@if@val@empty{\@exam@ctxt@pts}%%
-            {\apmepcentersubexfalse}%%
-            {\apmepcentersubextrue}%%
+        \@if@empty{\@exam@ctxt@pts}{\apmepcentersubextrue}{\apmepcentersubexfalse}%%
     }
 % Printing the context, time and points.
 %
@@ -125,25 +121,25 @@
         \IfStrEq{#2}{hidectxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
-                    \@if@val@empty{\@exam@ctxt@title}{}{\@exam@ctxt@title}%%
+                    \@if@empty{\@exam@ctxt@title}{}{\@exam@ctxt@title}%%
                 }%%
             }%%
         }{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
                     \csname lyxam@text@#1\endcsname{}
-                    \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb{#1}}{\@exam@ctxt@id}%%
-                    \@if@val@empty{\@exam@ctxt@title}{}{: \@exam@ctxt@title}%%
+                    \@if@empty{\@exam@ctxt@id}{\@exam@ctxt@nb{#1}}{\@exam@ctxt@id}%%
+                    \@if@empty{\@exam@ctxt@title}{}{: \@exam@ctxt@title}%%
                 }%%
             }%%
         }%%
 % Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
-                \@if@val@empty{\@exam@ctxt@time}{}{%%
+                \@if@empty{\@exam@ctxt@time}{}{%%
                     \kern 0.8em (\@apmep@exam@ctxt@time)%%
                 }%%
-                \@if@val@empty{\@exam@ctxt@pts}{}{%%
+                \@if@empty{\@exam@ctxt@pts}{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
                     [\,\@apmep@exam@ctxt@pts{}\,]%%
                 }%%
@@ -157,7 +153,7 @@
             }%%
         }%%
 % About note.
-        \@if@val@empty{\@exam@ctxt@about}{}{%%
+        \@if@empty{\@exam@ctxt@about}{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
                 \ifapmepcentersubex%%
@@ -168,7 +164,7 @@
             }%%
         }%%
 % Source.
-        \@if@val@empty{\@exam@ctxt@src}{}{%%
+        \@if@empty{\@exam@ctxt@src}{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
                 \ifapmepcentersubex%%

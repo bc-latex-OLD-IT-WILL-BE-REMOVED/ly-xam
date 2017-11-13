@@ -2,6 +2,7 @@
 
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{ifmtarg}
 
 \usepackage{simplekv}
 \usepackage{xstring}
@@ -45,8 +46,15 @@
 
 % == COMMON DEFINITIONS == %
 
-% Warning ! simplekv interprets empty value as a true value.
-\newcommand\@if@val@empty[3]{\IfStrEq{#1}{true}{#2}{#3}}
+% Source:
+%    * https://tex.stackexchange.com/a/53091/6880
+%
+%    #1: value to test
+%    #2: used if empty
+%    #3: used if none empty
+\newcommand\@if@empty[3]{%%
+    \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
+}
 
 
 % == LOCAL DEFINITIONS == %
@@ -59,22 +67,22 @@
 
 % Layout API Tools
 \newcommand\@exam@longduration[1]{%%
-    \@if@val@empty{#1}{}{\lyxam@text@duration{}: #1}%%
+    \IfStrEq{#1}{}{}{\lyxam@text@duration{}: #1}%%
 }
 
 % The general layout command.
 \setKVdefault[exam@keys]{%
-    render = false,  % Render the subject or not
-    kind   = Test,   % "Homework" for example
-    nb,              % Number of the exam
-    subnb,           % For different subjects at the same time
-    subject,         % "Math" for example
-    theme,           % "Complex Numbers" for example
-    sector,          % "Série scientifique" for example
-    class,           % Name of a class
-    location,        % An institute or a school
-    date,            % Date of the exam
-    time             % Duration of the exam
+    render   = false, % Render the subject or not
+    kind     = Test,  % "Homework" for example
+    nb       = {},    % Number of the exam
+    subnb    = {},    % For different subjects at the same time
+    subject  = {},    % "Math" for example
+    theme    = {},    % "Complex Numbers" for example
+    sector   = {},    % "Série scientifique" for example
+    class    = {},    % Name of a class
+    location = {},    % An institute or a school
+    date     = {},    % Date of the exam
+    time     = {}     % Duration of the exam
 }
 
 \newcommand\exam[1][]{%

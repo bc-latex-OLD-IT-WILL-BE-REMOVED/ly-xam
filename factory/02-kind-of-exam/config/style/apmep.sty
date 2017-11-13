@@ -37,10 +37,8 @@
 %         * ``xstring``
 %
 %     3) The options used are stored in macros ``\@exam@<<KEY>>`` where
-%        ``<<KEY>>`` if one of the option but you must use
-%        ``\@if@val@empty{\@exam@<<KEY>>}{TRUE}{FALSE}``
-%        if you want to know if the value is empty or not (this is because
-%        ``simplekv`` uses ``true`` as a default value).
+%        ``<<KEY>>`` is one of the option. To test if a value is an empty
+%        string, you must use ``\@if@empty{\@exam@<<KEY>>}{TRUE}{FALSE}``.
 %
 %     4) Two booleans must be managed.
 %         * ``showrender`` is to know if the sheet must be rendered.
@@ -67,7 +65,6 @@
 \usepackage{tcolorbox}
 
 \usepackage{etoolbox}
-\usepackage{xstring}
 
 
 % == DEFINITIONS == %
@@ -141,44 +138,43 @@
 % Internal constants.
     \renewcommand\@apmep@exam@kind@numbered{%%
         \@use@exam@key{kind}%%
-        \@if@val@empty{\@exam@nb}{}{ \@exam@nb}%%
-        \@if@val@empty{\@exam@subnb}{}{\,(\@exam@subnb)}%%
+        \@if@empty{\@exam@nb}{}{ \@exam@nb}%%
+        \@if@empty{\@exam@subnb{}}{}{\,(\@exam@subnb)}%%
     }%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
     \renewcommand\@apmep@main@title{%%
         \decofourleft{}\hspace{0.3em}%%
         \@apmep@exam@kind@numbered{}%%
-        \@if@val@empty{\@exam@subject}{}{\@apmep@minus\@exam@subject}%%
+        \@if@empty{\@exam@subject}{}{\@apmep@minus\@exam@subject}%%
         \hspace{0.3em}\decofourright{}%%
     }%%
-
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \renewcommand\@apmep@second@title{%%
-        \@if@val@empty{\@exam@sector}{}{\@exam@sector}%%
-        \@if@val@empty{\@exam@theme}{}{%%
-            \@if@val@empty{\@exam@sector}{}{\@apmep@minus}%%
+        \@if@empty{\@exam@sector}{}{\@exam@sector}%%
+        \@if@empty{\@exam@theme}{}{%%
+            \@if@empty{\@exam@sector}{\@apmep@minus}%%
             \@exam@theme%%
         }%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
     \renewcommand\@apmep@third@title{%%
-        \@if@val@empty{\@exam@class}{}{\@exam@class}%%
-        \@if@val@empty{\@exam@location}{}{%%
-            \@if@val@empty{\@exam@class}{}{\@apmep@minus}%%
+        \@if@empty{\@exam@class}{}{\@exam@class}%%
+        \@if@empty{\@exam@location}{}{%%
+            \@if@empty{\@exam@class}{}{\@apmep@minus}%%
             \@exam@location%%
         }%%
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \renewcommand\@apmep@fourth@title{%%
-        \@if@val@empty{\@exam@date}{}{\@exam@date}%%
-        \@if@val@empty{\@exam@time}{}{%%
-            \@if@val@empty{\@exam@date}{}{\@apmep@minus}%%
+        \@if@empty{\@exam@date}{}{\@exam@date}%%
+        \@if@empty{\@exam@time}{}{%%
+            \@if@empty{\@exam@date}{}{\@apmep@minus}%%
             \@exam@longduration{\@exam@time}%%
         }%%
     }%%
 % Update all the booleans !
-    \@if@val@empty{\@exam@sector}{%%
-        \@if@val@empty{\@exam@theme}{%%
+    \@if@empty{\@exam@sector}{%%
+        \@if@empty{\@exam@theme}{%%
             \setbool{@apmep@show@second@title}{false}%%
         }{%%
             \setbool{@apmep@show@second@title}{true}%%
@@ -186,8 +182,8 @@
     }{%%
         \setbool{@apmep@show@second@title}{true}%%
     }%%
-    \@if@val@empty{\@exam@class}{%%
-        \@if@val@empty{\@exam@location}{%%
+    \@if@empty{\@exam@class}{%%
+        \@if@empty{\@exam@location}{%%
             \setbool{@apmep@show@third@title}{false}%%
         }{%%
             \setbool{@apmep@show@third@title}{true}%%%%
@@ -195,8 +191,8 @@
     }{%%
         \setbool{@apmep@show@third@title}{true}%%
     }%%
-    \@if@val@empty{\@exam@date}{%%
-        \@if@val@empty{\@exam@time}{%%
+    \@if@empty{\@exam@date}{%%
+        \@if@empty{\@exam@time}{%%
             \setbool{@apmep@show@fourth@title}{false}%%
         }{%%
             \setbool{@apmep@show@fourth@title}{true}%%%%
@@ -235,25 +231,25 @@
         \renewcommand\footrulewidth{.5pt}
         \lhead{%
             \small\@apmep@exam@kind@numbered{}%%
-            \@if@val@empty{\@exam@theme}{}{\@apmep@minus\@exam@theme}%%
+            \@if@empty{\@exam@theme}{}{\@apmep@minus\@exam@theme}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%
             \small%%
-            \@if@val@empty{\@exam@class}{}{\@exam@class}%%
-            \@if@val@empty{\@exam@sector}{}{%%
-                \@if@val@empty{\@exam@class}{}{\@apmep@minus}%%
-                \@if@val@empty{\@exam@sector}{}{\@exam@sector}%%
+            \@if@empty{\@exam@class}{}{\@exam@class}%%
+            \@if@empty{\@exam@sector}{}{%%
+                \@if@empty{\@exam@class}{}{\@apmep@minus}%%
+                \@if@empty{\@exam@sector}{}{\@exam@sector}%%
             }
         }%%
         \lfoot{%%
             \small%%
-            \@if@val@empty{\@exam@location}{}{\@exam@location}%%
+            \@if@empty{\@exam@location}{}{\@exam@location}%%
         }%%
         \cfoot{\footnotesize \thepage\ / \pageref{LastPage}}
         \rfoot{%%
             \small%%
-            \@if@val@empty{\@exam@date}{}{\@exam@date}%%
+            \@if@empty{\@exam@date}{}{\@exam@date}%%
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}%%
