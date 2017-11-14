@@ -2,13 +2,14 @@
 
 \usepackage[utf8x]{inputenc}
 \usepackage{ucs}
-\usepackage[apmep, hf]{kind-of-exam}
+\usepackage[apmep, nohf]{kind-of-exam}
 \usepackage{lipsum}
+\usepackage[french]{babel}
 
 \begin{document}
 
 \exam[%
-	render    = true,%
+	deliver   = true,%
 	kind      = Test,%
     nb        = 1,%
     subnb     = Subject A,%
@@ -22,7 +23,7 @@
 ]
 
 \begin{preambule}
-	PREAMBULE STARTS HERE.
+	+++ \textbf{PREAMBULE: STARTS HERE} +++
 	
 	\lipsum[1]
 	
@@ -30,7 +31,7 @@
 	
 	\lipsum[2]
 	
-	PREAMBULE FINISHES HERE.
+	+++ \textbf{PREAMBULE FINISHES HERE} +++
 \end{preambule}
 
 

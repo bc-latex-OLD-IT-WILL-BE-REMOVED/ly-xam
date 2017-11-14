@@ -13,7 +13,7 @@ La commande \verb+\exam+ permet de donner des informations générales à propos
 Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
 
 \begin{tcblisting}{listing only}
-\exam[render   = true,%
+\exam[deliver,%
       kind     = D.S.,%
       nb       = 1,%
       subnb    = Sujet A,%
@@ -40,7 +40,14 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
 Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+render+, valant \verb+false+ par défaut, est à utiliser pour un sujet à rendre avec la copie : utiliser \verb+false+, la valeur par défaut, ou  \verb+true+ pour \emph{"non"} ou \emph{"oui"}.
+	\item \verb+deliver+, valant \verb+false+ par défaut, est pour un sujet à rendre avec la copie. 
+	\begin{itemize}[label=\textbullet]
+		\setlength\itemsep{0em}
+
+		\item On peut juste indiquer \verb+deliver+ au lieu de \verb+deliver = true+ où \emph{"true"} signifie \emph{"vrai"}.
+
+		\item Ne pas utiliser l'option revient à passer par \verb+deliver = false+ où \emph{"false"} signifie \emph{"faux"}.
+	\end{itemize}
 	Ceci a pour conséquence que le sujet débutera, ou non, par une zone où l'élève devra indiquer son nom et son prénom.
 
 	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...

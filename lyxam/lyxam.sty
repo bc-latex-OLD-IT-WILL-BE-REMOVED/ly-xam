@@ -3,6 +3,7 @@
 % ----------------------- %
 
 \RequirePackage{calc}
+\RequirePackage{etoolbox}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
 \RequirePackage{listofitems}
@@ -26,11 +27,11 @@
 \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
 
 % Headers and footers or not ?
-\newif\ifshowheadersfooters
-\showheadersfooterstrue
+\newbool{@lyxam@show@headers@footers}
+\setbool{@lyxam@show@headers@footers}{true}
 
 \DeclareOption{hf}{}
-\DeclareOption{nohf}{\showheadersfootersfalse}
+\DeclareOption{nohf}{\setbool{@lyxam@show@headers@footers}{false}}
 
 % Show source or not ? That is the question.
 \newif\ifshowsource
@@ -58,8 +59,15 @@
 
 % == COMMON DEFINITIONS == %
 
-% Warning ! simplekv interprets empty value as a true value.
-\newcommand\@if@val@empty[3]{\IfStrEq{#1}{true}{#2}{#3}}
+% Source:
+%    * https://tex.stackexchange.com/a/53091/6880
+%
+%    #1: value to test
+%    #2: to be used if empty
+%    #3: to be used if none empty
+\newcommand\@if@empty[3]{%%
+    \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
+}
 
 
 % ------------------ %
@@ -67,52 +75,53 @@
 % ------------------ %
 
 % General API Tools
-\newif\ifshowrender
-\showrenderfalse
+\newbool{@lyxam@show@deliver}
+\setbool{@lyxam@show@deliver}{false}
 
-\newcommand\@use@exam@key[1]{\useKV[exam@keys]{#1}}
+\newcommand\@use@lyxam@key[1]{\useKV[lyxam@keys]{#1}}
 
 % Layout API Tools
-\newcommand\@exam@longduration[1]{%%
-    \@if@val@empty{#1}{}{\lyxam@text@duration{}: #1}%%
+\newcommand\@lyxam@longduration[1]{%%
+    \IfStrEq{#1}{}{}{\lyxam@text@duration{}: #1}%%
 }
 
 % The general layout command.
-\setKVdefault[exam@keys]{%
-    render = false,  % Render the subject or not
-    kind   = Test,   % "Homework" for example
-    nb,              % Number of the exam
-    subnb,           % For different subjects at the same time
-    subject,         % "Math" for example
-    theme,           % "Complex Numbers" for example
-    sector,          % "Série scientifique" for example
-    class,           % Name of a class
-    location,        % An institute or a school
-    date,            % Date of the exam
-    time             % Duration of the exam
+\setKVdefault[lyxam@keys]{%
+    deliver  = false, % Deliver the subject or not to the teacher
+    kind     = Test,  % "Homework" for example
+    nb       = {},    % Number of the exam
+    subnb    = {},    % For different subjects at the same time
+    subject  = {},    % "Math" for example
+    theme    = {},    % "Complex Numbers" for example
+    sector   = {},    % "Série scientifique" for example
+    class    = {},    % Name of a class
+    location = {},    % An institute or a school
+    date     = {},    % Date of the exam
+    time     = {}     % Duration of the exam
 }
 
 \newcommand\exam[1][]{%
-    \useKVdefault[exam@keys]
-    \setKV[exam@keys]{#1}
+    \useKVdefault[lyxam@keys]
+    \setKV[lyxam@keys]{#1}
 % Boolean key
-    \ifboolKV[exam@keys]{render}{\showrendertrue}{\showrenderfalse}
+    \ifboolKV[lyxam@keys]{deliver}{%%
+        \setbool{@lyxam@show@deliver}{true}%%
+    }{%%
+        \setbool{@lyxam@show@deliver}{false}%%
+    }%%
 % Other keys
-    \def\@exam@kind{\@use@exam@key{kind}}%%
-    \def\@exam@nb{\@use@exam@key{nb}}%%
-    \def\@exam@subnb{\@use@exam@key{subnb}}%%
-    \def\@exam@subject{\@use@exam@key{subject}}%%
-    \def\@exam@theme{\@use@exam@key{theme}}%%
-    \def\@exam@sector{\@use@exam@key{sector}}%%
-    \def\@exam@class{\@use@exam@key{class}}%%
-    \def\@exam@location{\@use@exam@key{location}}%%
-    \def\@exam@date{\@use@exam@key{date}}%%
-    \def\@exam@time{\@use@exam@key{time}}%%
+    \def\@lyxam@kind{\@use@lyxam@key{kind}}%%
+    \def\@lyxam@nb{\@use@lyxam@key{nb}}%%
+    \def\@lyxam@subnb{\@use@lyxam@key{subnb}}%%
+    \def\@lyxam@subject{\@use@lyxam@key{subject}}%%
+    \def\@lyxam@theme{\@use@lyxam@key{theme}}%%
+    \def\@lyxam@sector{\@use@lyxam@key{sector}}%%
+    \def\@lyxam@class{\@use@lyxam@key{class}}%%
+    \def\@lyxam@location{\@use@lyxam@key{location}}%%
+    \def\@lyxam@date{\@use@lyxam@key{date}}%%
+    \def\@lyxam@time{\@use@lyxam@key{time}}%%
     \@build@layout{}
 }
-
-% The preambule environment to be redefined or not...
-\newenvironment{preambule}{}{}
 
 
 % --------------- %
@@ -179,13 +188,13 @@
 }
 
 % Number of the context
-\newcommand\@exam@ctxt@nb[1]{%%
+\newcommand\@lyxam@ctxt@nb[1]{%%
     \csname smart@lyxam@counter@#1\endcsname%%
 }
 
 % Long version for points
-\newcommand\@exam@ctxt@longpoints[1]{%%
-    \IfStrEq{#1}{true}{}{%%
+\newcommand\@lyxam@ctxt@longpoints[1]{%%
+    \@if@empty{#1}{}{%%
         \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
             #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
         }%%
@@ -194,14 +203,14 @@
 
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
-\newcommand\@exam@ctxt@longsource[1]{%%
-    \IfStrEq{#1}{true}{}{\lyxam@text@source{}: #1}%%
+\newcommand\@lyxam@ctxt@longsource[1]{%%
+    \@if@empty{#1}{}{\lyxam@text@source{}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
-\newcommand\@exam@ctxt@longtime[1]{%%
-    \IfStrEq{#1}{true}{}{\lyxam@text@time{}: #1}%%
+\newcommand\@lyxam@ctxt@longtime[1]{%%
+    \@if@empty{#1}{}{\lyxam@text@time{}: #1}%%
 }
 
 % For keys and values
@@ -209,26 +218,26 @@
 
 % The commands for contexts
 \setKVdefault[context@keys]{%
-    id   ,  % For "12 page 345" instead of an automaic number
-    title,  % You can add an extra title
-    time ,  % Use "no" to see only the title
-    pts  ,  % Number of points for the exercise
-    src  ,  % A short reference for a source used
-    about   % One additional special note
+    id    = {},  % For "12 page 345" instead of an automaic number
+    title = {},  % You can add an extra title
+    time  = {},  % Use "no" to see only the title
+    pts   = {},  % Number of points for the exercise
+    src   = {},  % A short reference for a source used
+    about = {}   % One additional special note
 }
 
 % Making the commands for each contexts
 \newcommand\@build@values[1]{
     \useKVdefault[context@keys]%%
     \setKV[context@keys]{#1}%%
-    \ifshowpoints\else\setKV[context@keys]{pts}\fi
-    \ifshowsource\else\setKV[context@keys]{src}\fi
-    \def\@exam@ctxt@id{\@use@context@key{id}}%%
-    \def\@exam@ctxt@title{\@use@context@key{title}}%%
-    \def\@exam@ctxt@time{\@use@context@key{time}}%%
-    \def\@exam@ctxt@pts{\@use@context@key{pts}}%%
-    \def\@exam@ctxt@src{\@use@context@key{src}}%%
-    \def\@exam@ctxt@about{\@use@context@key{about}}%%
+    \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
+    \ifshowsource\else\setKV[context@keys]{src={}}\fi
+    \def\@lyxam@ctxt@id{\@use@context@key{id}}%%
+    \def\@lyxam@ctxt@title{\@use@context@key{title}}%%
+    \def\@lyxam@ctxt@time{\@use@context@key{time}}%%
+    \def\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
+    \def\@lyxam@ctxt@src{\@use@context@key{src}}%%
+    \def\@lyxam@ctxt@about{\@use@context@key{about}}%%
 }
 
 \newcommand\@add@context[1]{%
@@ -241,7 +250,7 @@
 % User's commands for contexts
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
-        \@if@val@empty{\@use@context@key{title}}{
+        \@if@empty{\@lyxam@ctxt@title}{
             \PackageError{lyxam}{no title and no context}{}%%
         }{}%%
         \@build@ctxt{#1}{hidectxt}%%

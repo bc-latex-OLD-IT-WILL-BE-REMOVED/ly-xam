@@ -51,15 +51,16 @@
 \titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
 
-\makeatother
-	\newcommand\resetallcnt{
-		\setcounter{lyxam@counter@topic}{0}
-		\setcounter{lyxam@counter@exercise}{0}
-		\setcounter{lyxam@counter@problem}{0}
-		\setcounter{lyxam@counter@bonus}{0}
-		\setcounter{lyxam@counter@subpart}{0}
-	}
+
 \makeatletter
+    \newcommand\resetallcnt{
+    	\setcounter{lyxam@counter@topic}{0}
+    	\setcounter{lyxam@counter@exercise}{0}
+    	\setcounter{lyxam@counter@problem}{0}
+    	\setcounter{lyxam@counter@bonus}{0}
+    	\setcounter{lyxam@counter@subpart}{0}
+    }
+\makeatother
 
 % Technical IDs
 
@@ -69,25 +70,25 @@
 
 \AtEndDocument{\immediate\closeout\tempfile}
 
-\newcommand\IDconstant[1]{%
-    \immediate\write\tempfile{constant@#1}%
-}
-
 \makeatletter
-	\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
+    \newcommand\IDconstant[1]{%
+        \immediate\write\tempfile{constant@#1}%
+    }
+
+    \newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
 
     \newcommand\@IDmacroNoStar[3]{%
         \texttt{%
         	\textbackslash#1%
         	\IfStrEq{#2}{0}{}{%
         		\,\,[#2 Option%
-				\IfStrEq{#2}{1}{}{s}]%
-			}%
+    			\IfStrEq{#2}{1}{}{s}]%
+    		}%
     	    \IfStrEq{#3}{}{}{%
-	    		\,\,(#3 Argument%
-				\IfStrEq{#3}{1}{}{s})%
-			}
-	   	}
+        		\,\,(#3 Argument%
+    			\IfStrEq{#3}{1}{}{s})%
+    		}
+       	}
         \immediate\write\tempfile{macro@#1@#2@#3}%
     }
 
@@ -95,34 +96,34 @@
         \@IDmacroNoStar{#1}{0}{#2}%
     }
 
-	\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
+    \newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
 
-	\newcommand\@IDoptargStar[2]{%
+    \newcommand\@IDoptargStar[2]{%
     	\vspace{0.5em}
-		--- \texttt{#1%
-			\IfStrEq{#2}{}{:}{\,#2:}%
-		}%
-	}
+    	--- \texttt{#1%
+    		\IfStrEq{#2}{}{:}{\,#2:}%
+    	}%
+    }
 
-	\newcommand\@IDoptargNoStar[2]{%
+    \newcommand\@IDoptargNoStar[2]{%
     	\IfStrEq{#2}{}{%
-			\@IDoptargStar{#1}{}%
-		}{%
-			\@IDoptargStar{#1}{\##2}%
-		}%
-	}
+    		\@IDoptargStar{#1}{}%
+    	}{%
+    		\@IDoptargStar{#1}{\##2}%
+    	}%
+    }
 
-	\newcommand\IDkey[1]{%
+    \newcommand\IDkey[1]{%
     	\@IDoptarg*{Option}{{\itshape "#1"}}%
-	}
+    }
 
-	\newcommand\IDoption[1]{%
+    \newcommand\IDoption[1]{%
     	\@IDoptarg{Option}{#1}%
-	}
+    }
 
-	\newcommand\IDarg[1]{%
+    \newcommand\IDarg[1]{%
     	\@IDoptarg{Argument}{#1}%
-	}
+    }
 \makeatother
 
 \usepackage[apmep, fr]{lyxam}
@@ -157,6 +158,17 @@
 
 
 
+\section{Introduction}
+
+Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
+%Pour le moment, un seul type de mise en forme est proposé mais il est prévu d'en proposer plus à l'avenir 
+%\footnote{
+%	De plus, le code \LaTeX{} va évoluer pour faciliter l'ajout de nouvelles mises en forme par des personnes connaissant un peu la programmation \LaTeX{}.
+%}.
+
+
+
+
 \section{Les options du package}
 
 Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
@@ -187,17 +199,6 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 
 
 
-\section{Introduction}
-
-Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
-%Pour le moment, un seul type de mise en forme est proposé mais il est prévu d'en proposer plus à l'avenir 
-%\footnote{
-%	De plus, le code \LaTeX{} va évoluer pour faciliter l'ajout de nouvelles mises en forme par des personnes connaissant un peu la programmation \LaTeX{}.
-%}.
-
-
-
-
 \section{Quel devoir donnez-vous ?}
 
 	\subsection{La commande \texttt{\textbackslash exam}}
@@ -206,7 +207,7 @@ La commande \verb+\exam+ permet de donner des informations générales à propos
 Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
 
 \begin{tcblisting}{listing only}
-\exam[render   = true,%
+\exam[deliver,%
       kind     = D.S.,%
       nb       = 1,%
       subnb    = Sujet A,%
@@ -233,7 +234,14 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
 Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+render+, valant \verb+false+ par défaut, est à utiliser pour un sujet à rendre avec la copie : utiliser \verb+false+, la valeur par défaut, ou  \verb+true+ pour \emph{"non"} ou \emph{"oui"}.
+	\item \verb+deliver+, valant \verb+false+ par défaut, est pour un sujet à rendre avec la copie. 
+	\begin{itemize}[label=\textbullet]
+		\setlength\itemsep{0em}
+
+		\item On peut juste indiquer \verb+deliver+ au lieu de \verb+deliver = true+ où \emph{"true"} signifie \emph{"vrai"}.
+
+		\item Ne pas utiliser l'option revient à passer par \verb+deliver = false+ où \emph{"false"} signifie \emph{"faux"}.
+	\end{itemize}
 	Ceci a pour conséquence que le sujet débutera, ou non, par une zone où l'élève devra indiquer son nom et son prénom.
 
 	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...

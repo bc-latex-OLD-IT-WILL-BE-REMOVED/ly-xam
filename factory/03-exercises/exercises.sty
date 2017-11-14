@@ -1,8 +1,11 @@
 % == PACKAGES USED == %
 
-\usepackage{calc}
-\usepackage{listofitems}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{listofitems}
 \usepackage{simplekv}
 \usepackage{xstring}
 
@@ -56,8 +59,8 @@
 %    * https://tex.stackexchange.com/a/53091/6880
 %
 %    #1: value to test
-%    #2: used if empty
-%    #3: used if none empty
+%    #2: to be used if empty
+%    #3: to be used if none empty
 \newcommand\@if@empty[3]{%%
     \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
 }
@@ -125,12 +128,12 @@
 }
 
 % Number of the context
-\newcommand\@exam@ctxt@nb[1]{%%
+\newcommand\@lyxam@ctxt@nb[1]{%%
     \csname smart@lyxam@counter@#1\endcsname%%
 }
 
 % Long version for points
-\newcommand\@exam@ctxt@longpoints[1]{%%
+\newcommand\@lyxam@ctxt@longpoints[1]{%%
     \@if@empty{#1}{}{%%
         \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
             #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
@@ -140,13 +143,13 @@
 
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
-\newcommand\@exam@ctxt@longsource[1]{%%
+\newcommand\@lyxam@ctxt@longsource[1]{%%
     \@if@empty{#1}{}{\lyxam@text@source{}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
-\newcommand\@exam@ctxt@longtime[1]{%%
+\newcommand\@lyxam@ctxt@longtime[1]{%%
     \@if@empty{#1}{}{\lyxam@text@time{}: #1}%%
 }
 
@@ -169,12 +172,12 @@
     \setKV[context@keys]{#1}%%
     \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
     \ifshowsource\else\setKV[context@keys]{src={}}\fi
-    \def\@exam@ctxt@id{\@use@context@key{id}}%%
-    \def\@exam@ctxt@title{\@use@context@key{title}}%%
-    \def\@exam@ctxt@time{\@use@context@key{time}}%%
-    \def\@exam@ctxt@pts{\@use@context@key{pts}}%%
-    \def\@exam@ctxt@src{\@use@context@key{src}}%%
-    \def\@exam@ctxt@about{\@use@context@key{about}}%%
+    \def\@lyxam@ctxt@id{\@use@context@key{id}}%%
+    \def\@lyxam@ctxt@title{\@use@context@key{title}}%%
+    \def\@lyxam@ctxt@time{\@use@context@key{time}}%%
+    \def\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
+    \def\@lyxam@ctxt@src{\@use@context@key{src}}%%
+    \def\@lyxam@ctxt@about{\@use@context@key{about}}%%
 }
 
 \newcommand\@add@context[1]{%
@@ -187,7 +190,7 @@
 % User's commands for contexts
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
-        \@if@empty{\@exam@ctxt@title}{
+        \@if@empty{\@lyxam@ctxt@title}{
             \PackageError{lyxam}{no title and no context}{}%%
         }{}%%
         \@build@ctxt{#1}{hidectxt}%%

@@ -2,7 +2,6 @@
 % -- EXTRA PACKAGES REQUIRED -- %
 % ----------------------------- %
 
-\RequirePackage{etoolbox}
 \RequirePackage{fourier-orns}
 \RequirePackage{tcolorbox}
 
@@ -31,7 +30,7 @@
 
 \newcommand\@apmep@minus{\hspace{0.3em}--\hspace{0.3em}}
 
-\newcommand\@apmep@exam@kind@numbered{}
+\newcommand\@apmep@lyxam@kind@numbered{}
 \newcommand\@apmep@main@title{}
 
 \newcommand\@apmep@second@title{}
@@ -52,7 +51,7 @@
 }
 
 % The preambule environment to be redefined or not...
-\renewenvironment{preambule}%%
+\newenvironment{preambule}%%
     {\setlength\parindent{0pt}\small\itshape}%%
     {\@apmep@space@after@preambule{}}
 
@@ -61,11 +60,11 @@
 
 \newcommand\@apmep@preambule[1]{{\small\emph{#1}}}
 
-% The render command [START].
-\newcommand\@add@render{
+% The delivery command [START].
+\newcommand\@add@delivery@material{
     \begin{tcolorbox}[width=\linewidth]
         \medskip
-        \lyxam@text@name{} : \hrulefill
+        \lyxam@text@name{}: \hrulefill
 
         \bigskip
         \lyxam@text@firstname{} : \hrulefill
@@ -73,51 +72,55 @@
         \medskip
     \end{tcolorbox}
 }
-% The render command [END].
+% The delivery command [END].
 
 % The layout command [START].
 \newcommand\@build@layout{
+% Deliver or not ? That is the question !.
+    \ifbool{@lyxam@show@deliver}{
+        \@add@delivery@material{}
+        \@apmep@space@before@all@titles{}
+    }{}%%
 % Internal constants.
-    \renewcommand\@apmep@exam@kind@numbered{%%
-        \@use@exam@key{kind}%%
-        \@if@val@empty{\@exam@nb}{}{ \@exam@nb}%%
-        \@if@val@empty{\@exam@subnb}{}{\,(\@exam@subnb)}%%
+    \renewcommand\@apmep@lyxam@kind@numbered{%%
+        \@use@lyxam@key{kind}%%
+        \@if@empty{\@lyxam@nb}{}{ \@lyxam@nb}%%
+        \@if@empty{\@lyxam@subnb{}}{}{\,(\@lyxam@subnb)}%%
     }%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
     \renewcommand\@apmep@main@title{%%
         \decofourleft{}\hspace{0.3em}%%
-        \@apmep@exam@kind@numbered{}%%
-        \@if@val@empty{\@exam@subject}{}{\@apmep@minus\@exam@subject}%%
+        \@apmep@lyxam@kind@numbered{}%%
+        \@if@empty{\@lyxam@subject}{}{\@apmep@minus\@lyxam@subject}%%
         \hspace{0.3em}\decofourright{}%%
     }%%
-
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \renewcommand\@apmep@second@title{%%
-        \@if@val@empty{\@exam@sector}{}{\@exam@sector}%%
-        \@if@val@empty{\@exam@theme}{}{%%
-            \@if@val@empty{\@exam@sector}{}{\@apmep@minus}%%
-            \@exam@theme%%
+        \@if@empty{\@lyxam@sector}{}{\@lyxam@sector}%%
+        \@if@empty{\@lyxam@theme}{}{%%
+            \@if@empty{\@lyxam@sector}{\@apmep@minus}%%
+            \@lyxam@theme%%
         }%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
     \renewcommand\@apmep@third@title{%%
-        \@if@val@empty{\@exam@class}{}{\@exam@class}%%
-        \@if@val@empty{\@exam@location}{}{%%
-            \@if@val@empty{\@exam@class}{}{\@apmep@minus}%%
-            \@exam@location%%
+        \@if@empty{\@lyxam@class}{}{\@lyxam@class}%%
+        \@if@empty{\@lyxam@location}{}{%%
+            \@if@empty{\@lyxam@class}{}{\@apmep@minus}%%
+            \@lyxam@location%%
         }%%
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \renewcommand\@apmep@fourth@title{%%
-        \@if@val@empty{\@exam@date}{}{\@exam@date}%%
-        \@if@val@empty{\@exam@time}{}{%%
-            \@if@val@empty{\@exam@date}{}{\@apmep@minus}%%
-            \@exam@longduration{\@exam@time}%%
+        \@if@empty{\@lyxam@date}{}{\@lyxam@date}%%
+        \@if@empty{\@lyxam@time}{}{%%
+            \@if@empty{\@lyxam@date}{}{\@apmep@minus}%%
+            \@lyxam@longduration{\@lyxam@time}%%
         }%%
     }%%
 % Update all the booleans !
-    \@if@val@empty{\@exam@sector}{%%
-        \@if@val@empty{\@exam@theme}{%%
+    \@if@empty{\@lyxam@sector}{%%
+        \@if@empty{\@lyxam@theme}{%%
             \setbool{@apmep@show@second@title}{false}%%
         }{%%
             \setbool{@apmep@show@second@title}{true}%%
@@ -125,8 +128,8 @@
     }{%%
         \setbool{@apmep@show@second@title}{true}%%
     }%%
-    \@if@val@empty{\@exam@class}{%%
-        \@if@val@empty{\@exam@location}{%%
+    \@if@empty{\@lyxam@class}{%%
+        \@if@empty{\@lyxam@location}{%%
             \setbool{@apmep@show@third@title}{false}%%
         }{%%
             \setbool{@apmep@show@third@title}{true}%%%%
@@ -134,8 +137,8 @@
     }{%%
         \setbool{@apmep@show@third@title}{true}%%
     }%%
-    \@if@val@empty{\@exam@date}{%%
-        \@if@val@empty{\@exam@time}{%%
+    \@if@empty{\@lyxam@date}{%%
+        \@if@empty{\@lyxam@time}{%%
             \setbool{@apmep@show@fourth@title}{false}%%
         }{%%
             \setbool{@apmep@show@fourth@title}{true}%%%%
@@ -143,11 +146,6 @@
     }{%%
         \setbool{@apmep@show@fourth@title}{true}%%
     }%%
-% Render or not ? That is the question !.
-    \ifshowrender
-        \@add@render{}
-        \@apmep@space@before@all@titles{}
-    \fi%%
 % The title of the document.
     {\parskip=0pt\par\nopagebreak\centering
 % Main title is never empty !
@@ -168,57 +166,57 @@
     }%%
     \@apmep@space@after@all@titles{}%%
 % Headers and footers
-    \ifshowheadersfooters%%
+    \ifbool{@lyxam@show@headers@footers}{%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
         \lhead{%
-            \small\@apmep@exam@kind@numbered{}%%
-            \@if@val@empty{\@exam@theme}{}{\@apmep@minus\@exam@theme}%%
+            \small\@apmep@lyxam@kind@numbered{}%%
+            \@if@empty{\@lyxam@theme}{}{\@apmep@minus\@lyxam@theme}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%
             \small%%
-            \@if@val@empty{\@exam@class}{}{\@exam@class}%%
-            \@if@val@empty{\@exam@sector}{}{%%
-                \@if@val@empty{\@exam@class}{}{\@apmep@minus}%%
-                \@if@val@empty{\@exam@sector}{}{\@exam@sector}%%
+            \@if@empty{\@lyxam@class}{}{\@lyxam@class}%%
+            \@if@empty{\@lyxam@sector}{}{%%
+                \@if@empty{\@lyxam@class}{}{\@apmep@minus}%%
+                \@if@empty{\@lyxam@sector}{}{\@lyxam@sector}%%
             }
         }%%
         \lfoot{%%
             \small%%
-            \@if@val@empty{\@exam@location}{}{\@exam@location}%%
+            \@if@empty{\@lyxam@location}{}{\@lyxam@location}%%
         }%%
         \cfoot{\footnotesize \thepage\ / \pageref{LastPage}}
         \rfoot{%%
             \small%%
-            \@if@val@empty{\@exam@date}{}{\@exam@date}%%
+            \@if@empty{\@lyxam@date}{}{\@lyxam@date}%%
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}%%
-    \fi
+    }{}%%
 }
 % The layout command [END].
 
 % Spacings
-\newcommand\@apmep@space@before@topic{\par\addvspace{1.8em}}
-\newcommand\@apmep@space@before@exercise{\par\addvspace{1.8em}}
-\newcommand\@apmep@space@before@subexercise{\par\addvspace{0.9em}}
+\newcommand\@apmep@space@before@topic{\par\addvspace{2.5em}}
+\newcommand\@apmep@space@before@exercise{\par\addvspace{1.5em}}
+\newcommand\@apmep@space@before@subexercise{\par\addvspace{0.8em}}
 
 \newcommand\@apmep@space@before@info{\par\addvspace{0.4em}}
 \newcommand\@apmep@space@before@content{\par\addvspace{0.6em}}
 
 % For center or not the subexercises.
-\newif\ifapmepcentersubex
-\apmepcentersubextrue
+\newbool{@apmep@center@subexercise}
+\setbool{@apmep@center@subexercise}{true}
 
 % General builder for all contexts
 %     #1: name of the context
-%     #2: "showctxt" otr "hidectxt"
+%     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@apmep@exam@ctxt@pts{\@exam@ctxt@longpoints{\@exam@ctxt@pts}}%%
-    \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}%%
-    \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}%%
+    \def\@apmep@lyxam@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
+    \def\@apmep@lyxam@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
+    \def\@apmep@lyxam@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
@@ -237,41 +235,47 @@
     }%%
 % Centered or not ?
     \IfStrEq{#1}{subpart}{%%
-        \apmepcentersubextrue%%
+        \setbool{@apmep@center@subexercise}{true}%%
     }{%%
-        \@if@val@empty{\@exam@ctxt@pts}%%
-            {\apmepcentersubexfalse}%%
-            {\apmepcentersubextrue}%%
+        \@if@empty{\@lyxam@ctxt@pts}{%%
+            \setbool{@apmep@center@subexercise}{false}%%
+        }{%%
+            \setbool{@apmep@center@subexercise}{true}%%
+        }%%
     }
 % Printing the context, time and points.
 %
 % Warning ! Sub exercises are always centered.
-    \IfStrEq{#1}{subpart}{\@apmep@space@before@subexercise}{\@apmep@space@before@exercise}
-    \begin{absolutelynopagebreak}
-        \IfStrEq{#2}{hidectxt}{%%
-            \gdef\@apmep@ctxt@title{%%
-                \textsc{%%
-                    \@if@val@empty{\@exam@ctxt@title}{}{\@exam@ctxt@title}%%
-                }%%
-            }%%
+    \IfStrEq{#1}{subpart}{%%
+        \@apmep@space@before@subexercise%%
+    }{%%
+        \IfStrEq{#1}{topic}{%%
+            \@apmep@space@before@topic%%
         }{%%
+            \@apmep@space@before@exercise%%
+        }
+    }%%
+    \begin{absolutelynopagebreak}
+        \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
                     \csname lyxam@text@#1\endcsname{}
-                    \@if@val@empty{\@exam@ctxt@id}{\@exam@ctxt@nb{#1}}{\@exam@ctxt@id}%%
-                    \@if@val@empty{\@exam@ctxt@title}{}{: \@exam@ctxt@title}%%
+                    \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
+        }{%%
+            \gdef\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
-                \@if@val@empty{\@exam@ctxt@time}{}{%%
-                    \kern 0.8em (\@apmep@exam@ctxt@time)%%
+                \@if@empty{\@lyxam@ctxt@time}{}{%%
+                    \kern 0.8em (\@apmep@lyxam@ctxt@time)%%
                 }%%
-                \@if@val@empty{\@exam@ctxt@pts}{}{%%
+                \@if@empty{\@lyxam@ctxt@pts}{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\,\@apmep@exam@ctxt@pts{}\,]%%
+                    [\,\@apmep@lyxam@ctxt@pts{}\,]%%
                 }%%
             }%%
         }%%
@@ -283,25 +287,25 @@
             }%%
         }%%
 % About note.
-        \@if@val@empty{\@exam@ctxt@about}{}{%%
+        \@if@empty{\@lyxam@ctxt@about}{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
-                \ifapmepcentersubex%%
-                    \smash{\makebox[\textwidth][c]{\@exam@ctxt@about}}%%
-                \else%%
-                    \noindent\@exam@ctxt@about%%
-                \fi%%
+                \ifbool{@apmep@center@subexercise}{%%
+                    \smash{\makebox[\textwidth][c]{\@lyxam@ctxt@about}}%%
+                }{%%
+                    \noindent\@lyxam@ctxt@about%%
+                }%%
             }%%
         }%%
 % Source.
-        \@if@val@empty{\@exam@ctxt@src}{}{%%
+        \@if@empty{\@lyxam@ctxt@src}{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
-                \ifapmepcentersubex%%
-                    \smash{\makebox[\textwidth][c]{\@apmep@exam@ctxt@src}}%%
-                \else%%
-                    \hfill\@apmep@exam@ctxt@src%%
-                \fi%%
+                \ifbool{@apmep@center@subexercise}{%%
+                    \smash{\makebox[\textwidth][c]{\@apmep@lyxam@ctxt@src}}%%
+                }{%%
+                    \hfill\@apmep@lyxam@ctxt@src%%
+                }%%
             }%%
         }%%
     \end{absolutelynopagebreak}%%

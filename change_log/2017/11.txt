@@ -1,12 +1,35 @@
 ==========
+2017-11-14      doc ok pour le deliver  +   main pas à jour !!!
+==========
+
+**Minor internal changes.**
+
+@lyxam@ ---> préfixe partout !
+
+2) For the sake of concistency, we only boolean from ``etoolbox`` except if it is really unusable.
+
+
+exam
+    ---> render devient deliver (faux amis)
+
+
+
+
+
+
+==========
 2017-11-13
 ==========
 
 **Minor internal changes.**
 
-    1) The macro ``\@if@empty`` can be used for new styles.
+    1) The macro ``\@if@empty`` to use for new styles should be more robust now.
 
-    2) Better use of the package ``simplekv`` : we use now "real" empty strings.
+    2) Better use of the package ``simplekv``: we use "real" empty strings.
+
+
+**Bug in the style APMEP:** the new internal version didn't manage spaces for topics. This has been corrected.
+
 
 
 ==========

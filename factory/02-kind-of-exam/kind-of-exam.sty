@@ -2,8 +2,10 @@
 
 \usepackage{fancyhdr}
 \usepackage{lastpage}
-\usepackage{ifmtarg}
 
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{listofitems}
 \usepackage{simplekv}
 \usepackage{xstring}
 
@@ -25,11 +27,11 @@
 % == LOCAL SETTINGS == %
 
 % Headers and footers or not ?
-\newif\ifshowheadersfooters
-\showheadersfooterstrue
+\newbool{@lyxam@show@headers@footers}
+\setbool{@lyxam@show@headers@footers}{true}
 
 \DeclareOption{hf}{}
-\DeclareOption{nohf}{\showheadersfootersfalse}
+\DeclareOption{nohf}{\setbool{@lyxam@show@headers@footers}{false}}
 
 
 % == PROCESSING OPTION - LOADING LANG == %
@@ -60,19 +62,19 @@
 % == LOCAL DEFINITIONS == %
 
 % General API Tools
-\newif\ifshowrender
-\showrenderfalse
+\newbool{@lyxam@show@deliver}
+\setbool{@lyxam@show@deliver}{false}
 
-\newcommand\@use@exam@key[1]{\useKV[exam@keys]{#1}}
+\newcommand\@use@lyxam@key[1]{\useKV[lyxam@keys]{#1}}
 
 % Layout API Tools
-\newcommand\@exam@longduration[1]{%%
+\newcommand\@lyxam@longduration[1]{%%
     \IfStrEq{#1}{}{}{\lyxam@text@duration{}: #1}%%
 }
 
 % The general layout command.
-\setKVdefault[exam@keys]{%
-    render   = false, % Render the subject or not
+\setKVdefault[lyxam@keys]{%
+    deliver  = false, % Deliver the subject or not to the teacher
     kind     = Test,  % "Homework" for example
     nb       = {},    % Number of the exam
     subnb    = {},    % For different subjects at the same time
@@ -86,26 +88,27 @@
 }
 
 \newcommand\exam[1][]{%
-    \useKVdefault[exam@keys]
-    \setKV[exam@keys]{#1}
+    \useKVdefault[lyxam@keys]
+    \setKV[lyxam@keys]{#1}
 % Boolean key
-    \ifboolKV[exam@keys]{render}{\showrendertrue}{\showrenderfalse}
+    \ifboolKV[lyxam@keys]{deliver}{%%
+        \setbool{@lyxam@show@deliver}{true}%%
+    }{%%
+        \setbool{@lyxam@show@deliver}{false}%%
+    }%%
 % Other keys
-    \def\@exam@kind{\@use@exam@key{kind}}%%
-    \def\@exam@nb{\@use@exam@key{nb}}%%
-    \def\@exam@subnb{\@use@exam@key{subnb}}%%
-    \def\@exam@subject{\@use@exam@key{subject}}%%
-    \def\@exam@theme{\@use@exam@key{theme}}%%
-    \def\@exam@sector{\@use@exam@key{sector}}%%
-    \def\@exam@class{\@use@exam@key{class}}%%
-    \def\@exam@location{\@use@exam@key{location}}%%
-    \def\@exam@date{\@use@exam@key{date}}%%
-    \def\@exam@time{\@use@exam@key{time}}%%
+    \def\@lyxam@kind{\@use@lyxam@key{kind}}%%
+    \def\@lyxam@nb{\@use@lyxam@key{nb}}%%
+    \def\@lyxam@subnb{\@use@lyxam@key{subnb}}%%
+    \def\@lyxam@subject{\@use@lyxam@key{subject}}%%
+    \def\@lyxam@theme{\@use@lyxam@key{theme}}%%
+    \def\@lyxam@sector{\@use@lyxam@key{sector}}%%
+    \def\@lyxam@class{\@use@lyxam@key{class}}%%
+    \def\@lyxam@location{\@use@lyxam@key{location}}%%
+    \def\@lyxam@date{\@use@lyxam@key{date}}%%
+    \def\@lyxam@time{\@use@lyxam@key{time}}%%
     \@build@layout{}
 }
-
-% The preambule environment to be redefined or not...
-\newenvironment{preambule}{}{}
 
 
 % == LOADING THE STYLE == %

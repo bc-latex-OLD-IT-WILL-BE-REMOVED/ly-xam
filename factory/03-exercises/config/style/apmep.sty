@@ -29,41 +29,37 @@
 %
 %     2) The following packages are loaded by ``lyxam``.
 %         * ``calc``
+%         * ``etoolbox``
 %         * ``fancyhdr``
 %         * ``lastpage``
 %         * ``listofitems``
 %         * ``simplekv``
 %         * ``xstring``
 %
-%     3) The options used are stored in macros ``\@exam@ctxt@<<KEY>>`` where
+%     3) The options used are stored in macros ``\@lyxam@ctxt@<<KEY>>`` where
 %        ``<<KEY>>`` is one of the option. To test if a value is an empty
-%        string, you must use ``\@if@empty{\@exam@<<KEY>>}{TRUE}{FALSE}``.
+%        string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
 %
-%     4) Two booleans must be managed.
-%         * ``showsource`` is to show or hide the source used.
-%         * ``showpoints`` is to show or hide the points.
-%
-%
-%     4) To print the number of the context, just use
-%        ``\@exam@ctxt@nb{<<CTX>>}`` where ``<<CTX>>`` is the name of
+%     4) To print the number of the context, just use one time
+%        ``\@lyxam@ctxt@nb{<<CTX>>}`` where ``<<CTX>>`` is the name of
 %        the context.
 %
-%     6) You can also use the following command where ``<<CTX>>`` is the name
+%     5) You can also use the following command where ``<<CTX>>`` is the name
 %        of the context.
 %
-%         * ``\@exam@ctxt@longpoints{<<CTX>>}`` gives either nothing, or
+%         * ``\@lyxam@ctxt@longpoints{<<CTX>>}`` gives either nothing, or
 %           "No point", or "1 point" or "X points".
 %
-%         * ``\@exam@ctxt@longpsource{<<CTX>>}`` gives either nothing, or
+%         * ``\@lyxam@ctxt@longpsource{<<CTX>>}`` gives either nothing, or
 %           "Source:...".
 %
-%         * ``\@exam@ctxt@longptime{<<CTX>>}`` gives either nothing, or
+%         * ``\@lyxam@ctxt@longptime{<<CTX>>}`` gives either nothing, or
 %           "Time:...".
 %
 % GOOD PRACTICE
 % -------------
 %
-% For your own commands, use a prefix like ``@nameofmystyle`` such as to avoid
+% For your own commands, use a prefix like ``@nameofmystyle@`` such as to avoid
 % conflict with global commands.
 
 
@@ -73,24 +69,24 @@
 % == DEFINITIONS == %
 
 % Spacings
-\newcommand\@apmep@space@before@topic{\par\addvspace{1.8em}}
-\newcommand\@apmep@space@before@exercise{\par\addvspace{1.8em}}
-\newcommand\@apmep@space@before@subexercise{\par\addvspace{0.9em}}
+\newcommand\@apmep@space@before@topic{\par\addvspace{2.5em}}
+\newcommand\@apmep@space@before@exercise{\par\addvspace{1.5em}}
+\newcommand\@apmep@space@before@subexercise{\par\addvspace{0.8em}}
 
 \newcommand\@apmep@space@before@info{\par\addvspace{0.4em}}
 \newcommand\@apmep@space@before@content{\par\addvspace{0.6em}}
 
 % For center or not the subexercises.
-\newif\ifapmepcentersubex
-\apmepcentersubextrue
+\newbool{@apmep@center@subexercise}
+\setbool{@apmep@center@subexercise}{true}
 
 % General builder for all contexts
 %     #1: name of the context
-%     #2: "showctxt" otr "hidectxt"
+%     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@apmep@exam@ctxt@pts{\@exam@ctxt@longpoints{\@exam@ctxt@pts}}%%
-    \def\@apmep@exam@ctxt@time{\@exam@ctxt@longtime{\@exam@ctxt@time}}%%
-    \def\@apmep@exam@ctxt@src{\@exam@ctxt@longsource{\@exam@ctxt@src}}%%
+    \def\@apmep@lyxam@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
+    \def\@apmep@lyxam@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
+    \def\@apmep@lyxam@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
@@ -109,39 +105,47 @@
     }%%
 % Centered or not ?
     \IfStrEq{#1}{subpart}{%%
-        \apmepcentersubextrue%%
+        \setbool{@apmep@center@subexercise}{true}%%
     }{%%
-        \@if@empty{\@exam@ctxt@pts}{\apmepcentersubextrue}{\apmepcentersubexfalse}%%
+        \@if@empty{\@lyxam@ctxt@pts}{%%
+            \setbool{@apmep@center@subexercise}{false}%%
+        }{%%
+            \setbool{@apmep@center@subexercise}{true}%%
+        }%%
     }
 % Printing the context, time and points.
 %
 % Warning ! Sub exercises are always centered.
-    \IfStrEq{#1}{subpart}{\@apmep@space@before@subexercise}{\@apmep@space@before@exercise}
-    \begin{absolutelynopagebreak}
-        \IfStrEq{#2}{hidectxt}{%%
-            \gdef\@apmep@ctxt@title{%%
-                \textsc{%%
-                    \@if@empty{\@exam@ctxt@title}{}{\@exam@ctxt@title}%%
-                }%%
-            }%%
+    \IfStrEq{#1}{subpart}{%%
+        \@apmep@space@before@subexercise%%
+    }{%%
+        \IfStrEq{#1}{topic}{%%
+            \@apmep@space@before@topic%%
         }{%%
+            \@apmep@space@before@exercise%%
+        }
+    }%%
+    \begin{absolutelynopagebreak}
+        \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
                     \csname lyxam@text@#1\endcsname{}
-                    \@if@empty{\@exam@ctxt@id}{\@exam@ctxt@nb{#1}}{\@exam@ctxt@id}%%
-                    \@if@empty{\@exam@ctxt@title}{}{: \@exam@ctxt@title}%%
+                    \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
+        }{%%
+            \gdef\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
-                \@if@empty{\@exam@ctxt@time}{}{%%
-                    \kern 0.8em (\@apmep@exam@ctxt@time)%%
+                \@if@empty{\@lyxam@ctxt@time}{}{%%
+                    \kern 0.8em (\@apmep@lyxam@ctxt@time)%%
                 }%%
-                \@if@empty{\@exam@ctxt@pts}{}{%%
+                \@if@empty{\@lyxam@ctxt@pts}{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\,\@apmep@exam@ctxt@pts{}\,]%%
+                    [\,\@apmep@lyxam@ctxt@pts{}\,]%%
                 }%%
             }%%
         }%%
@@ -153,25 +157,25 @@
             }%%
         }%%
 % About note.
-        \@if@empty{\@exam@ctxt@about}{}{%%
+        \@if@empty{\@lyxam@ctxt@about}{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
-                \ifapmepcentersubex%%
-                    \smash{\makebox[\textwidth][c]{\@exam@ctxt@about}}%%
-                \else%%
-                    \noindent\@exam@ctxt@about%%
-                \fi%%
+                \ifbool{@apmep@center@subexercise}{%%
+                    \smash{\makebox[\textwidth][c]{\@lyxam@ctxt@about}}%%
+                }{%%
+                    \noindent\@lyxam@ctxt@about%%
+                }%%
             }%%
         }%%
 % Source.
-        \@if@empty{\@exam@ctxt@src}{}{%%
+        \@if@empty{\@lyxam@ctxt@src}{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
-                \ifapmepcentersubex%%
-                    \smash{\makebox[\textwidth][c]{\@apmep@exam@ctxt@src}}%%
-                \else%%
-                    \hfill\@apmep@exam@ctxt@src%%
-                \fi%%
+                \ifbool{@apmep@center@subexercise}{%%
+                    \smash{\makebox[\textwidth][c]{\@apmep@lyxam@ctxt@src}}%%
+                }{%%
+                    \hfill\@apmep@lyxam@ctxt@src%%
+                }%%
             }%%
         }%%
     \end{absolutelynopagebreak}%%
