@@ -40,20 +40,28 @@
 %        ``<<KEY>>`` is one of the option. To test if a value is an empty
 %        string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
 %
-%     4) To print the number of the context, just use one time
+%     4) To print the name, shorten or not, of the context, just use
+%        ``\@lyxam@ctxt@name{<<CTX>>}`` where ``<<CTX>>`` is the name of
+%        the context.
+%
+%        You can also use ``\@lyxam@if@end@with@colon{<<CTX>>}{TRUE}{FALSE}``
+%        if you need to know that the name of the context finishes by a colon
+%        (thinks of case like "Ex.1").
+%
+%     5) To print the number of the context, just use one time
 %        ``\@lyxam@ctxt@nb{<<CTX>>}`` where ``<<CTX>>`` is the name of
 %        the context.
 %
-%     5) You can also use the following command where ``<<CTX>>`` is the name
+%     6) You can also use the following command where ``<<CTX>>`` is the name
 %        of the context.
 %
 %         * ``\@lyxam@ctxt@longpoints{<<CTX>>}`` gives either nothing, or
 %           "No point", or "1 point" or "X points".
 %
-%         * ``\@lyxam@ctxt@longpsource{<<CTX>>}`` gives either nothing, or
+%         * ``\@lyxam@ctxt@longsource{<<CTX>>}`` gives either nothing, or
 %           "Source:...".
 %
-%         * ``\@lyxam@ctxt@longptime{<<CTX>>}`` gives either nothing, or
+%         * ``\@lyxam@ctxt@longtime{<<CTX>>}`` gives either nothing, or
 %           "Time:...".
 %
 % GOOD PRACTICE
@@ -129,7 +137,9 @@
         \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
-                    \csname lyxam@text@#1\endcsname{}
+                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                    \ctxtname%%
+                    \@lyxam@if@end@with@colon{#1}{}{~}%%
                     \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
                     \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
                 }%%

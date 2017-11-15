@@ -1,10 +1,10 @@
 contexts::
-    activity     = Activité
+    activity     = Activité | Act.
     bonus        = Bonus
-    exercise     = Exercice
+    exercise     = Exercice | Ex.
     mcq          = Q.C.M.
-    praticalwork = Travaux Pratiques
-    problem      = Problème
+    praticalwork = Travaux Pratiques | T.P.
+    problem      = Problème | Pb.
     subpart      = Partie
     topic        = Thème
 

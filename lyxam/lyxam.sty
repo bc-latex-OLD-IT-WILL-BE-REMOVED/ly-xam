@@ -35,17 +35,18 @@
 
 % Show source or not ? That is the question.
 \newif\ifshowsource
-\showsourcetrue
-
-\DeclareOption{src}{}
+\DeclareOption{src}{\showsourcetrue}
 \DeclareOption{nosrc}{\showsourcefalse}
 
 % Show points or not ? That is the other question.
 \newif\ifshowpoints
-\showpointstrue
-
-\DeclareOption{pts}{}
+\DeclareOption{pts}{\showpointstrue}
 \DeclareOption{nopts}{\showpointsfalse}
+
+% Sfort versions or not ? That is the big question.
+\newbool{@lyxam@use@short@ctxt@name}
+\DeclareOption{short}{\setbool{@lyxam@use@short@ctxt@name}{true}}
+\DeclareOption{noshort}{\setbool{@lyxam@use@short@ctxt@name}{false}}
 
 % Processing the options
 \ProcessOptions
@@ -185,6 +186,24 @@
             }%%
         \fi%%
     }%%
+}
+
+
+% Name, shorten or not, of the context
+\newcommand\@lyxam@ctxt@name[1]{%%
+    \ifbool{@lyxam@use@short@ctxt@name}{%%
+        \csname lyxam@shorttext@#1\endcsname%%
+    }{%%
+        \csname lyxam@text@#1\endcsname%%
+    }%%
+}
+
+\newcommand\@lyxam@if@end@with@colon[3]{%%
+    \@@@lyxam@if@end@with@colon{\@lyxam@ctxt@name{#1}}{#2}{#3}%%
+}
+
+\newcommand\@@@lyxam@if@end@with@colon[3]{%%
+    \IfEndWith{#1}{.}{#2}{#3}%%
 }
 
 % Number of the context

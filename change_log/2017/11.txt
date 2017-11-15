@@ -1,20 +1,22 @@
 ==========
-2017-11-14      doc ok pour le deliver  +   main pas à jour !!!
+2017-11-15
 ==========
+
+**New package option ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
+
+
+==========
+2017-11-14
+==========
+
+**New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.
+
 
 **Minor internal changes.**
 
-@lyxam@ ---> préfixe partout !
+    1) The prefix ``@lyxam@`` is used almost everywhere.
 
-2) For the sake of concistency, we only boolean from ``etoolbox`` except if it is really unusable.
-
-
-exam
-    ---> render devient deliver (faux amis)
-
-
-
-
+    2) Only the booleans from ``etoolbox`` are used in the API for new styles.
 
 
 ==========

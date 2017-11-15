@@ -259,7 +259,9 @@
         \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
-                    \csname lyxam@text@#1\endcsname{}
+                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                    \ctxtname%%
+                    \@lyxam@if@end@with@colon{#1}{}{~}%%
                     \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
                     \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
                 }%%
