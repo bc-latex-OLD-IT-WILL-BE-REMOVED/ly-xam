@@ -4,6 +4,22 @@ What about this package  ?
 **ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
 
 
+Changes in the next incoming version...
+=======================================
+
+**New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.
+
+
+**New package option ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
+
+
+**Customization of numbers for contexts:** it is now possible and easy to choose the kind of numbers printed for the contexts.
+
+
+
+**[to be continued...]**
+
+
 Changes in this version `0.1.0-beta`
 ====================================
 
