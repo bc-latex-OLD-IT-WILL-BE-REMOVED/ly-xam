@@ -13,14 +13,16 @@ THIS_DIR = PPath(__file__).parent
 
 EXERCISES_DOC = THIS_DIR / "exercises[fr].tex"
 
+CTXTS = {}
+
 with ReadBlock(
     content = THIS_DIR / "contexts.peuf",
     mode    = "verbatim"
 ) as data:
-    CTXTS = {
-        int(key[1:]): " ".join(value).split()
-        for key, value in data.mydict("mini std").items()
-    }
+    for key, value in data.mydict("mini std").items():
+        key = key.split("-")[0]
+
+        CTXTS[int(key[1:])] = " ".join(value).split()
 
 
 # ----------- #

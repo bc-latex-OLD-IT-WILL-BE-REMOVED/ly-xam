@@ -13,14 +13,24 @@ THIS_DIR = PPath(__file__).parent
 
 EXERCISES_STY = THIS_DIR / "exercises.sty"
 
+CTXTS = {}
+
+LATEX_CNT_STYLE = {
+    'I': r"\Roman",
+    'i': r"\roman",
+    'A': r"\Alph",
+    'a': r"\alph",
+    '1': r"\arabic"
+}
+
 with ReadBlock(
     content = THIS_DIR / "contexts.peuf",
     mode    = "verbatim"
 ) as data:
-    CTXTS = {
-        int(key[1:]): " ".join(value).split()
-        for key, value in data.mydict("mini std").items()
-    }
+    for key, value in data.mydict("mini std").items():
+        level, cntstyle = key[1:].split("-")
+
+        CTXTS[int(level)] = (cntstyle, " ".join(value).split())
 
 
 # ----------- #
@@ -55,13 +65,16 @@ with EXERCISES_STY.open(
 
 inside = []
 
-for level, ctxs in CTXTS.items():
+for level, (cntstyle, ctxs) in CTXTS.items():
+    cntstyle = LATEX_CNT_STYLE[cntstyle]
+
     inside.append('')
 
     for c in ctxs:
         c, _ = parse_resetme(c)
 
         inside.append(f"\@add@context{{{c}}}")
+        inside.append(f"\\newcommand\lyxam@counter@{c}@style[1]{{{cntstyle}{{#1}}}}")
 
 
 inside += [r"""
@@ -79,18 +92,16 @@ inside += [r"""
 level = 1
 
 while level in CTXTS:
-    for onectxt in CTXTS[level]:
+    for onectxt in CTXTS[level][1]:
         onectxt, resetme = parse_resetme(onectxt)
 
         if resetme:
-
-
             parentctxts = []
 
             for parentlevel in range(1, level):
                 parentctxts += [
                     f"lyxam@counter@{parse_resetme(c)[0]}"
-                    for c in CTXTS[parentlevel]
+                    for c in CTXTS[parentlevel][1]
                 ]
 
             parentctxts = ",".join(parentctxts)

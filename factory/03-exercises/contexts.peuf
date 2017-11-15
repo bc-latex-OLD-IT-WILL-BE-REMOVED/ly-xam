@@ -1,9 +1,9 @@
 // * indicates to no reset of counters by one of its parent.
 
-_1::
+_1-I::
     topic*
 
-_2::
+_2-1::
     activity*
     bonus*
     exercise*
@@ -11,6 +11,6 @@ _2::
     praticalwork*
     problem*
 
-_3::
+_3-A::
 // part can't be used !
     subpart

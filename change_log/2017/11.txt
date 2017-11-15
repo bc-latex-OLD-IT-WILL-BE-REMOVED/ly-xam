@@ -5,6 +5,9 @@
 **New package option ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
 
 
+**Customization of numbers for contexts:** it is now possible and easy to choose the kind of numbers printed for the contexts.
+
+
 ==========
 2017-11-14
 ==========

@@ -35,18 +35,24 @@
 
 % Show source or not ? That is the question.
 \newif\ifshowsource
-\DeclareOption{src}{\showsourcetrue}
+\showsourcetrue
+
+\DeclareOption{src}{}
 \DeclareOption{nosrc}{\showsourcefalse}
 
 % Show points or not ? That is the other question.
 \newif\ifshowpoints
-\DeclareOption{pts}{\showpointstrue}
+\showpointstrue
+
+\DeclareOption{pts}{}
 \DeclareOption{nopts}{\showpointsfalse}
 
 % Sfort versions or not ? That is the big question.
 \newbool{@lyxam@use@short@ctxt@name}
+\setbool{@lyxam@use@short@ctxt@name}{false}
+
 \DeclareOption{short}{\setbool{@lyxam@use@short@ctxt@name}{true}}
-\DeclareOption{noshort}{\setbool{@lyxam@use@short@ctxt@name}{false}}
+\DeclareOption{noshort}{}
 
 % Processing the options
 \ProcessOptions
@@ -166,11 +172,11 @@
         \fi%%
 % What do we print regarding the preceding compilation ?
         \@ifundefined{@cursors@#1@\the\value{@cursor@#1}}{%%
-            \arabic{#1}%%
+            \csname #1@style\endcsname{#1}%%
         }{%%
             \setcounter{@next@counter}{\value{@cursor@#1} + 1}%%
             \@ifundefined{@cursors@#1@\the\value{@next@counter}}%%
-                {\arabic{#1}}%%
+                {\csname #1@style\endcsname{#1}}%%
                 {}%%
         }%%
     }%%
@@ -282,15 +288,23 @@
 
 % Let's build our contexts.
 \@add@context{topic}
+\newcommand\lyxam@counter@topic@style[1]{\Roman{#1}}
 
 \@add@context{activity}
+\newcommand\lyxam@counter@activity@style[1]{\arabic{#1}}
 \@add@context{bonus}
+\newcommand\lyxam@counter@bonus@style[1]{\arabic{#1}}
 \@add@context{exercise}
+\newcommand\lyxam@counter@exercise@style[1]{\arabic{#1}}
 \@add@context{mcq}
+\newcommand\lyxam@counter@mcq@style[1]{\arabic{#1}}
 \@add@context{praticalwork}
+\newcommand\lyxam@counter@praticalwork@style[1]{\arabic{#1}}
 \@add@context{problem}
+\newcommand\lyxam@counter@problem@style[1]{\arabic{#1}}
 
 \@add@context{subpart}
+\newcommand\lyxam@counter@subpart@style[1]{\Alph{#1}}
 
 % Reseting of counters.
 \setsepchar{,}
