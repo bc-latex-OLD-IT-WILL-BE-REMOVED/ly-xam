@@ -24,7 +24,7 @@
 \newcommand\@apmep@space@before@all@titles{\par\addvspace{2.2em}}
 \newcommand\@apmep@space@after@all@titles{\par\addvspace{1.9em}}
 
-\newcommand\@apmep@space@after@preambule{\par\addvspace{0.9em}}
+\newcommand\@apmep@space@after@preamble{\par\addvspace{0.9em}}
 
 \newcommand\@apmep@space@before@title{\par\addvspace{0.8em}}
 
@@ -50,15 +50,14 @@
     \fancyfoot[C]{\footnotesize \thepage\ / \pageref{LastPage}}%%
 }
 
-% The preambule environment to be redefined or not...
-\newenvironment{preambule}%%
-    {\setlength\parindent{0pt}\small\itshape}%%
-    {\@apmep@space@after@preambule{}}
-
 % Tools
 \newcommand\@apmep@kind@nb@exam[2]{\@concatenate{#1}{\hspace{0.3em}}{#2}}
 
-\newcommand\@apmep@preambule[1]{{\small\emph{#1}}}
+% preamble [START].
+\newenvironment{@preamble@style}%%
+    {\setlength\parindent{0pt}\small\itshape}%%
+    {\@apmep@space@after@preamble{}}
+% preamble [END].
 
 % The delivery command [START].
 \newcommand\@add@delivery@material{
@@ -84,43 +83,43 @@
 % Internal constants.
     \renewcommand\@apmep@lyxam@kind@numbered{%%
         \@use@lyxam@key{kind}%%
-        \@if@empty{\@lyxam@nb}{}{ \@lyxam@nb}%%
-        \@if@empty{\@lyxam@subnb{}}{}{\,(\@lyxam@subnb)}%%
+        \@if@empty\@lyxam@nb{}{ \@lyxam@nb}%%
+        \@if@empty\@lyxam@subnb{}{\,(\@lyxam@subnb)}%%
     }%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
     \renewcommand\@apmep@main@title{%%
         \decofourleft{}\hspace{0.3em}%%
         \@apmep@lyxam@kind@numbered{}%%
-        \@if@empty{\@lyxam@subject}{}{\@apmep@minus\@lyxam@subject}%%
+        \@if@empty\@lyxam@subject{}{\@apmep@minus\@lyxam@subject}%%
         \hspace{0.3em}\decofourright{}%%
     }%%
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \renewcommand\@apmep@second@title{%%
-        \@if@empty{\@lyxam@sector}{}{\@lyxam@sector}%%
-        \@if@empty{\@lyxam@theme}{}{%%
-            \@if@empty{\@lyxam@sector}{\@apmep@minus}%%
+        \@if@empty\@lyxam@sector{}{\@lyxam@sector}%%
+        \@if@empty\@lyxam@theme{}{%%
+            \@if@empty\@lyxam@sector{}{\@apmep@minus}%%
             \@lyxam@theme%%
         }%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
     \renewcommand\@apmep@third@title{%%
-        \@if@empty{\@lyxam@class}{}{\@lyxam@class}%%
-        \@if@empty{\@lyxam@location}{}{%%
-            \@if@empty{\@lyxam@class}{}{\@apmep@minus}%%
+        \@if@empty\@lyxam@class{}{\@lyxam@class}%%
+        \@if@empty\@lyxam@location{}{%%
+            \@if@empty\@lyxam@class{}{\@apmep@minus}%%
             \@lyxam@location%%
         }%%
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \renewcommand\@apmep@fourth@title{%%
-        \@if@empty{\@lyxam@date}{}{\@lyxam@date}%%
-        \@if@empty{\@lyxam@time}{}{%%
-            \@if@empty{\@lyxam@date}{}{\@apmep@minus}%%
+        \@if@empty\@lyxam@date{}{\@lyxam@date}%%
+        \@if@empty\@lyxam@time{}{%%
+            \@if@empty\@lyxam@date{}{\@apmep@minus}%%
             \@lyxam@longduration{\@lyxam@time}%%
         }%%
     }%%
 % Update all the booleans !
-    \@if@empty{\@lyxam@sector}{%%
-        \@if@empty{\@lyxam@theme}{%%
+    \@if@empty\@lyxam@sector{%%
+        \@if@empty\@lyxam@theme{%%
             \setbool{@apmep@show@second@title}{false}%%
         }{%%
             \setbool{@apmep@show@second@title}{true}%%
@@ -128,8 +127,8 @@
     }{%%
         \setbool{@apmep@show@second@title}{true}%%
     }%%
-    \@if@empty{\@lyxam@class}{%%
-        \@if@empty{\@lyxam@location}{%%
+    \@if@empty\@lyxam@class{%%
+        \@if@empty\@lyxam@location{%%
             \setbool{@apmep@show@third@title}{false}%%
         }{%%
             \setbool{@apmep@show@third@title}{true}%%%%
@@ -137,8 +136,8 @@
     }{%%
         \setbool{@apmep@show@third@title}{true}%%
     }%%
-    \@if@empty{\@lyxam@date}{%%
-        \@if@empty{\@lyxam@time}{%%
+    \@if@empty\@lyxam@date{%%
+        \@if@empty\@lyxam@time{%%
             \setbool{@apmep@show@fourth@title}{false}%%
         }{%%
             \setbool{@apmep@show@fourth@title}{true}%%%%
@@ -172,25 +171,25 @@
         \renewcommand\footrulewidth{.5pt}
         \lhead{%
             \small\@apmep@lyxam@kind@numbered{}%%
-            \@if@empty{\@lyxam@theme}{}{\@apmep@minus\@lyxam@theme}%%
+            \@if@empty\@lyxam@theme{}{\@apmep@minus\@lyxam@theme}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%
             \small%%
-            \@if@empty{\@lyxam@class}{}{\@lyxam@class}%%
-            \@if@empty{\@lyxam@sector}{}{%%
-                \@if@empty{\@lyxam@class}{}{\@apmep@minus}%%
-                \@if@empty{\@lyxam@sector}{}{\@lyxam@sector}%%
+            \@if@empty\@lyxam@class{}{\@lyxam@class}%%
+            \@if@empty\@lyxam@sector{}{%%
+                \@if@empty\@lyxam@class{}{\@apmep@minus}%%
+                \@if@empty\@lyxam@sector{}{\@lyxam@sector}%%
             }
         }%%
         \lfoot{%%
             \small%%
-            \@if@empty{\@lyxam@location}{}{\@lyxam@location}%%
+            \@if@empty\@lyxam@location{}{\@lyxam@location}%%
         }%%
         \cfoot{\footnotesize \thepage\ / \pageref{LastPage}}
         \rfoot{%%
             \small%%
-            \@if@empty{\@lyxam@date}{}{\@lyxam@date}%%
+            \@if@empty\@lyxam@date{}{\@lyxam@date}%%
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}%%
@@ -237,7 +236,7 @@
     \IfStrEq{#1}{subpart}{%%
         \setbool{@apmep@center@subexercise}{true}%%
     }{%%
-        \@if@empty{\@lyxam@ctxt@pts}{%%
+        \@if@empty\@lyxam@ctxt@pts{%%
             \setbool{@apmep@center@subexercise}{false}%%
         }{%%
             \setbool{@apmep@center@subexercise}{true}%%
@@ -262,8 +261,8 @@
                     \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
                     \ctxtname%%
                     \@lyxam@if@end@with@colon{#1}{}{~}%%
-                    \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
-                    \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
+                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
         }{%%
@@ -272,10 +271,10 @@
 % Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
-                \@if@empty{\@lyxam@ctxt@time}{}{%%
+                \@if@empty\@lyxam@ctxt@time{}{%%
                     \kern 0.8em (\@apmep@lyxam@ctxt@time)%%
                 }%%
-                \@if@empty{\@lyxam@ctxt@pts}{}{%%
+                \@if@empty\@lyxam@ctxt@pts{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
                     [\,\@apmep@lyxam@ctxt@pts{}\,]%%
                 }%%
@@ -289,7 +288,7 @@
             }%%
         }%%
 % About note.
-        \@if@empty{\@lyxam@ctxt@about}{}{%%
+        \@if@empty\@lyxam@ctxt@about{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
                 \ifbool{@apmep@center@subexercise}{%%
@@ -300,7 +299,7 @@
             }%%
         }%%
 % Source.
-        \@if@empty{\@lyxam@ctxt@src}{}{%%
+        \@if@empty\@lyxam@ctxt@src{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
                 \ifbool{@apmep@center@subexercise}{%%

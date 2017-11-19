@@ -37,7 +37,7 @@ def parse_resetme(ctxt):
 
 
 # -------------------------- #
-# -- UPDATE EXERCISES.STY -- #
+# -- UPDATE EXERCISES.TEX -- #
 # -------------------------- #
 
 with EXERCISES_DOC.open(
@@ -103,6 +103,33 @@ for level in range(1, 4):
 {inside}
 {after}
     """
+
+
+before, _, after = between(
+    text = content,
+    seps = [
+        "% IDmacro - All styles for counters - START",
+        "% IDmacro - All styles for counters - END"
+    ],
+    keepseps = True
+)
+
+inside = []
+
+for _, ctxts in CTXTS.items():
+    for onectxt in ctxts:
+        c, _ = parse_resetme(onectxt)
+
+        inside.append(f"\\IDmacro{{lyxam@counter@{c}@style}}{{0}}{{1}}")
+
+inside.sort()
+inside = "\n\n".join(inside)
+
+content = f"""{before}
+{inside}
+{after}
+"""
+
 
 
 content = content.strip()

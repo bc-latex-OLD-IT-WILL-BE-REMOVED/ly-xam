@@ -70,60 +70,88 @@
 
 \AtEndDocument{\immediate\closeout\tempfile}
 
+
+\newcommand\IDconstant[1]{%
+    \immediate\write\tempfile{constant@#1}%
+}
+
+
 \makeatletter
-    \newcommand\IDconstant[1]{%
-        \immediate\write\tempfile{constant@#1}%
-    }
+\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
 
-    \newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
+\newcommand\@IDmacroNoStar[3]{%
+    \texttt{%
+    	\textbackslash#1%
+    	\IfStrEq{#2}{0}{}{%
+    		\,\,[#2 Option%
+			\IfStrEq{#2}{1}{}{s}]%
+		}%
+	    \IfStrEq{#3}{}{}{%
+    		\,\,(#3 Argument%
+			\IfStrEq{#3}{1}{}{s})%
+		}
+   	}
+    \immediate\write\tempfile{macro@#1@#2@#3}%
+}
 
-    \newcommand\@IDmacroNoStar[3]{%
-        \texttt{%
-        	\textbackslash#1%
-        	\IfStrEq{#2}{0}{}{%
-        		\,\,[#2 Option%
-    			\IfStrEq{#2}{1}{}{s}]%
-    		}%
-    	    \IfStrEq{#3}{}{}{%
-        		\,\,(#3 Argument%
-    			\IfStrEq{#3}{1}{}{s})%
-    		}
-       	}
-        \immediate\write\tempfile{macro@#1@#2@#3}%
-    }
+\newcommand\@IDmacroStar[2]{%
+    \@IDmacroNoStar{#1}{0}{#2}%
+}
 
-    \newcommand\@IDmacroStar[2]{%
-        \@IDmacroNoStar{#1}{0}{#2}%
-    }
 
-    \newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
+\newcommand\IDenv{\@ifstar{\@IDenvStar}{\@IDenvNoStar}}
 
-    \newcommand\@IDoptargStar[2]{%
-    	\vspace{0.5em}
-    	--- \texttt{#1%
-    		\IfStrEq{#2}{}{:}{\,#2:}%
-    	}%
-    }
+\newcommand\@IDenvNoStar[3]{%
+    \texttt{%
+    	\textbackslash#1%
+    	\IfStrEq{#2}{0}{}{%
+    		\,\,[#2 Option%
+			\IfStrEq{#2}{1}{}{s}]%
+		}%
+	    \IfStrEq{#3}{}{}{%
+    		\,\,(#3 Argument%
+			\IfStrEq{#3}{1}{}{s})%
+		}
+   	}
+    \immediate\write\tempfile{env@#1@#2@#3}%
+}
 
-    \newcommand\@IDoptargNoStar[2]{%
-    	\IfStrEq{#2}{}{%
-    		\@IDoptargStar{#1}{}%
-    	}{%
-    		\@IDoptargStar{#1}{\##2}%
-    	}%
-    }
+\newcommand\@IDenvStar[2]{%
+    \@IDenvNoStar{#1}{0}{#2}%
+}
 
-    \newcommand\IDkey[1]{%
-    	\@IDoptarg*{Option}{{\itshape "#1"}}%
-    }
 
-    \newcommand\IDoption[1]{%
-    	\@IDoptarg{Option}{#1}%
-    }
+\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
 
-    \newcommand\IDarg[1]{%
-    	\@IDoptarg{Argument}{#1}%
-    }
+\newcommand\@IDoptargStar[2]{%
+	\vspace{0.5em}
+	--- \texttt{#1%
+		\IfStrEq{#2}{}{:}{\,#2:}%
+	}%
+}
+
+\newcommand\@IDoptargNoStar[2]{%
+	\IfStrEq{#2}{}{%
+		\@IDoptargStar{#1}{}%
+	}{%
+		\@IDoptargStar{#1}{\##2}%
+	}%
+}
+
+
+\newcommand\IDkey[1]{%
+	\@IDoptarg*{Option}{{\itshape "#1"}}%
+}
+
+
+\newcommand\IDoption[1]{%
+	\@IDoptarg{Option}{#1}%
+}
+
+
+\newcommand\IDarg[1]{%
+	\@IDoptarg{Argument}{#1}%
+}
 \makeatother
 
 \usepackage[apmep, fr]{lyxam}
@@ -186,7 +214,7 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 
 	\item \verb+pts+, valeur par défaut, et \verb+nopts+ servent à voir ou non les points donnés pour chaque exercice.
 
-	\item \verb+short+ et \verb+noshort+, valeur par défaut, demandent d'utiliser le nom long ou abrégé des types d'exercices.
+	\item \verb+noshort+, valeur par défaut, et \verb+short+ demandent d'utiliser le nom long ou abrégé des types d'exercices.
 
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 \end{itemize}
@@ -312,7 +340,7 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 
 \IDkey{title} un titre.
 
-\IDkey{note} une petite indication liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
+\IDkey{about} une petite indication liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
 
 \IDkey{src} la source utilisée pour confectionner l'exercice.
 }
@@ -498,8 +526,6 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \resetallcnt{}
 
-\resetallcnt{}
-
 \begin{tcblisting}{}
 \topic
 \exercise
@@ -525,22 +551,81 @@ Toutes les options données ci-dessous sont facultatives et identiques à celles
 
 
 
-\section{Utiliser un préambule}
+\section{Personnaliser les numérotations}
 
-L'environnement \verb+\preambule+ sans aucune option sert à rédiger un ou plusieurs paragraphes en préambule de quelque chose.
+    \subsection{Un petit exemple}
 
-\resetallcnt{}
+En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la numérotation de chaque type d'exercice. Voici un exemple tapé directement dans un fichier \verb+tex+, ce qui impose d'employer \verb+\makeatletter...\makeatother+.
 
 \resetallcnt{}
 
 \begin{tcblisting}{}
-\begin{preambule}
-	Les exercices 1 et 2 sont indépendants l'un de l'autre.
-\end{preambule}
+\makeatletter
+    \renewcommand\lyxam@counter@exercise@style[1]{--\arabic{#1}--}
+\makeatother
 
 \exercise
 \exercise
 \end{tcblisting}
+
+
+    \subsection{Fiches techniques}
+
+% IDmacro - All styles for counters - START
+\IDmacro{lyxam@counter@activity@style}{0}{1}
+
+\IDmacro{lyxam@counter@bonus@style}{0}{1}
+
+\IDmacro{lyxam@counter@exercise@style}{0}{1}
+
+\IDmacro{lyxam@counter@mcq@style}{0}{1}
+
+\IDmacro{lyxam@counter@praticalwork@style}{0}{1}
+
+\IDmacro{lyxam@counter@problem@style}{0}{1}
+
+\IDmacro{lyxam@counter@subpart@style}{0}{1}
+
+\IDmacro{lyxam@counter@topic@style}{0}{1}
+% IDmacro - All styles for counters - END
+
+\IDarg{} the \LaTeX{} counter associated to the context.
+
+
+\section{Utiliser un préambule}
+
+    \subsection{Un exemple avec toutes les options}
+
+L'environnement \verb+\preamble+ sert à rédiger un ou plusieurs paragraphes en préambule de tout un examen, d'un thème, d'un exercice ou d'une partie.
+Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'intérieur du préambule, l'autre \verb+scale = ...+ un coefficient multiplicatif pour la largeur allouée au préambule (ce coefficient est multiplié à \verb+\linewidth+ pour calculer la largeur souhaitée).
+
+\resetallcnt{}
+
+\begin{tcblisting}{}
+\begin{preamble}[scale = 0.75, center]
+    Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,\dots
+\end{preamble}
+
+\exercise
+
+\begin{preamble}
+    Dans cet exercice, tout trace de recherche sera prise en compte à
+    condition de ne pas explorer le Pôle Nord quand on s'intéresse
+    au Pôle Sud. Quoique...
+\end{preamble}
+
+Trouver ....
+\end{tcblisting}
+
+
+    \subsection{Fiches techniques}
+
+\IDenv{preamble}{2}{}
+
+\IDkey{scale} un nombre, valant $1$ par défaut, qui sera multiplié à la largeur d'une ligne pour obtenir la largeur souhaitée pour le préambule.
+
+\IDkey{center} un booléen, valant \verb+false+ par défaut, pour centrer ou non le contenu du préambule (notez que \verb+center+ est un raccourci de \verb+center = true+).
 
 
 
@@ -557,9 +642,11 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 	\begin{itemize}
         \item Les nouvelles options \verb+short+ et \verb+noshort+ permettent au chargement du package de demander d'écrire les versions courtes ou longues des noms des types d'exercices.
 
-        \item L'option \verb+render+ de la macro \verb+\exam+ a été renommé \verb+deliver+ (ce qui semble plus correct).
+        \item L'option \verb+render+ de la macro \verb+\exam+ a été renommée \verb+deliver+ (ce qui semble plus correct).
+        
+        \item Ajout de deux options à l'environnement \verb+\preamble+ : l'une pour centrer ou non le contenu, et l'autre pour choisir la largeur occupée par le préambule.
 
-        \item Il est maintenant possible de personnaliser la numérotation des exercices.   \textbf{À DOCUMENTER !!!}
+        \item Il est maintenant possible de personnaliser la numérotation des exercices.
 
 
         \item \dots
@@ -569,7 +656,7 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 	\begin{itemize}
         \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
-        \item L'option \verb+preambule+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preambule}...\end{preambule}+ utilisable n'importe où.
+        \item L'option \verb+preamble+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preamble}...\end{preamble}+ utilisable n'importe où.
 
         \item Pour la macro \verb+\exam+, tous les paramètres sont optionnels.
 

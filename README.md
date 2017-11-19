@@ -10,10 +10,13 @@ Changes in the next incoming version...
 **New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.
 
 
-**New package option ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
+**New package options ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
 
 
-**Customization of numbers for contexts:** it is now possible and easy to choose the kind of numbers printed for the contexts.
+**Two options added to the environment `\begin{preamble}...\end{preamble}`:** one to center or not the content of the premble, and another to define the width of the preamble.
+
+
+**Customization of the numbers for contexts:** it is now possible to change the way the numbers are printed for each kind of exercises.
 
 
 

@@ -1,11 +1,23 @@
 ==========
+2017-11-19
+==========
+
+**Two options added to the environment `\begin{preamble}...\end{preamble}`.**
+
+    1) The option ``center`` allows to center or not the content of the premble.
+
+    2) The option ``scale`` which multiplied by the width of a line gives the width of the preamble.
+
+
+
+==========
 2017-11-15
 ==========
 
 **New package option ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
 
 
-**Customization of numbers for contexts:** it is now possible and easy to choose the kind of numbers printed for the contexts.
+**Customization of the numbers for contexts:** it is now possible to change the way the numbers are printed for each kind of exercises.
 
 
 ==========
@@ -49,18 +61,18 @@
 
 **Changes for `\exam`.**
 
-    1) The option `preambule` has been removed, and all other options are now optional.
+    1) The option `preamble` has been removed, and all other options are now optional.
 
     2) The macro `\exam` can be used several times in the same document.
 
 
-**New environment `\begin{preambule}...\end{preambule}`:** this can be used anywhere.
+**New environment `\begin{preamble}...\end{preamble}`:** this can be used anywhere.
 
 
 **Changes for macros like `\exercise`:** the option `note` has been renamed `about`.
 
 
-**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preambule.
+**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preamble.
 
 
 **Internal changes.**

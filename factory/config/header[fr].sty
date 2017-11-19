@@ -68,58 +68,86 @@
 
 \AtEndDocument{\immediate\closeout\tempfile}
 
+
+\newcommand\IDconstant[1]{%
+    \immediate\write\tempfile{constant@#1}%
+}
+
+
 \makeatletter
-    \newcommand\IDconstant[1]{%
-        \immediate\write\tempfile{constant@#1}%
-    }
+\newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
 
-    \newcommand\IDmacro{\@ifstar{\@IDmacroStar}{\@IDmacroNoStar}}
+\newcommand\@IDmacroNoStar[3]{%
+    \texttt{%
+    	\textbackslash#1%
+    	\IfStrEq{#2}{0}{}{%
+    		\,\,[#2 Option%
+			\IfStrEq{#2}{1}{}{s}]%
+		}%
+	    \IfStrEq{#3}{}{}{%
+    		\,\,(#3 Argument%
+			\IfStrEq{#3}{1}{}{s})%
+		}
+   	}
+    \immediate\write\tempfile{macro@#1@#2@#3}%
+}
 
-    \newcommand\@IDmacroNoStar[3]{%
-        \texttt{%
-        	\textbackslash#1%
-        	\IfStrEq{#2}{0}{}{%
-        		\,\,[#2 Option%
-    			\IfStrEq{#2}{1}{}{s}]%
-    		}%
-    	    \IfStrEq{#3}{}{}{%
-        		\,\,(#3 Argument%
-    			\IfStrEq{#3}{1}{}{s})%
-    		}
-       	}
-        \immediate\write\tempfile{macro@#1@#2@#3}%
-    }
+\newcommand\@IDmacroStar[2]{%
+    \@IDmacroNoStar{#1}{0}{#2}%
+}
 
-    \newcommand\@IDmacroStar[2]{%
-        \@IDmacroNoStar{#1}{0}{#2}%
-    }
 
-    \newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
+\newcommand\IDenv{\@ifstar{\@IDenvStar}{\@IDenvNoStar}}
 
-    \newcommand\@IDoptargStar[2]{%
-    	\vspace{0.5em}
-    	--- \texttt{#1%
-    		\IfStrEq{#2}{}{:}{\,#2:}%
-    	}%
-    }
+\newcommand\@IDenvNoStar[3]{%
+    \texttt{%
+    	\textbackslash#1%
+    	\IfStrEq{#2}{0}{}{%
+    		\,\,[#2 Option%
+			\IfStrEq{#2}{1}{}{s}]%
+		}%
+	    \IfStrEq{#3}{}{}{%
+    		\,\,(#3 Argument%
+			\IfStrEq{#3}{1}{}{s})%
+		}
+   	}
+    \immediate\write\tempfile{env@#1@#2@#3}%
+}
 
-    \newcommand\@IDoptargNoStar[2]{%
-    	\IfStrEq{#2}{}{%
-    		\@IDoptargStar{#1}{}%
-    	}{%
-    		\@IDoptargStar{#1}{\##2}%
-    	}%
-    }
+\newcommand\@IDenvStar[2]{%
+    \@IDenvNoStar{#1}{0}{#2}%
+}
 
-    \newcommand\IDkey[1]{%
-    	\@IDoptarg*{Option}{{\itshape "#1"}}%
-    }
 
-    \newcommand\IDoption[1]{%
-    	\@IDoptarg{Option}{#1}%
-    }
+\newcommand\@IDoptarg{\@ifstar{\@IDoptargStar}{\@IDoptargNoStar}}
 
-    \newcommand\IDarg[1]{%
-    	\@IDoptarg{Argument}{#1}%
-    }
+\newcommand\@IDoptargStar[2]{%
+	\vspace{0.5em}
+	--- \texttt{#1%
+		\IfStrEq{#2}{}{:}{\,#2:}%
+	}%
+}
+
+\newcommand\@IDoptargNoStar[2]{%
+	\IfStrEq{#2}{}{%
+		\@IDoptargStar{#1}{}%
+	}{%
+		\@IDoptargStar{#1}{\##2}%
+	}%
+}
+
+
+\newcommand\IDkey[1]{%
+	\@IDoptarg*{Option}{{\itshape "#1"}}%
+}
+
+
+\newcommand\IDoption[1]{%
+	\@IDoptarg{Option}{#1}%
+}
+
+
+\newcommand\IDarg[1]{%
+	\@IDoptarg{Argument}{#1}%
+}
 \makeatother

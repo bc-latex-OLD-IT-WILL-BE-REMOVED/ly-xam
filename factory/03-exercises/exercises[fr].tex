@@ -4,7 +4,7 @@
 
 \usepackage[apmep, fr]{exercises}
 
-\newenvironment{preambule}{}{}
+\newenvironment{preamble}[1][]{}{}
 
 
 \begin{document}
@@ -18,7 +18,7 @@
 
 \IDkey{title} un titre.
 
-\IDkey{note} une petite indication liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
+\IDkey{about} une petite indication liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
 
 \IDkey{src} la source utilisée pour confectionner l'exercice.
 }
@@ -204,8 +204,6 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \resetallcnt{}
 
-\resetallcnt{}
-
 \begin{tcblisting}{}
 \topic
 \exercise
@@ -231,22 +229,81 @@ Toutes les options données ci-dessous sont facultatives et identiques à celles
 
 
 
-\section{Utiliser un préambule}
+\section{Personnaliser les numérotations}
 
-L'environnement \verb+\preambule+ sans aucune option sert à rédiger un ou plusieurs paragraphes en préambule de quelque chose.
+    \subsection{Un petit exemple}
 
-\resetallcnt{}
+En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la numérotation de chaque type d'exercice. Voici un exemple tapé directement dans un fichier \verb+tex+, ce qui impose d'employer \verb+\makeatletter...\makeatother+.
 
 \resetallcnt{}
 
 \begin{tcblisting}{}
-\begin{preambule}
-	Les exercices 1 et 2 sont indépendants l'un de l'autre.
-\end{preambule}
+\makeatletter
+    \renewcommand\lyxam@counter@exercise@style[1]{--\arabic{#1}--}
+\makeatother
 
 \exercise
 \exercise
 \end{tcblisting}
+
+
+    \subsection{Fiches techniques}
+
+% IDmacro - All styles for counters - START
+\IDmacro{lyxam@counter@activity@style}{0}{1}
+
+\IDmacro{lyxam@counter@bonus@style}{0}{1}
+
+\IDmacro{lyxam@counter@exercise@style}{0}{1}
+
+\IDmacro{lyxam@counter@mcq@style}{0}{1}
+
+\IDmacro{lyxam@counter@praticalwork@style}{0}{1}
+
+\IDmacro{lyxam@counter@problem@style}{0}{1}
+
+\IDmacro{lyxam@counter@subpart@style}{0}{1}
+
+\IDmacro{lyxam@counter@topic@style}{0}{1}
+% IDmacro - All styles for counters - END
+
+\IDarg{} the \LaTeX{} counter associated to the context.
+
+
+\section{Utiliser un préambule}
+
+    \subsection{Un exemple avec toutes les options}
+
+L'environnement \verb+\preamble+ sert à rédiger un ou plusieurs paragraphes en préambule de tout un examen, d'un thème, d'un exercice ou d'une partie.
+Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'intérieur du préambule, l'autre \verb+scale = ...+ un coefficient multiplicatif pour la largeur allouée au préambule (ce coefficient est multiplié à \verb+\linewidth+ pour calculer la largeur souhaitée).
+
+\resetallcnt{}
+
+\begin{tcblisting}{}
+\begin{preamble}[scale = 0.75, center]
+    Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,\dots
+\end{preamble}
+
+\exercise
+
+\begin{preamble}
+    Dans cet exercice, tout trace de recherche sera prise en compte à
+    condition de ne pas explorer le Pôle Nord quand on s'intéresse
+    au Pôle Sud. Quoique...
+\end{preamble}
+
+Trouver ....
+\end{tcblisting}
+
+
+    \subsection{Fiches techniques}
+
+\IDenv{preamble}{2}{}
+
+\IDkey{scale} un nombre, valant $1$ par défaut, qui sera multiplié à la largeur d'une ligne pour obtenir la largeur souhaitée pour le préambule.
+
+\IDkey{center} un booléen, valant \verb+false+ par défaut, pour centrer ou non le contenu du préambule (notez que \verb+center+ est un raccourci de \verb+center = true+).
 
 
 \end{document}

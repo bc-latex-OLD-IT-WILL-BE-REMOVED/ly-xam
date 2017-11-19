@@ -11,31 +11,38 @@
 
 \begin{document}
 
+% ============ %
+% == TEST 1 == %
+% ============ %
+
 \exam[%
-	deliver   = true,%
-	kind      = Test,%
-    nb        = 1,%
-    subnb     = Subject A,%
-    subject   = Mathematics,%
-    theme     = Probability \& Functions,%
-    sector    = Scientific Cursus,%
-    class     = 1S4,%
-    location  = Lycée France\,(Paris),%
-    date      = 2017-09-23,%
-    time      = 4h%
+    deliver  = true,%
+    kind     = Test,%
+    nb     = 1,%
+    subnb    = Subject A,%
+    subject  = Mathematics,%
+    theme    = Probability \& Functions,%
+    sector   = Scientific Cursus,%
+    class    = 1S4,%
+    location = Lycée France\,(Paris),%
+    date     = 2017-09-23,%
+    time     = 4h%
 ]
 
 
-\begin{preambule}
-	+++ \textbf{PREAMBULE: STARTS HERE} +++
-	
-	\lipsum[1]
-	
-	[...]
-	
-	\lipsum[2]
-	
-	+++ \textbf{PREAMBULE FINISHES HERE} +++
+\begin{preambule}[%%
+%	scale = 0.8,
+	center %%
+]
+    +++ \textbf{PREAMBULE: STARTS HERE} +++
+
+    \lipsum[1]
+
+    [...]
+
+    \lipsum[2]
+
+    +++ \textbf{PREAMBULE FINISHES HERE} +++
 \end{preambule}
 
 
@@ -43,11 +50,38 @@
 
 \lipsum
 
+
+
+% ============ %
+% == TEST 2 == %
+% ============ %
+
 \newpage
 
 \exam
 
 \textbf{EXERCISES START HERE !} \lipsum[1]
+
+\lipsum
+
+
+
+% ============ %
+% == TEST 3 == %
+% ============ %
+
+\newpage
+
+
+\exam[deliver,
+    kind     = Test,%
+    nb       = 2,%
+    theme    = Probability \& Functions,%
+    class    = 1S4,%
+    location = Lycée France (Paris),%
+    date     = 2017-11-02,%
+    time     = 4h%
+]
 
 \lipsum
 

@@ -1,5 +1,6 @@
 % == PACKAGES USED == %
 
+\RequirePackage{changepage}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
 
@@ -58,22 +59,23 @@
     \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
 }
 
+\newcommand\@use@lyxam@key[1]{\useKV[lyxam@title@keys]{#1}}
+\newcommand\@use@lyxam@preamble@key[1]{\useKV[lyxam@preamble@keys]{#1}}
+
 
 % == LOCAL DEFINITIONS == %
 
-% General API Tools
-\newbool{@lyxam@show@deliver}
-\setbool{@lyxam@show@deliver}{false}
-
-\newcommand\@use@lyxam@key[1]{\useKV[lyxam@keys]{#1}}
-
-% Layout API Tools
+% Layout tools
 \newcommand\@lyxam@longduration[1]{%%
     \IfStrEq{#1}{}{}{\lyxam@text@duration{}: #1}%%
 }
 
+% Deliver or not ?
+\newbool{@lyxam@show@deliver}
+\setbool{@lyxam@show@deliver}{false}
+
 % The general layout command.
-\setKVdefault[lyxam@keys]{%
+\setKVdefault[lyxam@title@keys]{%
     deliver  = false, % Deliver the subject or not to the teacher
     kind     = Test,  % "Homework" for example
     nb       = {},    % Number of the exam
@@ -88,10 +90,10 @@
 }
 
 \newcommand\exam[1][]{%
-    \useKVdefault[lyxam@keys]
-    \setKV[lyxam@keys]{#1}
+    \useKVdefault[lyxam@title@keys]
+    \setKV[lyxam@title@keys]{#1}
 % Boolean key
-    \ifboolKV[lyxam@keys]{deliver}{%%
+    \ifboolKV[lyxam@title@keys]{deliver}{%%
         \setbool{@lyxam@show@deliver}{true}%%
     }{%%
         \setbool{@lyxam@show@deliver}{false}%%
@@ -110,6 +112,56 @@
     \@build@layout{}
 }
 
+% The preamble environment
+%
+% Soource:
+%    * https://tex.stackexchange.com/a/32707/6880
+%    * https://tex.stackexchange.com/a/149046/6880
+
+% \newenvironment{preamble}[2][1]{%%
+% % Basic style additional formatting of the text.
+%     \begin{@preamble@style}
+% % Center ?
+%     \IfStrEq{#2}{center}{\centering}{}%%
+% % Width
+%     \setlength{\@@@lyxam@preamble@margin}{%%
+%         \dimexpr(\linewidth - #1\linewidth)/2\relax%%
+%     }
+%     % \begin{minipage}{}
+%     \begin{adjustwidth}{\@@@lyxam@preamble@margin}{\@@@lyxam@preamble@margin}
+% }{%%
+%     % \end{minipage}
+%     \end{adjustwidth}
+%     \end{@preamble@style}
+% }
+
+
+\newlength{\@@@lyxam@preamble@margin}
+
+\setKVdefault[lyxam@preamble@keys]{%
+    center = false,   %% Center or not the preamble
+    scale  = 1 %% Line width ofr the premabules.
+}
+
+\newenvironment{preamble}[1][]{%%
+% Basic style additional formatting of the text.
+    \begin{@preamble@style}%%
+% Optional parameters
+    \useKVdefault[lyxam@preamble@keys]%%
+    \setKV[lyxam@preamble@keys]{#1}%%
+% Width
+    \def\@lyxam@premabule@scale{\@use@lyxam@preamble@key{scale}}%%
+    \setlength{\@@@lyxam@preamble@margin}{%%
+        \dimexpr(\linewidth - \@lyxam@premabule@scale\linewidth)/2\relax%%
+    }%%
+    \begin{adjustwidth}{\@@@lyxam@preamble@margin}{\@@@lyxam@preamble@margin}
+% Center ?
+    \ifboolKV[lyxam@preamble@keys]{center}{\centering}{}%%
+}{%%
+    % \end{minipage}
+    \end{adjustwidth}
+    \end{@preamble@style}
+}
 
 % == LOADING THE STYLE == %
 

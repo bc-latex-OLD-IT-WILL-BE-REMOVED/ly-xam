@@ -66,11 +66,14 @@
 %    * https://tex.stackexchange.com/a/53091/6880
 %
 %    #1: value to test
-%    #2: to be used if empty
-%    #3: to be used if none empty
+%    #2: used if empty
+%    #3: used if none empty
 \newcommand\@if@empty[3]{%%
     \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
 }
+
+\newcommand\@use@lyxam@key[1]{\useKV[lyxam@title@keys]{#1}}
+\newcommand\@use@lyxam@preamble@key[1]{\useKV[lyxam@preamble@keys]{#1}}
 
 
 % == LOCAL DEFINITIONS == %
@@ -133,7 +136,6 @@
         \fi%%
     }%%
 }
-
 
 % Name, shorten or not, of the context
 \newcommand\@lyxam@ctxt@name[1]{%%
@@ -215,7 +217,7 @@
 % User's commands for contexts
     \expandafter\newcommand\csname @#1@star\endcsname[1][]{
         \@build@values{##1}%%
-        \@if@empty{\@lyxam@ctxt@title}{
+        \@if@empty\@lyxam@ctxt@title{
             \PackageError{lyxam}{no title and no context}{}%%
         }{}%%
         \@build@ctxt{#1}{hidectxt}%%

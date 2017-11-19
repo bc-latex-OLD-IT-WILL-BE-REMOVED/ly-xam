@@ -1,16 +1,16 @@
 contexts::
-    activity     = Activité | Act.
+    activity     = Activité                    | Act.
     bonus        = Bonus
-    exercise     = Exercice | Ex.
-    mcq          = Q.C.M.
-    praticalwork = Travaux Pratiques | T.P.
-    problem      = Problème | Pb.
+    exercise     = Exercice                    | Ex.
+    mcq          = Questions à Choix Multiples | Q.C.M.
+    praticalwork = Travaux Pratiques           | T.P.
+    problem      = Problème                    | Pb.
     subpart      = Partie
     topic        = Thème
 
 extra::
-    point   = point
-    points  = points
+    point   = point    | pt
+    points  = points   | pts
     nopoint = Non noté
     source  = Source
     time    = Durée

@@ -115,7 +115,7 @@
     \IfStrEq{#1}{subpart}{%%
         \setbool{@apmep@center@subexercise}{true}%%
     }{%%
-        \@if@empty{\@lyxam@ctxt@pts}{%%
+        \@if@empty\@lyxam@ctxt@pts{%%
             \setbool{@apmep@center@subexercise}{false}%%
         }{%%
             \setbool{@apmep@center@subexercise}{true}%%
@@ -140,8 +140,8 @@
                     \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
                     \ctxtname%%
                     \@lyxam@if@end@with@colon{#1}{}{~}%%
-                    \@if@empty{\@lyxam@ctxt@id}{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
-                    \@if@empty{\@lyxam@ctxt@title}{}{: \@lyxam@ctxt@title}%%
+                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
         }{%%
@@ -150,10 +150,10 @@
 % Time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
-                \@if@empty{\@lyxam@ctxt@time}{}{%%
+                \@if@empty\@lyxam@ctxt@time{}{%%
                     \kern 0.8em (\@apmep@lyxam@ctxt@time)%%
                 }%%
-                \@if@empty{\@lyxam@ctxt@pts}{}{%%
+                \@if@empty\@lyxam@ctxt@pts{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
                     [\,\@apmep@lyxam@ctxt@pts{}\,]%%
                 }%%
@@ -167,7 +167,7 @@
             }%%
         }%%
 % About note.
-        \@if@empty{\@lyxam@ctxt@about}{}{%%
+        \@if@empty\@lyxam@ctxt@about{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
                 \ifbool{@apmep@center@subexercise}{%%
@@ -178,7 +178,7 @@
             }%%
         }%%
 % Source.
-        \@if@empty{\@lyxam@ctxt@src}{}{%%
+        \@if@empty\@lyxam@ctxt@src{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
                 \ifbool{@apmep@center@subexercise}{%%
