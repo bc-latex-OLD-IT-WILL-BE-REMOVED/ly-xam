@@ -13,4 +13,4 @@ extra::
     points  = points   | pts
     nopoint = Non noté
     source  = Source
-    time    = Durée
+    time    = Durée    | Tps

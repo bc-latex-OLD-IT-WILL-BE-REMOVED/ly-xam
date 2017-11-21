@@ -34,7 +34,14 @@
 \DeclareOption{hf}{}
 \DeclareOption{nohf}{\setbool{@lyxam@show@headers@footers}{false}}
 
-% Show source or not ? That is the question.
+% Show infos about or not ? That is the 1st question.
+\newif\ifshowabout
+\showabouttrue
+
+\DeclareOption{about}{}
+\DeclareOption{noabout}{\showaboutfalse}
+
+% Show source or not ? That is the 2nd question.
 \newif\ifshowsource
 \showsourcetrue
 
@@ -113,7 +120,7 @@
     \useKVdefault[lyxam@title@keys]%%
     \setKV[lyxam@title@keys]{#1}%%
 % User's values
-    \def\@lyxam@deliver{\@use@lyxam@key{deliver}}%%
+    \edef\@lyxam@deliver{\@use@lyxam@key{deliver}}%%
     \def\@lyxam@kind{\@use@lyxam@key{kind}}%%
     \def\@lyxam@nb{\@use@lyxam@key{nb}}%%
     \def\@lyxam@subnb{\@use@lyxam@key{subnb}}%%
@@ -124,34 +131,21 @@
     \def\@lyxam@location{\@use@lyxam@key{location}}%%
     \def\@lyxam@date{\@use@lyxam@key{date}}%%
     \def\@lyxam@time{\@use@lyxam@key{time}}%%
-% Good deliver option ?     TODO
+% Good deliver option ?
+    \IfStrEqCase\@lyxam@deliver{%%
+        {no}{}%%
+        {short}{}%%
+        {long}{}%%
+    }[\PackageError{lyxam}{illegal deliver option}{}]
 % The style can work now.
     \@build@layout{}
 }
 
 % The preamble environment
 %
-% Soource:
+% Source:
 %    * https://tex.stackexchange.com/a/32707/6880
 %    * https://tex.stackexchange.com/a/149046/6880
-
-% \newenvironment{preamble}[2][1]{%%
-% % Basic style additional formatting of the text.
-%     \begin{@preamble@style}
-% % Center ?
-%     \IfStrEq{#2}{center}{\centering}{}%%
-% % Width
-%     \setlength{\@@@lyxam@preamble@margin}{%%
-%         \dimexpr(\linewidth - #1\linewidth)/2\relax%%
-%     }
-%     % \begin{minipage}{}
-%     \begin{adjustwidth}{\@@@lyxam@preamble@margin}{\@@@lyxam@preamble@margin}
-% }{%%
-%     % \end{minipage}
-%     \end{adjustwidth}
-%     \end{@preamble@style}
-% }
-
 
 \newlength{\@@@lyxam@preamble@margin}
 
@@ -167,16 +161,15 @@
     \useKVdefault[lyxam@preamble@keys]%%
     \setKV[lyxam@preamble@keys]{#1}%%
 % Width
-    \def\@lyxam@premabule@scale{\@use@lyxam@preamble@key{scale}}%%
+    \def\@lyxam@preamble@scale{\@use@lyxam@preamble@key{scale}}%%
     \setlength{\@@@lyxam@preamble@margin}{%%
-        \dimexpr(\linewidth - \@lyxam@premabule@scale\linewidth)/2\relax%%
+        \dimexpr(\linewidth - \@lyxam@preamble@scale\linewidth)/2\relax%%
     }%%
     \begin{adjustwidth}{\@@@lyxam@preamble@margin}{\@@@lyxam@preamble@margin}
 % Center ?
     \ifboolKV[lyxam@preamble@keys]{center}{\centering}{}%%
 }{%%
-    % \end{minipage}
-    \end{adjustwidth}
+    \end{adjustwidth}%%
     \end{@preamble@style}
 }
 
@@ -269,8 +262,8 @@
 % Long version for points
 \newcommand\@lyxam@ctxt@longpoints[1]{%%
     \@if@empty{#1}{}{%%
-        \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
-            #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
+        \IfStrEq{#1}{0}{\@lyxam@ctxt@name{nopoint}}{%%
+            #1 \IfStrEq{#1}{1}{\@lyxam@ctxt@name{point}}{\@lyxam@ctxt@name{points}}%%
         }%%
     }%%
 }
@@ -278,13 +271,13 @@
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
 \newcommand\@lyxam@ctxt@longsource[1]{%%
-    \@if@empty{#1}{}{\lyxam@text@source{}: #1}%%
+    \@if@empty{#1}{}{\@lyxam@ctxt@name{source}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
 \newcommand\@lyxam@ctxt@longtime[1]{%%
-    \@if@empty{#1}{}{\lyxam@text@time{}: #1}%%
+    \@if@empty{#1}{}{\@lyxam@ctxt@name{time}: #1}%%
 }
 
 % For keys and values
@@ -306,6 +299,7 @@
     \setKV[context@keys]{#1}%%
     \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
     \ifshowsource\else\setKV[context@keys]{src={}}\fi
+    \ifshowabout\else\setKV[context@keys]{about={}}\fi
     \def\@lyxam@ctxt@id{\@use@context@key{id}}%%
     \def\@lyxam@ctxt@title{\@use@context@key{title}}%%
     \def\@lyxam@ctxt@time{\@use@context@key{time}}%%

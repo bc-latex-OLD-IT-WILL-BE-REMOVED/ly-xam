@@ -65,16 +65,9 @@ En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une num
 
 \begin{tcblisting}{}
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -84,16 +77,9 @@ Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un se
 
 \begin{tcblisting}{}
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
-
 \bonus
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -106,6 +92,17 @@ La commande \verb+\exercise+ dispose de plusieurs options dont l'une permet de d
 
 \begin{tcblisting}{}
 \exercise[pts = 5]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+
+
+    \subsection{Cacher le texte "Exercice"}
+
+La version étoilée \verb+\exercise*+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ sera ici le texte "Exercice". Ceci est surtout pratique pour les sous-parties présentées un peu plus bas. Dans ce genre de situation, il faut obligatoirement donner un titre.
+
+\begin{tcblisting}{}
+\exercise*[title = Juste mon titre]
+
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
@@ -124,17 +121,6 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
-
-
-    \subsection{Cacher le texte "Exercice"}
-
-La version étoilée \verb+\exercise*+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ sera ici le texte "Exercice". Ceci est surtout pratique pour les sous-parties présentées un peu plus bas. Dans ce genre de situation, il faut obligatoirement donner un titre.
-
-\begin{tcblisting}{}
-\exercise*[title = Juste mon titre]
-
-Bla, bla, bla, bla, bla, ...
-\end{tcblisting}
 
     \subsection{Fiches techniques}
 

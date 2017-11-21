@@ -7,10 +7,14 @@ What about this package  ?
 Changes in the next incoming version...
 =======================================
 
+**Two new package options.**
+
+  1)  ``short`` and ``noshort`` allow to print or not short versions of names of contexts, of time, points...
+
+  2)  ``about`` and ``noabout`` ask to show or hide infos about topics, exercises and parts.
+
+
 **New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.
-
-
-**New package options ``short`` and ``noshort``:** this is to print or not short versions of names of contexts.
 
 
 **Two options added to the environment `\begin{preamble}...\end{preamble}`:** one to center or not the content of the premble, and another to define the width of the preamble.

@@ -26,7 +26,14 @@
 
 % == LOCAL SETTINGS == %
 
-% Show source or not ? That is the question.
+% Show infos about or not ? That is the 1st question.
+\newif\ifshowabout
+\showabouttrue
+
+\DeclareOption{about}{}
+\DeclareOption{noabout}{\showaboutfalse}
+
+% Show source or not ? That is the 2nd question.
 \newif\ifshowsource
 \showsourcetrue
 
@@ -162,8 +169,8 @@
 % Long version for points
 \newcommand\@lyxam@ctxt@longpoints[1]{%%
     \@if@empty{#1}{}{%%
-        \IfStrEq{#1}{0}{\lyxam@text@nopoint{}}{%%
-            #1 \IfStrEq{#1}{1}{\lyxam@text@point{}}{\lyxam@text@points{}}%%
+        \IfStrEq{#1}{0}{\@lyxam@ctxt@name{nopoint}}{%%
+            #1 \IfStrEq{#1}{1}{\@lyxam@ctxt@name{point}}{\@lyxam@ctxt@name{points}}%%
         }%%
     }%%
 }
@@ -171,13 +178,13 @@
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
 \newcommand\@lyxam@ctxt@longsource[1]{%%
-    \@if@empty{#1}{}{\lyxam@text@source{}: #1}%%
+    \@if@empty{#1}{}{\@lyxam@ctxt@name{source}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
 \newcommand\@lyxam@ctxt@longtime[1]{%%
-    \@if@empty{#1}{}{\lyxam@text@time{}: #1}%%
+    \@if@empty{#1}{}{\@lyxam@ctxt@name{time}: #1}%%
 }
 
 % For keys and values
@@ -199,6 +206,7 @@
     \setKV[context@keys]{#1}%%
     \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
     \ifshowsource\else\setKV[context@keys]{src={}}\fi
+    \ifshowabout\else\setKV[context@keys]{about={}}\fi
     \def\@lyxam@ctxt@id{\@use@context@key{id}}%%
     \def\@lyxam@ctxt@title{\@use@context@key{title}}%%
     \def\@lyxam@ctxt@time{\@use@context@key{time}}%%

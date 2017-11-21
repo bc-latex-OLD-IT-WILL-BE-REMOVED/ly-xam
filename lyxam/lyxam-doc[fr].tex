@@ -8,6 +8,12 @@
 
 \usepackage{multicol}
 \usepackage{subfig}
+
+\renewcommand\labelitemi{+++}
+\renewcommand{\labelitemii}{+}
+\renewcommand{\labelitemiii}{$\circ$}
+\renewcommand{\labelitemiv}{$\bullet$}
+
 \usepackage{enumitem}
 
 \usepackage{color}
@@ -30,8 +36,6 @@
 \usepackage{xstring}
 
 \usepackage{fancyvrb}
-
-
 % MISC
 
 \tcbset{%
@@ -201,7 +205,7 @@ Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de réd
 
 Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
 
-\begin{itemize}[label=\textbullet]
+\begin{itemize}
 %	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
 
 	\item \verb+en+, valeur par défaut
@@ -214,9 +218,11 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 
 	\item \verb+pts+, valeur par défaut, et \verb+nopts+ servent à voir ou non les points donnés pour chaque exercice.
 
-	\item \verb+noshort+, valeur par défaut, et \verb+short+ demandent d'utiliser le nom long ou abrégé des types d'exercices.
+	\item \verb+noshort+, valeur par défaut, et \verb+short+ demandent d'utiliser le nom long ou abrégé, si possible, pour indiquer les types d'exercices, les points et le temps.
 
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
+
+	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
 \end{itemize}
 
 %\begin{remark}
@@ -254,9 +260,9 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
 \begin{figure}[!tbp]
   \setlength{\fboxrule}{1.5pt}
   \centering
-  \fbox{\includegraphics[width=0.47\linewidth]{example-doc[fr]-0.jpg}}
+  \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-0.jpg}}
   \hfill
-  \fbox{\includegraphics[width=0.47\linewidth]{example-doc[fr]-1.jpg}}
+  \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-1.jpg}}
   \caption{Style \texttt{apmep}.}
   \label{style:apmep}
 \end{figure}
@@ -388,16 +394,9 @@ En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une num
 
 \begin{tcblisting}{}
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -407,16 +406,9 @@ Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un se
 
 \begin{tcblisting}{}
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \exercise
-Bla, bla, bla, bla, bla, ...
-
 \problem
-Bla, bla, bla, bla, bla, ...
-
 \bonus
-Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
 
@@ -429,6 +421,17 @@ La commande \verb+\exercise+ dispose de plusieurs options dont l'une permet de d
 
 \begin{tcblisting}{}
 \exercise[pts = 5]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+
+
+    \subsection{Cacher le texte "Exercice"}
+
+La version étoilée \verb+\exercise*+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ sera ici le texte "Exercice". Ceci est surtout pratique pour les sous-parties présentées un peu plus bas. Dans ce genre de situation, il faut obligatoirement donner un titre.
+
+\begin{tcblisting}{}
+\exercise*[title = Juste mon titre]
+
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
@@ -447,17 +450,6 @@ Les fiches techniques données un peu plus bas expliquent le champs d'utilisatio
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
 
-
-
-    \subsection{Cacher le texte "Exercice"}
-
-La version étoilée \verb+\exercise*+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ sera ici le texte "Exercice". Ceci est surtout pratique pour les sous-parties présentées un peu plus bas. Dans ce genre de situation, il faut obligatoirement donner un titre.
-
-\begin{tcblisting}{}
-\exercise*[title = Juste mon titre]
-
-Bla, bla, bla, bla, bla, ...
-\end{tcblisting}
 
     \subsection{Fiches techniques}
 
@@ -641,7 +633,9 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
 	\item[À SUIVRE !] Nouvelle version à venir...
 	\begin{itemize}
-        \item Les nouvelles options \verb+short+ et \verb+noshort+ permettent au chargement du package de demander d'écrire les versions courtes ou longues des noms des types d'exercices.
+        \item Les options de package \verb+short+ et \verb+noshort+ permettent d'indiquer ou non en abrégé, si possible, les types d'exercices, les points et le temps.
+
+        \item Les options de package \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
 
         \item L'option \verb+render+ de la macro \verb+\exam+ a été renommée \verb+deliver+ (ce qui semble plus correct).
         
