@@ -1,8 +1,9 @@
 \documentclass[12pt,a4paper]{scrartcl}
 
-\usepackage[utf8x]{inputenc}
-\usepackage{ucs}
-\usepackage[apmep,
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+    
+\usepackage[apmep, fr,
             %nohf%
 ]{kind-of-exam}
 \usepackage{lipsum}
@@ -16,9 +17,9 @@
 % ============ %
 
 \exam[%
-    deliver  = true,%
+    deliver  = no,%
     kind     = Test,%
-    nb     = 1,%
+    nb       = 1,%
     subnb    = Subject A,%
     subject  = Mathematics,%
     theme    = Probability \& Functions,%
@@ -30,8 +31,8 @@
 ]
 
 
-\begin{preambule}[%%
-%	scale = 0.8,
+\begin{preamble}[%%
+	scale = 0.8,
 	center %%
 ]
     +++ \textbf{PREAMBULE: STARTS HERE} +++
@@ -43,7 +44,7 @@
     \lipsum[2]
 
     +++ \textbf{PREAMBULE FINISHES HERE} +++
-\end{preambule}
+\end{preamble}
 
 
 \textbf{EXERCISES START HERE !} \lipsum[1]

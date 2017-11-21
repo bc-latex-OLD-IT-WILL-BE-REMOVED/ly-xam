@@ -42,8 +42,7 @@
 %        ``<<KEY>>`` is one of the option. To test if a value is an empty
 %        string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
 %
-%     4) Two ``etoolbox`` booleans must be managed.
-%         * ``@lyxam@show@deliver`` is to know if the sheet must be delivered.
+%     4) One ``etoolbox`` boolean must be managed.
 %         * ``@lyxam@show@headers@footers`` is to show or hide the headers
 %           and footers.
 %
@@ -105,8 +104,8 @@
 % For the headers and the footers.
 \fancypagestyle{@apmep@first@page@style}{%%
     \fancyhf{}%%
-    \renewcommand \headrulewidth{0pt}%%
-    \renewcommand \footrulewidth{0pt}%%
+    \renewcommand\headrulewidth{0pt}%%
+    \renewcommand\footrulewidth{0pt}%%
     \fancyfoot[C]{\footnotesize \thepage\ / \pageref{LastPage}}%%
 }
 
@@ -120,15 +119,20 @@
 % preamble [END].
 
 % The delivery command [START].
-\newcommand\@add@delivery@material{
+\newcommand\@add@delivery@material[1]{
     \begin{tcolorbox}[width=\linewidth]
-        \medskip
-        \lyxam@text@name{}: \hrulefill
-
-        \bigskip
-        \lyxam@text@firstname{} : \hrulefill
-
-        \medskip
+        \IfStrEq{\@lyxam@deliver}{long}{%%
+            \medskip
+            \expandafter\MakeUppercase\expandafter\lyxam@text@name: \hrulefill
+            \par\bigskip
+            \lyxam@text@firstname{}: \hrulefill
+            \medskip
+        }{%%
+            \smallskip
+            \lyxam@text@firstname{}
+            \expandafter\MakeUppercase\expandafter\lyxam@text@name: \hrulefill
+            \smallskip
+        }%%
     \end{tcolorbox}
 }
 % The delivery command [END].
@@ -136,10 +140,10 @@
 % The layout command [START].
 \newcommand\@build@layout{
 % Deliver or not ? That is the question !.
-    \ifbool{@lyxam@show@deliver}{
-        \@add@delivery@material{}
+    \IfStrEq{\@lyxam@deliver}{no}{}{
+        \@add@delivery@material{\@lyxam@deliver}
         \@apmep@space@before@all@titles{}
-    }{}%%
+    }%%
 % Internal constants.
     \renewcommand\@apmep@lyxam@kind@numbered{%%
         \@use@lyxam@key{kind}%%

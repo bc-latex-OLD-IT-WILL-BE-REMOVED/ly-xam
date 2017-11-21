@@ -237,7 +237,7 @@ La commande \verb+\exam+ permet de donner des informations générales à propos
 Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
 
 \begin{tcblisting}{listing only}
-\exam[deliver,%
+\exam[deliver  = short,%
       kind     = D.S.,%
       nb       = 1,%
       subnb    = Sujet A,%
@@ -264,15 +264,16 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
 Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+deliver+, valant \verb+false+ par défaut, est pour un sujet à rendre avec la copie. 
+	\item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie. 
 	\begin{itemize}[label=\textbullet]
 		\setlength\itemsep{0em}
 
-		\item On peut juste indiquer \verb+deliver+ au lieu de \verb+deliver = true+ où \emph{"true"} signifie \emph{"vrai"}.
+		\item On peut indiquer \verb+deliver = short+ où \emph{"short"} signifie \emph{"court"}. Ceci affichera une "petite" capsule où l'étudiant renseignera son prénom et son nom. Idéal pour le format \verb+A4+.
 
-		\item Ne pas utiliser l'option revient à passer par \verb+deliver = false+ où \emph{"false"} signifie \emph{"faux"}.
+		\item Avec \verb+deliver = long+, la capsule sera plus grande. Idéal pour le format \verb+A5+.
+
+		\item Ne pas utiliser l'option revient à passer par \verb+deliver = no+.
 	\end{itemize}
-	Ceci a pour conséquence que le sujet débutera, ou non, par une zone où l'élève devra indiquer son nom et son prénom.
 
 	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
 	Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
@@ -308,7 +309,7 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 
 \IDkey{kind} le type de devoir, la valeur par défaut étant \verb+Test+.
 
-\IDkey{render} pour un sujet à rendre, ou non, avec une zone pour le nom et le prénom de l'étudiant. Deux valeurs possibles : \verb+false+, valeur par défaut, ou \verb+true+.
+\IDkey{deliver} pour un sujet à rendre, ou non, avec une zone pour le nom et le prénom de l'étudiant. Trois valeurs possibles : \verb+no+, valeur par défaut, \verb+long+ et \verb+short+.
 
 \IDkey{nb} le numéro du devoir.
 
@@ -561,7 +562,7 @@ En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la nu
 
 \begin{tcblisting}{}
 \makeatletter
-    \renewcommand\lyxam@counter@exercise@style[1]{--\arabic{#1}--}
+    \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
 \makeatother
 
 \exercise
