@@ -1,66 +1,3 @@
-% ============= %
-% == READ ME == %
-% ============= %
-%
-%
-% WARNING
-% -------
-%
-% You have to keep special comments ``% == ... == %`` where ``...`` is one
-% of the following text :
-%     * ``PACKAGES USED``
-%     * ``DEFINITIONS``
-%
-% TODO
-% ----
-%
-% You must define two commands and one environment :
-%
-%     1) ``@build@layout`` which builds the main layout.
-%
-%     2) ``@add@delivery@material`` which adds material where the students must
-%        give their name.
-%
-%     3) ``@preamble@style`` is a basic environment just for the style to use
-%        with preambles (cetering and width are managed before).
-%
-% NOTE
-% ----
-%
-%     1) The name of the actual STY file will be the name of your style.
-%
-%     2) The following packages are loaded by ``lyxam``.
-%         * ``calc``
-%         * ``etoolbox``
-%         * ``fancyhdr``
-%         * ``lastpage``
-%         * ``listofitems``
-%         * ``simplekv``
-%         * ``xstring``
-%
-%     3) The options used are stored in macros ``\@lyxam@<<KEY>>`` where
-%        ``<<KEY>>`` is one of the option. To test if a value is an empty
-%        string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
-%
-%     4) One ``etoolbox`` boolean must be managed.
-%         * ``@lyxam@show@headers@footers`` is to show or hide the headers
-%           and footers.
-%
-%     5) You have the following important translated texts to use for the
-%        delivery material.
-%         * ``\lyxam@text@name``
-%         * ``\lyxam@text@firstname``
-%
-%     6) You can also use ``\@lyxam@longduration{#1}`` which gives the text
-%        "Duration:", or its translated version, followed by the value of #1.
-%
-% GOOD PRACTICE
-% -------------
-%
-% For your own commands, use a prefix like ``@nameofmystyle@`` such as to avoid
-% conflict with global commands.
-
-
 % == PACKAGES USED == %
 
 \RequirePackage{fourier-orns}
@@ -75,31 +12,14 @@
 %    * https://tex.stackexchange.com/a/375288/6880
 \advance \footskip by \ht\strutbox
 
-% Global boolean
-%
-% Source: https://tex.stackexchange.com/a/122641/6880
-%
 % Settings
 \newcommand\@apmep@space@before@all@titles{\par\addvspace{2.2em}}
 \newcommand\@apmep@space@after@all@titles{\par\addvspace{1.9em}}
 
-\newcommand\@apmep@space@after@preamble{\par\addvspace{0.9em}}
-
 \newcommand\@apmep@space@before@title{\par\addvspace{0.8em}}
-
 \newcommand\@apmep@minus{\hspace{0.3em}--\hspace{0.3em}}
 
-\newcommand\@apmep@lyxam@kind@numbered{}
-\newcommand\@apmep@main@title{}
-
-\newcommand\@apmep@second@title{}
-\newbool{@apmep@show@second@title}
-
-\newcommand\@apmep@third@title{}
-\newbool{@apmep@show@third@title}
-
-\newcommand\@apmep@fourth@title{}
-\newbool{@apmep@show@fourth@title}
+\newcommand\@apmep@space@after@preamble{\par\addvspace{0.9em}}
 
 % For the headers and the footers.
 \fancypagestyle{@apmep@first@page@style}{%%
@@ -108,15 +28,6 @@
     \renewcommand\footrulewidth{0pt}%%
     \fancyfoot[C]{\footnotesize \thepage\ / \pageref{LastPage}}%%
 }
-
-% Tools
-\newcommand\@apmep@kind@nb@exam[2]{\@concatenate{#1}{\hspace{0.3em}}{#2}}
-
-% preamble [START].
-\newenvironment{@preamble@style}%%
-    {\setlength\parindent{0pt}\small\itshape}%%
-    {\@apmep@space@after@preamble{}}
-% preamble [END].
 
 % The delivery command [START].
 \newcommand\@add@delivery@material[1]{
@@ -129,8 +40,8 @@
             \medskip
         }{%%
             \smallskip
-            \lyxam@text@firstname{}
-            \expandafter\MakeUppercase\expandafter\lyxam@text@name: \hrulefill
+            \expandafter\MakeUppercase\expandafter\lyxam@text@name
+            \lyxam@text@firstname{}: \hrulefill
             \smallskip
         }%%
     \end{tcolorbox}
@@ -144,87 +55,42 @@
         \@add@delivery@material{\@lyxam@deliver}
         \@apmep@space@before@all@titles{}
     }%%
-% Internal constants.
-    \renewcommand\@apmep@lyxam@kind@numbered{%%
-        \@use@lyxam@key{kind}%%
-        \@if@empty\@lyxam@nb{}{ \@lyxam@nb}%%
-        \@if@empty\@lyxam@subnb{}{\,(\@lyxam@subnb)}%%
-    }%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
-    \renewcommand\@apmep@main@title{%%
+    \def\@apmep@main@title{%%
         \decofourleft{}\hspace{0.3em}%%
-        \@apmep@lyxam@kind@numbered{}%%
-        \@if@empty\@lyxam@subject{}{\@apmep@minus\@lyxam@subject}%%
+        \@concatenate{%%
+            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+        }{\@apmep@minus}{\@lyxam@subject}%%
         \hspace{0.3em}\decofourright{}%%
     }%%
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
-    \renewcommand\@apmep@second@title{%%
-        \@if@empty\@lyxam@sector{}{\@lyxam@sector}%%
-        \@if@empty\@lyxam@theme{}{%%
-            \@if@empty\@lyxam@sector{}{\@apmep@minus}%%
-            \@lyxam@theme%%
-        }%%
+    \def\@apmep@second@title{%%
+        \@concatenate{\@lyxam@sector}{\@apmep@minus}{\@lyxam@theme}%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
-    \renewcommand\@apmep@third@title{%%
-        \@if@empty\@lyxam@class{}{\@lyxam@class}%%
-        \@if@empty\@lyxam@location{}{%%
-            \@if@empty\@lyxam@class{}{\@apmep@minus}%%
-            \@lyxam@location%%
-        }%%
+    \def\@apmep@third@title{%%
+        \@concatenate{\@lyxam@class}{\@apmep@minus}{\@lyxam@location}%%
     }%%
 % The 4th title looks like "Date - Time" or nothing.
-    \renewcommand\@apmep@fourth@title{%%
-        \@if@empty\@lyxam@date{}{\@lyxam@date}%%
-        \@if@empty\@lyxam@time{}{%%
-            \@if@empty\@lyxam@date{}{\@apmep@minus}%%
-            \@lyxam@longduration{\@lyxam@time}%%
-        }%%
-    }%%
-% Update all the booleans !
-    \@if@empty\@lyxam@sector{%%
-        \@if@empty\@lyxam@theme{%%
-            \setbool{@apmep@show@second@title}{false}%%
-        }{%%
-            \setbool{@apmep@show@second@title}{true}%%
-        }%%
-    }{%%
-        \setbool{@apmep@show@second@title}{true}%%
-    }%%
-    \@if@empty\@lyxam@class{%%
-        \@if@empty\@lyxam@location{%%
-            \setbool{@apmep@show@third@title}{false}%%
-        }{%%
-            \setbool{@apmep@show@third@title}{true}%%%%
-        }%%
-    }{%%
-        \setbool{@apmep@show@third@title}{true}%%
-    }%%
-    \@if@empty\@lyxam@date{%%
-        \@if@empty\@lyxam@time{%%
-            \setbool{@apmep@show@fourth@title}{false}%%
-        }{%%
-            \setbool{@apmep@show@fourth@title}{true}%%%%
-        }%%
-    }{%%
-        \setbool{@apmep@show@fourth@title}{true}%%
+    \def\@apmep@fourth@title{%%
+        \@concatenate{\@lyxam@date}{\@apmep@minus}{\@lyxam@longduration{\@lyxam@time}}%%
     }%%
 % The title of the document.
     {\parskip=0pt\par\nopagebreak\centering
 % Main title is never empty !
         {\Large \textbf{\@apmep@main@title{}}}%%
-        \ifbool{@apmep@show@second@title}{
+        \@if@empty\@apmep@second@title{}{%%
             \@apmep@space@before@title{}
             {\Large \textbf{\@apmep@second@title{}}}%%
-        }{}%%
-        \ifbool{@apmep@show@third@title}{%%
+        }%%
+        \@if@empty\@apmep@third@title{}{%%
             \@apmep@space@before@title{}
             {\large \textbf{\@apmep@third@title{}}}%%
-        }{}%%
-        \ifbool{@apmep@show@fourth@title}{%%
+        }%%
+        \@if@empty\@apmep@fourth@title{}{%%
             \@apmep@space@before@title{}
             \textbf{\@apmep@fourth@title{}}%%
-        }{}%%
+        }%%
         \par\ignorespacesafterend
     }%%
     \@apmep@space@after@all@titles{}%%
@@ -233,18 +99,15 @@
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
-        \lhead{%
-            \small\@apmep@lyxam@kind@numbered{}%%
-            \@if@empty\@lyxam@theme{}{\@apmep@minus\@lyxam@theme}%%
+        \lhead{%%
+            \small%%
+            \@concatenate{%%
+                \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+            }{\@apmep@minus}{\@lyxam@theme}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%
-            \small%%
-            \@if@empty\@lyxam@class{}{\@lyxam@class}%%
-            \@if@empty\@lyxam@sector{}{%%
-                \@if@empty\@lyxam@class{}{\@apmep@minus}%%
-                \@if@empty\@lyxam@sector{}{\@lyxam@sector}%%
-            }
+            \small\@concatenate{\@lyxam@class}{\@apmep@minus}{\@lyxam@sector}%%
         }%%
         \lfoot{%%
             \small%%
@@ -260,3 +123,9 @@
     }{}%%
 }
 % The layout command [END].
+
+% Preamble [START].
+\newenvironment{@preamble@style}%%
+    {\setlength\parindent{0pt}\small\itshape}%%
+    {\@apmep@space@after@preamble{}}
+% Preamble [END].

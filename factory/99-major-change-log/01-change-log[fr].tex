@@ -10,26 +10,25 @@
 Tous les changements sont décrits en anglais uniquement dans le dossier \verb+change_log+ : voir le code source de \verb+lyxam+ sur \verb+github+. Nous ne donnons ici qu'un très bref historique de \verb+lyxam+.
 
 \begin{description}[leftmargin=1em]
-	\setlength\itemsep{1em}
+    \setlength\itemsep{1em}
 
-	\item[À SUIVRE !] Nouvelle version à venir...
-	\begin{itemize}
+    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.
+    \begin{itemize}
+        \item L'option de package \verb+linebox+ fournit un nouveau style de mise en forme.
+
         \item Les options de package \verb+short+ et \verb+noshort+ permettent d'indiquer ou non en abrégé, si possible, les types d'exercices, les points et le temps.
 
         \item Les options de package \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
 
         \item L'option \verb+render+ de la macro \verb+\exam+ a été renommée \verb+deliver+ (ce qui semble plus correct).
-        
+
         \item Ajout de deux options à l'environnement \verb+\preamble+ : l'une pour centrer ou non le contenu, et l'autre pour choisir la largeur occupée par le préambule.
 
         \item Il est maintenant possible de personnaliser la numérotation des exercices.
+    \end{itemize}
 
-
-        \item \dots
-	\end{itemize}
-
-	\item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
-	\begin{itemize}
+    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
+    \begin{itemize}
         \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
         \item L'option \verb+preamble+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preamble}...\end{preamble}+ utilisable n'importe où.
@@ -38,10 +37,10 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
         \item Pour les macros du type \verb+\exercise+, le paramètre \verb+note+ a été renommé \verb+about+.
 
-		\item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
-	\end{itemize}
+        \item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
+    \end{itemize}
 
-	\item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
+    \item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
 \end{description}
 
 \end{document}

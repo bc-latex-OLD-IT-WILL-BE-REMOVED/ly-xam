@@ -4,14 +4,16 @@ What about this package  ?
 **ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
 
 
-Changes in the next incoming version...
-=======================================
+Changes in this version `0.2.0-beta`
+====================================
 
-**Two new package options.**
+**Three new package options.**
 
-  1)  ``short`` and ``noshort`` allow to print or not short versions of names of contexts, of time, points...
+  1) ``linebox`` gives a new style for formatting things using frames and lines.
 
-  2)  ``about`` and ``noabout`` ask to show or hide infos about topics, exercises and parts.
+  2) ``short`` and ``noshort`` allow to print or not short versions of names of contexts, of time, points...
+
+  3) ``about`` and ``noabout`` ask to show or hide infos about topics, exercises and parts.
 
 
 **New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.

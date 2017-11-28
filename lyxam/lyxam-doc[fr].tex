@@ -9,11 +9,6 @@
 \usepackage{multicol}
 \usepackage{subfig}
 
-\renewcommand\labelitemi{+++}
-\renewcommand{\labelitemii}{+}
-\renewcommand{\labelitemiii}{$\circ$}
-\renewcommand{\labelitemiv}{$\bullet$}
-
 \usepackage{enumitem}
 
 \usepackage{color}
@@ -163,6 +158,9 @@
 
 \begin{document}
 
+\renewcommand\labelitemi{\raisebox{0.125em}{\tiny\textbullet}}
+\renewcommand{\labelitemii}{---}
+
 \title{%
 	Le package \texttt{lyxam}:\\%
 	des mises en forme clés en main\\%
@@ -171,7 +169,7 @@
 	{\footnotesize Version \texttt{0.1.0-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
-\date{2017-11-12}
+\date{2017-11-28}
 
 \maketitle
 
@@ -193,10 +191,6 @@
 \section{Introduction}
 
 Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
-%Pour le moment, un seul type de mise en forme est proposé mais il est prévu d'en proposer plus à l'avenir 
-%\footnote{
-%	De plus, le code \LaTeX{} va évoluer pour faciliter l'ajout de nouvelles mises en forme par des personnes connaissant un peu la programmation \LaTeX{}.
-%}.
 
 
 
@@ -206,8 +200,6 @@ Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de réd
 Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
 
 \begin{itemize}
-%	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
-
 	\item \verb+en+, valeur par défaut
 	\footnote{
 		Sorry for the french frogs that we are...
@@ -223,13 +215,18 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
 	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
+	\item Pour le moment, seulement deux styles de mise en forme sont disponibles.
+	\begin{itemize}[label={\small\textbullet}]
+		\item \verb+apmep+ est le style par défaut. Il s'inspire du style de mise en forme des sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
+
+		\item \verb+linebox+ est un style utilisant des rectangles et des lignes. Tous les goûts sont dans la nature...
+	\end{itemize}
 \end{itemize}
 
-%\begin{remark}
-%	Dans la suite de cette documentation, nous utilisons les options \verb+apmep+ et \verb+fr+, c'est à dire via \verb+\usepackage[apmep, fr]{lyxam}+.
-%\end{remark}
+
 \begin{remark}
-	Dans la suite de cette documentation, nous invoquons juste l'option \verb+fr+.Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+.
+	Dans la suite de cette documentation nous invoquons juste l'option \verb+fr+.
+	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+. Ceci implique l'usage du style par défaut.
 \end{remark}
 
 
@@ -237,10 +234,10 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 
 \section{Quel devoir donnez-vous ?}
 
-	\subsection{La commande \texttt{\textbackslash exam}}
+    \subsection{La commande \texttt{\textbackslash exam}}
 
-La commande \verb+\exam+ permet de donner des informations générales à propos du devoir. 
-Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
+La commande \verb+\exam+ permet de donner des informations générales à propos du devoir.
+Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:default} \vpageref{style:default} donne un aperçu du rendu obtenu dans ce cas.
 
 \begin{tcblisting}{listing only}
 \exam[deliver  = short,%
@@ -263,53 +260,53 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
   \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-0.jpg}}
   \hfill
   \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-1.jpg}}
-  \caption{Style \texttt{apmep}.}
-  \label{style:apmep}
+  \caption{Style par défaut.}
+  \label{style:default}
 \end{figure}
 
 Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie. 
-	\begin{itemize}[label=\textbullet]
-		\setlength\itemsep{0em}
+    \item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie.
+    \begin{itemize}
+        \setlength\itemsep{0em}
 
-		\item On peut indiquer \verb+deliver = short+ où \emph{"short"} signifie \emph{"court"}. Ceci affichera une "petite" capsule où l'étudiant renseignera son prénom et son nom. Idéal pour le format \verb+A4+.
+        \item On peut indiquer \verb+deliver = short+ où \emph{"short"} signifie \emph{"court"}. Ceci affichera une "petite" capsule où l'étudiant renseignera son prénom et son nom. Idéal pour le format \verb+A4+.
 
-		\item Avec \verb+deliver = long+, la capsule sera plus grande. Idéal pour le format \verb+A5+.
+        \item Avec \verb+deliver = long+, la capsule sera plus grande. Idéal pour le format \verb+A5+.
 
-		\item Ne pas utiliser l'option revient à passer par \verb+deliver = no+.
-	\end{itemize}
+        \item Ne pas utiliser l'option revient à passer par \verb+deliver = no+.
+    \end{itemize}
 
-	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
-	Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
+    \item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
+    Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
 
-	\item \verb+nb+ est le numéro du devoir.
+    \item \verb+nb+ est le numéro du devoir.
 
-	\item \verb+subnb+ permet d'indiquer une sorte de numérotation secondaire. C'est utile par exemple pour indiquer \emph{"Sujet A"}, \emph{"Sujet B"} ...
+    \item \verb+subnb+ permet d'indiquer une sorte de numérotation secondaire. C'est utile par exemple pour indiquer \emph{"Sujet A"}, \emph{"Sujet B"} ...
 
-	\item \verb+subject+ permet si besoin de donner la thématique générale du devoir comme par exemple \emph{"Mathématiques"}, \emph{"Informatique Générale"}...
+    \item \verb+subject+ permet si besoin de donner la thématique générale du devoir comme par exemple \emph{"Mathématiques"}, \emph{"Informatique Générale"}...
 
-	\item \verb+theme+ sert à compléter la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
+    \item \verb+theme+ sert à compléter la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
 
-	\item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
+    \item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
 
-	\item \verb+class+ indique la classe et/ou le groupe auquel est destiné le devoir.
+    \item \verb+class+ indique la classe et/ou le groupe auquel est destiné le devoir.
 
-	\item \verb+location+ vous permet d'indiquer un lieu géographique, typiquement un établissement scolaire ou universitaire.
+    \item \verb+location+ vous permet d'indiquer un lieu géographique, typiquement un établissement scolaire ou universitaire.
 
-	\item \verb+date+ est pour la date du devoir.
+    \item \verb+date+ est pour la date du devoir.
 
-	\item \verb+time+ est pour la durée du devoir.
+    \item \verb+time+ est pour la durée du devoir.
 \end{enumerate}
 
 
-%	\subsection{Différentes mises en forme}
+%    \subsection{Différentes mises en forme}
 %
 %Le package est fourni avec des exemples de fichiers \LaTeX{} afin d'observer ce que permet \verb+lyxam+. Explorez-les !
 
 
-	\subsection{Fiche technique}
+    \subsection{Fiche technique}
 
 \IDmacro{exam}{11}{}
 
@@ -367,7 +364,7 @@ Rappelons que tous les exemples utilisés dans cette documentation ont été obt
 Voici l'ensemble des commandes disponibles pour indiquer un type d'exercice.
 
 % All kind of level 2 contexts - START
-\begin{itemize}[label=\textbullet]
+\begin{itemize}
 \makeatletter
     \item \verb+\activity+ correspond à "\lyxam@text@activity{}".
     
@@ -629,26 +626,25 @@ Trouver ....
 Tous les changements sont décrits en anglais uniquement dans le dossier \verb+change_log+ : voir le code source de \verb+lyxam+ sur \verb+github+. Nous ne donnons ici qu'un très bref historique de \verb+lyxam+.
 
 \begin{description}[leftmargin=1em]
-	\setlength\itemsep{1em}
+    \setlength\itemsep{1em}
 
-	\item[À SUIVRE !] Nouvelle version à venir...
-	\begin{itemize}
+    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.
+    \begin{itemize}
+        \item L'option de package \verb+linebox+ fournit un nouveau style de mise en forme.
+
         \item Les options de package \verb+short+ et \verb+noshort+ permettent d'indiquer ou non en abrégé, si possible, les types d'exercices, les points et le temps.
 
         \item Les options de package \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
 
         \item L'option \verb+render+ de la macro \verb+\exam+ a été renommée \verb+deliver+ (ce qui semble plus correct).
-        
+
         \item Ajout de deux options à l'environnement \verb+\preamble+ : l'une pour centrer ou non le contenu, et l'autre pour choisir la largeur occupée par le préambule.
 
         \item Il est maintenant possible de personnaliser la numérotation des exercices.
+    \end{itemize}
 
-
-        \item \dots
-	\end{itemize}
-
-	\item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
-	\begin{itemize}
+    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
+    \begin{itemize}
         \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
         \item L'option \verb+preamble+ de la macro \verb+\exam+ disparait pour laisser place au nouvel environnement \verb+\begin{preamble}...\end{preamble}+ utilisable n'importe où.
@@ -657,10 +653,10 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
         \item Pour les macros du type \verb+\exercise+, le paramètre \verb+note+ a été renommé \verb+about+.
 
-		\item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
-	\end{itemize}
+        \item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
+    \end{itemize}
 
-	\item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
+    \item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
 \end{description}
 
 

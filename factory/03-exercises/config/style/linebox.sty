@@ -1,0 +1,109 @@
+% == PACKAGES USED == %
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xhfill}
+
+
+% == DEFINITIONS == %
+
+% Spacings
+\newcommand\@linebox@space@before@topic{\par\addvspace{2.5em}}
+\newcommand\@linebox@space@before@exercise{\par\addvspace{1.5em}}
+\newcommand\@linebox@space@before@subexercise{\par\addvspace{0.8em}}
+
+\newcommand\@linebox@space@before@info{\par\addvspace{0.4em}}
+\newcommand\@linebox@space@before@content{\par\addvspace{0.6em}}
+
+% General builder for all contexts
+%     #1: name of the context
+%     #2: ``hidectxt`` or ``showctxt`
+\newcommand\@build@ctxt[2]{%%
+    \def\@linebox@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
+    \def\@linebox@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
+    \def\@linebox@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
+% Printing the context, time and points.
+%
+% Warning ! Sub exercises are always centered.
+    \IfStrEq{#1}{subpart}{%%
+        \@linebox@space@before@subexercise%%
+    }{%%
+        \IfStrEq{#1}{topic}{%%
+            \@linebox@space@before@topic%%
+        }{%%
+            \@linebox@space@before@exercise%%
+        }
+    }%%
+    \begin{absolutelynopagebreak}
+% Build context title.
+        \IfStrEq{#2}{showctxt}{%%
+            \gdef\@linebox@ctxt@title{%%
+                \textsc{%%
+                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                    \ctxtname%%
+                    \@lyxam@if@end@with@colon{#1}{}{~}%%
+                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
+                }%%
+            }%%
+        }{%%
+            \gdef\@linebox@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
+        }%%
+% Build time and points.
+        \gdef\@apmep@ctxt@title@extra{%%
+            \IfStrEq{#1}{topic}{%%
+                {\normalfont\scriptsize%%
+                 \@if@empty\@lyxam@ctxt@time{}%%
+                    {\kern 0.8em(\@linebox@ctxt@time)}%%
+                 \@if@empty\@lyxam@ctxt@pts{}%%
+                    {\kern 0.8em[\,\@linebox@ctxt@pts{}\,]}%%
+                }%%
+            }{%%
+% https://tex.stackexchange.com/a/401176/6880
+                \makebox[0pt][r]{\raisebox{.45\baselineskip}[0pt][0pt]{\normalfont\scriptsize\@linebox@ctxt@time}}%
+                \makebox[0pt][r]{\raisebox{-.5\baselineskip}[0pt][0pt]{\normalfont\scriptsize\@linebox@ctxt@pts}}%
+            }%%
+        }%%
+% Each kind of context has its own formatting...
+%
+% Write topic.
+    \IfStrEq{#1}{topic}{%%
+        \begin{tcolorbox}[blanker,
+                          borderline = {0.7pt}{0pt}{black},
+                          arc = 0pt,
+                          left = 1.4em, right = 1.4em,
+                    	  top = 0.6em, bottom = 0.6em]
+            \centering\bfseries%%
+            \@linebox@ctxt@title\@apmep@ctxt@title@extra%%
+        \end{tcolorbox}
+    }{%%
+% Write subpart.
+        \IfStrEq{#1}{subpart}{%%
+            {\centering%%
+             \setlength{\fboxrule}{0.7pt}%%
+             \rule[0.4ex]{5em}{0.7pt}%%
+             \framebox{\small\vphantom{pE}\bfseries\@linebox@ctxt@title}%%
+             \rule[0.4ex]{5em}{0.7pt}%%
+             \@apmep@ctxt@title@extra%%
+             \par}%%
+        }{%%
+% Write exercise.
+            \setlength{\fboxrule}{0.7pt}%%
+            \noindent\framebox{%%
+                \vphantom{pE}\bfseries\@linebox@ctxt@title%%
+            }\kern-1pt\xrfill[0.4ex]{0.7pt}%%
+            \@apmep@ctxt@title@extra%%
+        }%%
+    }%%
+% Write about note.
+        \@if@empty\@lyxam@ctxt@about{}{%%
+            \@linebox@space@before@info
+            {\itshape\small\noindent\@lyxam@ctxt@about}%%
+        }%%
+% Write source.
+        \@if@empty\@lyxam@ctxt@src{}{%%
+            \@linebox@space@before@info
+            {\normalfont\footnotesize\hfill\@linebox@ctxt@src}%%
+        }%%
+    \end{absolutelynopagebreak}%%
+    \@linebox@space@before@content%%
+}

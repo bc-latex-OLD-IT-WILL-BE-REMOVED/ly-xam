@@ -68,7 +68,7 @@ for c in CTXTS[2]:
 inside = TAB + f"\n{TAB}".join(inside[:-1])
 
 content = f"""{before}
-\\begin{{itemize}}[label=\\textbullet]
+\\begin{{itemize}}
 \\makeatletter
 {inside}
 \\makeatother

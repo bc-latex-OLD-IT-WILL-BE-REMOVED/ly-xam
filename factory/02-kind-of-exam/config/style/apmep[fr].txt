@@ -1,5 +1,6 @@
-% VERY SHORT DESCRIPTION OF THE STYLE
-% -----------------------------------
+% ----------------------------------------- %
+% -- VERY SHORT DESCRIPTION OF THE STYLE -- %
+% ----------------------------------------- %
 %
 % Use LaTeX syntax, this is for the documentation !
 

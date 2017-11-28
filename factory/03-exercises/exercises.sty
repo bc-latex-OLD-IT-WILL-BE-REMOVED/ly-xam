@@ -14,9 +14,8 @@
 
 % Which style to use ?
 \newcommand{\@style@choosen}{apmep}
-% \newcommand{\@style@choosen}{default}
-% \DeclareOption{default}{}
-\DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+\DeclareOption{apmep}{}
+\DeclareOption{linebox}{\renewcommand{\@style@choosen}{linebox}}
 
 % Which language to use ?
 \newcommand{\@lang@choosen}{en}
@@ -78,6 +77,11 @@
 \newcommand\@if@empty[3]{%%
     \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt #2\else#3\fi%%
 }
+
+%    #1: text 1
+%    #2: separator
+%    #3: text 2
+\newcommand\@concatenate[3]{#1\@if@empty{#3}{}{\@if@empty{#1}{}{#2}#3}}
 
 \newcommand\@use@lyxam@key[1]{\useKV[lyxam@title@keys]{#1}}
 \newcommand\@use@lyxam@preamble@key[1]{\useKV[lyxam@preamble@keys]{#1}}
@@ -272,7 +276,9 @@
 % == LOADING THE STYLE == %
 
 % Loading the good style
-\IfStrEqCase{\@style@choosen}{%%
-    {apmep}{\input{config/style/apmep.sty}}%%
+\IfStrEqCase{\@style@choosen}{
+    {apmep}{\input{config/style/apmep.sty}}%
+    {linebox}{\input{config/style/linebox.sty}}%
 }
+
 % == END == %

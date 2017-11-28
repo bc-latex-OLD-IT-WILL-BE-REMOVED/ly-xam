@@ -10,8 +10,6 @@
 Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisables lors de l'appel du package via \verb+\usepackage[...]{lyxam}+.
 
 \begin{itemize}
-%	\item \verb+apmep+ indique d'utiliser le style de mise en forme nommé "apmep" en référence aux sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public. C'est le seul type de mise en forme disponible pour le moment !
-
 	\item \verb+en+, valeur par défaut
 	\footnote{
 		Sorry for the french frogs that we are...
@@ -27,13 +25,18 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
 	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
+	\item Pour le moment, seulement deux styles de mise en forme sont disponibles.
+	\begin{itemize}[label={\small\textbullet}]
+		\item \verb+apmep+ est le style par défaut. Il s'inspire du style de mise en forme des sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
+
+		\item \verb+linebox+ est un style utilisant des rectangles et des lignes. Tous les goûts sont dans la nature...
+	\end{itemize}
 \end{itemize}
 
-%\begin{remark}
-%	Dans la suite de cette documentation, nous utilisons les options \verb+apmep+ et \verb+fr+, c'est à dire via \verb+\usepackage[apmep, fr]{lyxam}+.
-%\end{remark}
+
 \begin{remark}
-	Dans la suite de cette documentation, nous invoquons juste l'option \verb+fr+.Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+.
+	Dans la suite de cette documentation nous invoquons juste l'option \verb+fr+.
+	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+. Ceci implique l'usage du style par défaut.
 \end{remark}
 
 \end{document}

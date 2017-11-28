@@ -7,10 +7,10 @@
 
 \section{Quel devoir donnez-vous ?}
 
-	\subsection{La commande \texttt{\textbackslash exam}}
+    \subsection{La commande \texttt{\textbackslash exam}}
 
-La commande \verb+\exam+ permet de donner des informations générales à propos du devoir. 
-Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:apmep} \vpageref{style:apmep} donne un aperçu du rendu obtenu dans ce cas. 
+La commande \verb+\exam+ permet de donner des informations générales à propos du devoir.
+Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{style:default} \vpageref{style:default} donne un aperçu du rendu obtenu dans ce cas.
 
 \begin{tcblisting}{listing only}
 \exam[deliver  = short,%
@@ -33,53 +33,53 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
   \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-0.jpg}}
   \hfill
   \fbox{\includegraphics[width=0.43\linewidth]{example-doc[fr]-1.jpg}}
-  \caption{Style \texttt{apmep}.}
-  \label{style:apmep}
+  \caption{Style par défaut.}
+  \label{style:default}
 \end{figure}
 
 Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
-	\item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie. 
-	\begin{itemize}[label=\textbullet]
-		\setlength\itemsep{0em}
+    \item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie.
+    \begin{itemize}
+        \setlength\itemsep{0em}
 
-		\item On peut indiquer \verb+deliver = short+ où \emph{"short"} signifie \emph{"court"}. Ceci affichera une "petite" capsule où l'étudiant renseignera son prénom et son nom. Idéal pour le format \verb+A4+.
+        \item On peut indiquer \verb+deliver = short+ où \emph{"short"} signifie \emph{"court"}. Ceci affichera une "petite" capsule où l'étudiant renseignera son prénom et son nom. Idéal pour le format \verb+A4+.
 
-		\item Avec \verb+deliver = long+, la capsule sera plus grande. Idéal pour le format \verb+A5+.
+        \item Avec \verb+deliver = long+, la capsule sera plus grande. Idéal pour le format \verb+A5+.
 
-		\item Ne pas utiliser l'option revient à passer par \verb+deliver = no+.
-	\end{itemize}
+        \item Ne pas utiliser l'option revient à passer par \verb+deliver = no+.
+    \end{itemize}
 
-	\item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
-	Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
+    \item \verb+kind+, valant \verb+Test+ par défaut, est le type de devoir : un \emph{"D.S."}, un \emph{"D.M."}, une \emph{"Interrogation Surprise"}, une \emph{"Fiche d'entraînement"}, une \emph{"Activité"}...
+    Vous noterez que le terme \emph{"devoir"} ne se limite pas juste aux devoirs notés.
 
-	\item \verb+nb+ est le numéro du devoir.
+    \item \verb+nb+ est le numéro du devoir.
 
-	\item \verb+subnb+ permet d'indiquer une sorte de numérotation secondaire. C'est utile par exemple pour indiquer \emph{"Sujet A"}, \emph{"Sujet B"} ...
+    \item \verb+subnb+ permet d'indiquer une sorte de numérotation secondaire. C'est utile par exemple pour indiquer \emph{"Sujet A"}, \emph{"Sujet B"} ...
 
-	\item \verb+subject+ permet si besoin de donner la thématique générale du devoir comme par exemple \emph{"Mathématiques"}, \emph{"Informatique Générale"}...
+    \item \verb+subject+ permet si besoin de donner la thématique générale du devoir comme par exemple \emph{"Mathématiques"}, \emph{"Informatique Générale"}...
 
-	\item \verb+theme+ sert à compléter la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
+    \item \verb+theme+ sert à compléter la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
 
-	\item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
+    \item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
 
-	\item \verb+class+ indique la classe et/ou le groupe auquel est destiné le devoir.
+    \item \verb+class+ indique la classe et/ou le groupe auquel est destiné le devoir.
 
-	\item \verb+location+ vous permet d'indiquer un lieu géographique, typiquement un établissement scolaire ou universitaire.
+    \item \verb+location+ vous permet d'indiquer un lieu géographique, typiquement un établissement scolaire ou universitaire.
 
-	\item \verb+date+ est pour la date du devoir.
+    \item \verb+date+ est pour la date du devoir.
 
-	\item \verb+time+ est pour la durée du devoir.
+    \item \verb+time+ est pour la durée du devoir.
 \end{enumerate}
 
 
-%	\subsection{Différentes mises en forme}
+%    \subsection{Différentes mises en forme}
 %
 %Le package est fourni avec des exemples de fichiers \LaTeX{} afin d'observer ce que permet \verb+lyxam+. Explorez-les !
 
 
-	\subsection{Fiche technique}
+    \subsection{Fiche technique}
 
 \IDmacro{exam}{11}{}
 

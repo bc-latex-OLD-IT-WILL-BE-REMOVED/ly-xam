@@ -1,12 +1,47 @@
 ==========
+2017-11-28
+==========
+
+
+**New minor version version::``0.2.0-beta`` of ¨lyxam:** see all the changes from date::``2017-11-13`` to today.
+
+
+**One new style ``linebox``:** this style uses frames and lines.
+
+
+**Internal changes:** another cleaning of the code of path::``apmep.sty``.
+
+
+==========
+2017-11-24
+==========
+
+**Internal changes:** the macro ``\@concatenate`` can be used to concatenate two possible empty texts separated by one separator if none of the two texts are empty.
+
+
+==========
+2017-11-21
+==========
+
+**Change for options of the package.**
+
+    1) Two new options ``about`` and ``noabout`` to show or hide the informations about topics, exercises and parts.
+
+    2) The option ``short`` acts now also on texts like ``points``.
+
+
+**New way to use the option ``deliver`` of ``\exam``:** they are three possible values ``no``, ``short`` and ``long``.
+
+
+==========
 2017-11-19
 ==========
 
 **Two options added to the environment `\begin{preamble}...\end{preamble}`.**
 
-    1) The option ``center`` allows to center or not the content of the premble.
+    1) The option ``center`` allows to center or not the content of the preamble.
 
-    2) The option ``scale`` which multiplied by the width of a line gives the width of the preamble.
+    2) The option ``scale`` gives the width of the preamble obtained by multiplying the width of a line the value of ``scale``.
 
 
 
@@ -56,7 +91,7 @@
 **New minor version version::``0.1.0-beta`` of ¨lyxam:** see all the changes below.
 
 
-**Two new options ``hf`` and ``nohf`` for the pacakage:** this is for showing or hiding the headers and footers.
+**Two new options ``hf`` and ``nohf`` for the package:** this is for showing or hiding the headers and footers.
 
 
 **Changes for `\exam`.**

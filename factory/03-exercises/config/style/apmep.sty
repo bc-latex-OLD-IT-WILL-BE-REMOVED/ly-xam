@@ -1,76 +1,3 @@
-% ============= %
-% == READ ME == %
-% ============= %
-%
-%
-% WARNING
-% -------
-%
-% You have to keep special comments ``% == ... == %`` where ``...`` is one
-% of the following text :
-%     * ``PACKAGES USED``
-%     * ``DEFINITIONS``
-%
-% TODO
-% ----
-%
-% You must define on single command ``\@build@ctxt`` whith two arguments.
-%
-%     1) Argument #1 is he kind of context: ``topic``, ``exercise``...
-%
-%     2) Argument #2 is either ``hidectxt`` or ``showctxt`` so has to show
-%        or hide the text for the context.
-%        Just use ``\IfStrEq{#2}{hidectxt}{HIDE}{SHOW}`` in your code.
-%
-% NOTE
-% ----
-%
-%     1) The name of the actual STY file will be the name of your style.
-%
-%     2) The following packages are loaded by ``lyxam``.
-%         * ``calc``
-%         * ``etoolbox``
-%         * ``fancyhdr``
-%         * ``lastpage``
-%         * ``listofitems``
-%         * ``simplekv``
-%         * ``xstring``
-%
-%     3) The options used are stored in macros ``\@lyxam@ctxt@<<KEY>>`` where
-%        ``<<KEY>>`` is one of the option. To test if a value is an empty
-%        string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
-%
-%     4) To print the name, shorten or not, of the context, just use
-%        ``\@lyxam@ctxt@name{<<CTX>>}`` where ``<<CTX>>`` is the name of
-%        the context.
-%
-%        You can also use ``\@lyxam@if@end@with@colon{<<CTX>>}{TRUE}{FALSE}``
-%        if you need to know that the name of the context finishes by a colon
-%        (thinks of case like "Ex.1").
-%
-%     5) To print the number of the context, just use one time
-%        ``\@lyxam@ctxt@nb{<<CTX>>}`` where ``<<CTX>>`` is the name of
-%        the context.
-%
-%     6) You can also use the following command where ``<<CTX>>`` is the name
-%        of the context.
-%
-%         * ``\@lyxam@ctxt@longpoints{<<CTX>>}`` gives either nothing, or
-%           "No point", or "1 point" or "X points".
-%
-%         * ``\@lyxam@ctxt@longsource{<<CTX>>}`` gives either nothing, or
-%           "Source:...".
-%
-%         * ``\@lyxam@ctxt@longtime{<<CTX>>}`` gives either nothing, or
-%           "Time:...".
-%
-% GOOD PRACTICE
-% -------------
-%
-% For your own commands, use a prefix like ``@nameofmystyle@`` such as to avoid
-% conflict with global commands.
-
-
 % == PACKAGES USED == %
 
 
@@ -92,9 +19,9 @@
 %     #1: name of the context
 %     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@apmep@lyxam@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
-    \def\@apmep@lyxam@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
-    \def\@apmep@lyxam@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
+    \def\@apmep@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
+    \def\@apmep@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
+    \def\@apmep@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
@@ -127,13 +54,12 @@
     \IfStrEq{#1}{subpart}{%%
         \@apmep@space@before@subexercise%%
     }{%%
-        \IfStrEq{#1}{topic}{%%
-            \@apmep@space@before@topic%%
-        }{%%
-            \@apmep@space@before@exercise%%
-        }
+        \IfStrEq{#1}{topic}%%
+            {\@apmep@space@before@topic}%%
+            {\@apmep@space@before@exercise}%%
     }%%
     \begin{absolutelynopagebreak}
+% Build context title.
         \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
                 \textsc{%%
@@ -147,18 +73,19 @@
         }{%%
             \gdef\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
-% Time and points.
+% Build time and points.
         \gdef\@apmep@ctxt@title@extra{%%
             {\normalfont\scriptsize%%
                 \@if@empty\@lyxam@ctxt@time{}{%%
-                    \kern 0.8em (\@apmep@lyxam@ctxt@time)%%
+                    \kern 0.8em (\@apmep@ctxt@time)%%
                 }%%
                 \@if@empty\@lyxam@ctxt@pts{}{%%
                     \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\,\@apmep@lyxam@ctxt@pts{}\,]%%
+                    [\,\@apmep@ctxt@pts{}\,]%%
                 }%%
             }%%
         }%%
+% Write context title.
         {\noindent\bfseries\@apmep@title@size%%
             \IfStrEq{#1}{subpart}{%%
                 \smash{\makebox[\textwidth][c]{\@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}}}%%
@@ -166,7 +93,7 @@
                 \@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}%%
             }%%
         }%%
-% About note.
+% Write about note.
         \@if@empty\@lyxam@ctxt@about{}{%%
             \@apmep@space@before@info
             {\bfseries\itshape\@apmep@about@size%%
@@ -177,14 +104,14 @@
                 }%%
             }%%
         }%%
-% Source.
+% Write source.
         \@if@empty\@lyxam@ctxt@src{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
                 \ifbool{@apmep@center@subexercise}{%%
-                    \smash{\makebox[\textwidth][c]{\@apmep@lyxam@ctxt@src}}%%
+                    \smash{\makebox[\textwidth][c]{\@apmep@ctxt@src}}%%
                 }{%%
-                    \hfill\@apmep@lyxam@ctxt@src%%
+                    \hfill\@apmep@ctxt@src%%
                 }%%
             }%%
         }%%
