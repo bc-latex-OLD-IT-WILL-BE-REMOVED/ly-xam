@@ -81,7 +81,7 @@ def organize_packages(packages):
         options = packages_found[onename]
 
         if options:
-            options = f'[{", ".join(options)}]'
+            options = f'[{", ".join(set(options))}]'
 
         else:
             options = ""
