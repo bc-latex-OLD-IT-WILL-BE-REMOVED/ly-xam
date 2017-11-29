@@ -1,7 +1,14 @@
 ==========
-2017-11-28
+2017-11-29
 ==========
 
+**One new style ``mini``:** this style tries to minimise the space used for teh formatting. This is the new default style.
+
+
+
+==========
+2017-11-28
+==========
 
 **New minor version version::``0.2.0-beta`` of ¨lyxam:** see all the changes from date::``2017-11-13`` to today.
 

@@ -19,35 +19,45 @@
 %     #1: name of the context
 %     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@apmep@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
-    \def\@apmep@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
+    \def\@mini@ctxt@pts{%%
+        \@if@empty{\@lyxam@ctxt@pts}{}{%%
+            [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
+        }%%
+    }%%
+    \def\@mini@ctxt@time{%%
+        \@if@empty{\@lyxam@ctxt@time}{}{%%
+            (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
+        }%%
+    }%%
     \def\@apmep@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
+        \def\@apmep@title@inside{\hfill}%%
         \def\@apmep@about@size{\small}%%
         \def\@apmep@source@size{\footnotesize}%%
     }{%%
         \IfStrEq{#1}{subpart}{%%
             \def\@apmep@title@size{\small}%%
+            \def\@apmep@title@inside{\kern 0.8em}%%
             \def\@apmep@about@size{\footnotesize}%%
             \def\@apmep@source@size{\scriptsize}%%
         }{%%
             \def\@apmep@title@size{}%%
+            \def\@apmep@title@inside{\hfill}%%
             \def\@apmep@about@size{\small}%%
             \def\@apmep@source@size{\footnotesize}%%
         }%%
     }%%
 % Centered or not ?
-    \IfStrEq{#1}{subpart}{%%
-        \setbool{@apmep@center@subexercise}{true}%%
-    }{%%
+    \setbool{@apmep@center@subexercise}{true}%%
+    \IfStrEq{#1}{subpart}{}{%%
         \@if@empty\@lyxam@ctxt@pts{%%
-            \setbool{@apmep@center@subexercise}{false}%%
-        }{%%
-            \setbool{@apmep@center@subexercise}{true}%%
-        }%%
-    }
+            \@if@empty\@lyxam@ctxt@time{%%
+                \setbool{@apmep@center@subexercise}{false}%%
+            }{}%%
+        }{}%%
+    }%%
 % Printing the context, time and points.
 %
 % Warning ! Sub exercises are always centered.
@@ -74,23 +84,18 @@
             \gdef\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Build time and points.
-        \gdef\@apmep@ctxt@title@extra{%%
-            {\normalfont\scriptsize%%
-                \@if@empty\@lyxam@ctxt@time{}{%%
-                    \kern 0.8em (\@apmep@ctxt@time)%%
-                }%%
-                \@if@empty\@lyxam@ctxt@pts{}{%%
-                    \IfStrEq{#1}{subpart}{\kern 0.8em}{\hfill}
-                    [\,\@apmep@ctxt@pts{}\,]%%
-                }%%
-            }%%
-        }%%
+        \gdef\@apmep@ctxt@title@extra{{%%
+            \normalfont\scriptsize%%
+            \@concatenate{\@mini@ctxt@time}{\kern 0.8em}{\@mini@ctxt@pts}%%
+        }}%%
 % Write context title.
         {\noindent\bfseries\@apmep@title@size%%
             \IfStrEq{#1}{subpart}{%%
-                \smash{\makebox[\textwidth][c]{\@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}}}%%
+                \smash{\makebox[\textwidth][c]{%%
+                    \@apmep@ctxt@title{}\@apmep@title@inside{}\@apmep@ctxt@title@extra{}%%
+                }}%%
             }{%%
-                \@apmep@ctxt@title{}\@apmep@ctxt@title@extra{}%%
+                \@apmep@ctxt@title{}\@apmep@title@inside{}\@apmep@ctxt@title@extra{}%%
             }%%
         }%%
 % Write about note.

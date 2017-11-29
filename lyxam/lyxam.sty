@@ -17,8 +17,9 @@
 % ------------- %
 
 % Which style to use ?
-\newcommand{\@style@choosen}{apmep}
-\DeclareOption{apmep}{}
+\newcommand{\@style@choosen}{mini}
+\DeclareOption{mini}{}
+\DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
 \DeclareOption{linebox}{\renewcommand{\@style@choosen}{linebox}}
 
 % Which language to use ?
@@ -383,5 +384,6 @@
 % Loading the good style
 \IfStrEqCase{\@style@choosen}{
     {apmep}{\input{config/style/apmep.sty}}%
+    {mini}{\input{config/style/mini.sty}}%
     {linebox}{\input{config/style/linebox.sty}}%
 }

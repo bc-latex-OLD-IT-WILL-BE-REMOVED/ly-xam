@@ -16,14 +16,14 @@ LYXAM_DIR   = FACTORY_DIR.parent / "lyxam"
 # -- CLEAN BEFORE PUSH -- #
 # ----------------------- #
 
-for toremove in FACTORY_DIR.walk("file::**.macros-x.txt"):
-    toremove.remove()
+for filetoremove in FACTORY_DIR.walk("file::**.macros-x.txt"):
+    filetoremove.remove()
 
-for toremove in LYXAM_DIR.walk("file::*.macros-x.txt"):
-    toremove.remove()
+for filetoremove in LYXAM_DIR.walk("file::**.macros-x.txt"):
+    filetoremove.remove()
 
-for toremove in FACTORY_DIR.walk("file::**.pdf"):
-    toremove.remove()
+for filetoremove in FACTORY_DIR.walk("file::**.pdf"):
+    filetoremove.remove()
 
-for toremove in FACTORY_DIR.walk("dir::*"):
-    latexclean(toremove)
+for filetoremove in FACTORY_DIR.walk("dir::*"):
+    latexclean(filetoremove)

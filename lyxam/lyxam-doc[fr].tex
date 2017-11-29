@@ -153,7 +153,7 @@
 }
 \makeatother
 
-\usepackage[apmep, fr]{lyxam}
+\usepackage[fr]{lyxam}
 
 
 \begin{document}
@@ -166,7 +166,7 @@
 	des mises en forme clés en main\\%
 	pour des fiches d'exercices\\%
 	{\footnotesize Code source disponible sur \url{https://github.com/bc-latex/ly-xam}.}\\%
-	{\footnotesize Version \texttt{0.1.0-beta} développée et testée sur \macosxname{}.}%
+	{\footnotesize Version \texttt{0.2.0-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
 \date{2017-11-28}
@@ -202,7 +202,7 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 \begin{itemize}
 	\item \verb+en+, valeur par défaut
 	\footnote{
-		Sorry for the french frogs that we are...
+		Sorry for the french frogs that we are... (Trad. : Désolé pour les grenouilles françaises que nous sommes...)
 	}, et \verb+fr+ permettent d'indiquer d'utiliser l'anglais ou le français pour tous les textes ajoutés par \verb+lyxam+.
 
 	\item \verb+hf+, valeur par défaut, et \verb+nohf+ demandent d'afficher ou non les en-têtes et les pieds de page.
@@ -215,11 +215,13 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
 	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
-	\item Pour le moment, seulement deux styles de mise en forme sont disponibles.
+	\item Pour le moment, trois styles de mise en forme sont disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
 	\begin{itemize}[label={\small\textbullet}]
-		\item \verb+apmep+ est le style par défaut. Il s'inspire du style de mise en forme des sujets de BAC proposés sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
+		\item \verb+mini+ est le style par défaut qui utilise le moins possible de fioritures.
 
-		\item \verb+linebox+ est un style utilisant des rectangles et des lignes. Tous les goûts sont dans la nature...
+		\item \verb+apmep+ est un style inspiré par la mise en forme des sujets de BAC mis à disposition sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
+
+		\item \verb+linebox+ est un style utilisant des cadres et des lignes. Tous les goûts sont dans la nature...
 	\end{itemize}
 \end{itemize}
 
@@ -356,7 +358,7 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 
 %Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[apmep, fr]{lyxam}+ dans le préambule.
 
-Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule.
+Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule ce qui charge le style par défaut parmi les différents styles proposés (voir le dossier \verb+examples+ pour choisir un style prédéfini).
 
 
     \subsection{Différents types d'exercices}
@@ -627,6 +629,13 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
+
+    \item[NOUVELLE VERSION À VENIR...] À suivre....
+    \begin{itemize}
+        \item L'option de package \verb+mini+ fournit un style de mise en forme minimaliste. Ce sera le style par défaut.
+
+        \item \dots
+    \end{itemize}
 
     \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.
     \begin{itemize}

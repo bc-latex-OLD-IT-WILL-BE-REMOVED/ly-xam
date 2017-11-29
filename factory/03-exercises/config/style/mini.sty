@@ -1,0 +1,95 @@
+% == PACKAGES USED == %
+
+
+% == DEFINITIONS == %
+
+% Spacings
+\newcommand\@mini@space@before@topic{\par\addvspace{1.8em}}
+\newcommand\@mini@space@before@exercise{\par\addvspace{0.85em}}
+\newcommand\@mini@space@before@subexercise{\par\addvspace{0.5em}}
+
+\newcommand\@mini@space@before@info{\par\addvspace{0.5em}}
+\newcommand\@mini@space@before@content{\par\addvspace{0.5em}}
+
+% General builder for all contexts
+%     #1: name of the context
+%     #2: ``hidectxt`` or ``showctxt`
+\newcommand\@build@ctxt[2]{%%
+    \def\@mini@ctxt@pts{%%
+        \@if@empty{\@lyxam@ctxt@pts}{}{%%
+            [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
+        }%%
+    }%%
+    \def\@mini@ctxt@time{%%
+        \@if@empty{\@lyxam@ctxt@time}{}{%%
+            (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
+        }%%
+    }%%
+    \def\@mini@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
+% Settings of the context
+    \IfStrEq{#1}{topic}{%%
+        \def\@apmep@title@format{\normalfont\centering}%%
+        \def\@apmep@title@inside{\kern 0.8em}%%
+        \def\@apmep@about@format{\itshape\small}%%
+        \def\@apmep@source@format{\normalfont\small}%%
+    }{%%
+        \IfStrEq{#1}{subpart}{%%
+            \def\@apmep@title@format{\small\centering}%%
+            \def\@apmep@title@inside{\kern 0.8em}%%
+            \def\@apmep@about@format{\itshape\footnotesize}%%
+            \def\@apmep@source@format{\normalfont\footnotesize}%%
+        }{%%
+            \def\@apmep@title@format{\normalfont}%%
+            \def\@apmep@title@inside{\hfill}%%
+            \def\@apmep@about@format{\itshape\small\noindent}%%
+            \def\@apmep@source@format{\normalfont\small\hfill}%%
+        }%%
+    }%%
+% Printing the context, time and points.
+%
+% Warning ! Sub exercises and topics are always centered.
+    \IfStrEq{#1}{subpart}{%%
+        \@mini@space@before@subexercise%%
+    }{%%
+        \IfStrEq{#1}{topic}{%%
+            \@mini@space@before@topic%%
+        }{%%
+            \@mini@space@before@exercise%%
+        }
+    }%%
+    \begin{absolutelynopagebreak}
+% Build context title.
+        \IfStrEq{#2}{showctxt}{%%
+            \gdef\@mini@ctxt@title{%%
+                \textsc{%%
+                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                    \ctxtname%%
+                    \@lyxam@if@end@with@colon{#1}{}{~}%%
+                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
+                }%%
+            }%%
+        }{%%
+            \gdef\@mini@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
+        }%%
+% Build time and points.
+        \gdef\@apmep@ctxt@title@extra{{%%
+            \normalfont\scriptsize%%
+            \@concatenate{\@mini@ctxt@time}{\kern 0.8em}{\@mini@ctxt@pts}%%
+        }}%%
+% The contexts.
+        \noindent\@apmep@title@format{}\bfseries%%
+        \@mini@ctxt@title{}\@apmep@title@inside{}\@apmep@ctxt@title@extra%%
+% Write about note.
+        \@if@empty\@lyxam@ctxt@about{}{%%
+            \@mini@space@before@info
+            {\@apmep@about@format{}\@lyxam@ctxt@about}%%
+        }%%
+% % Write source.
+        \@if@empty\@lyxam@ctxt@src{}{%%
+            \@mini@space@before@info
+            {\@apmep@source@format{}\@mini@ctxt@src}%%
+        }%%
+    \end{absolutelynopagebreak}%%
+    \@mini@space@before@content%%
+}

@@ -29,9 +29,11 @@ EXT_2_CMDS = {
 parser = argparse.ArgumentParser()
 
 for option, default in [
-    ('--pdf', False),
+    ('--pdf' , False),
     ('--bash', False),
-    ('--all', False)
+    ('--all' , False),
+    ('--quick' , False),
+    ('--noex', False)
 ]:
     parser.add_argument(
         option,
@@ -40,6 +42,11 @@ for option, default in [
     )
 
 ARGS = parser.parse_args()
+
+if ARGS.quick:
+    ARGS.pdf  = False
+    ARGS.bash = False
+    ARGS.noex = True
 
 if ARGS.all:
     ARGS.pdf  = True
@@ -64,6 +71,10 @@ for pattern in PATTERNS:
     allpaths.sort()
 
     for onepath in allpaths:
+        if ARGS.noex and onepath.name == "build_03-examples.py":
+            print(f'+ Ignoring "{onepath - THIS_DIR}"')
+            continue
+
         print(f'+ Launching "{onepath - THIS_DIR}"')
 
         runthis(
