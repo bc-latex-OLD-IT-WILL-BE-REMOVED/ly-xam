@@ -5,7 +5,6 @@
 **One new style ``mini``:** this style tries to minimise the space used for teh formatting. This is the new default style.
 
 
-
 ==========
 2017-11-28
 ==========
