@@ -68,7 +68,7 @@
             {\@apmep@space@before@topic}%%
             {\@apmep@space@before@exercise}%%
     }%%
-    \begin{absolutelynopagebreak}
+    {%%
 % Build context title.
         \IfStrEq{#2}{showctxt}{%%
             \gdef\@apmep@ctxt@title{%%
@@ -120,6 +120,6 @@
                 }%%
             }%%
         }%%
-    \end{absolutelynopagebreak}%%
+    }%%%%
     \@apmep@space@before@content%%
 }

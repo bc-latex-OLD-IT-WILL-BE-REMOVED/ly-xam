@@ -1,4 +1,15 @@
 ==========
+2017-11-30
+==========
+
+**Two major changes for the styles.**
+
+    1) The style  ``mini`` now prints the sources as footnotes.
+
+    2) The environment ``\begin{absolutelynopagebreak} ... \end{absolutelynopagebreak}`` has been removed because it has some side effects (on footnotes for example).
+
+
+==========
 2017-11-29
 ==========
 

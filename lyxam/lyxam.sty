@@ -193,16 +193,6 @@
 % -- EXERCISES -- %
 % --------------- %
 
-% General API Tools
-%
-% Source of the mystic unbreakable environment...
-%    * https://tex.stackexchange.com/a/94702/6880
-\newenvironment{absolutelynopagebreak}{%%
-    \par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup%%
-}{%%
-    \par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd%%
-}
-
 % Smart counters
 %
 % Sources of inspiration.

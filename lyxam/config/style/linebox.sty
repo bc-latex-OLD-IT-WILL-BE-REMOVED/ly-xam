@@ -175,7 +175,7 @@
             \@linebox@space@before@exercise%%
         }
     }%%
-    \begin{absolutelynopagebreak}
+    {%%
 % Build context title.
         \IfStrEq{#2}{showctxt}{%%
             \gdef\@linebox@ctxt@title{%%
@@ -246,6 +246,6 @@
             \@linebox@space@before@info
             {\normalfont\footnotesize\hfill\@linebox@ctxt@src}%%
         }%%
-    \end{absolutelynopagebreak}%%
+    }%%%%
     \@linebox@space@before@content%%
 }
