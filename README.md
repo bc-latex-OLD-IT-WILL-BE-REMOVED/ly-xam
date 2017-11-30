@@ -4,6 +4,12 @@ What about this package  ?
 **ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
 
 
+Incoming new minor version...
+=============================
+
+**One new style ``mini``:** this style tries to minimise the space used for the formatting. This is the new default style.
+
+
 Changes in this version `0.2.0-beta`
 ====================================
 
@@ -37,18 +43,18 @@ Changes in this version `0.1.0-beta`
 
 **Changes for `\exam`.**
 
-  1) The option `preambule` has been removed, and all other options are now optional.
+  1) The option `preamble` has been removed, and all other options are now optional.
 
   2) The macro `\exam` can be used several times in the same document.
 
 
-**New environment `\begin{preambule}...\end{preambule}`:** you can use it anywhere.
+**New environment `\begin{preamble}...\end{preamble}`:** you can use it anywhere.
 
 
 **Changes for macros like `\exercise`:** the option `note` has been renamed `about`.
 
 
-**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preambule.
+**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preamble.
 
 
 **Internal changes:** the code has been totally rebuild and simplified thanks to the package `simplekv`.

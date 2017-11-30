@@ -13,7 +13,7 @@
 2017-11-29
 ==========
 
-**One new style ``mini``:** this style tries to minimise the space used for teh formatting. This is the new default style.
+**One new style ``mini``:** this style tries to minimise the space used for the formatting. This is the new default style.
 
 
 ==========

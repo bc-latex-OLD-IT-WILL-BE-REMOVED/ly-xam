@@ -37,7 +37,7 @@
     \def\@mini@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
-        \def\@mini@title@format{\normalfont}%%
+        \def\@mini@title@format{\normalsize\bfseries}%%
         \def\@mini@title@centering{\centering}%%
         \def\@mini@title@inside{\kern 0.8em}%%
         \def\@mini@about@format{\itshape\small}%%
@@ -48,7 +48,7 @@
             \def\@mini@title@inside{\kern 0.8em}%%
             \def\@mini@about@format{\itshape\footnotesize}%%
         }{%%
-            \def\@mini@title@format{\normalfont}%%
+            \def\@mini@title@format{\normalsize\bfseries}%%
             \def\@mini@title@centering{}%%
             \def\@mini@title@inside{\hfill}%%
             \def\@mini@about@format{\itshape\small\noindent}%%
@@ -87,7 +87,7 @@
     }%%
     {%%
 % The contexts.
-        \noindent\@mini@title@format\@mini@title@centering\bfseries%%
+        \noindent\@mini@title@format\@mini@title@centering%%
         \@mini@ctxt@title{}%%
 % Source as a footnote.
         \@if@empty\@mini@ctxt@src{}{%%
