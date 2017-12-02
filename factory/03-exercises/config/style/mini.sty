@@ -24,17 +24,6 @@
 %     #1: name of the context
 %     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@mini@ctxt@pts{%%
-        \@if@empty{\@lyxam@ctxt@pts}{}{%%
-            [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
-        }%%
-    }%%
-    \def\@mini@ctxt@time{%%
-        \@if@empty{\@lyxam@ctxt@time}{}{%%
-            (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
-        }%%
-    }%%
-    \def\@mini@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@mini@title@format{\normalsize\bfseries}%%
@@ -66,35 +55,40 @@
             \@mini@space@before@exercise%%
         }
     }%%
-% Build context title.
-    \IfStrEq{#2}{showctxt}{%%
-        \gdef\@mini@ctxt@title{%%
+    {%%
+% The contexts.
+        \noindent\@mini@title@format\@mini@title@centering%%
+        \IfStrEq{#2}{showctxt}{%%
             \textsc{%%
-                \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                \ctxtname%%
+                % \def\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                \@lyxam@ctxt@name{#1}%%
                 \@lyxam@if@end@with@colon{#1}{}{~}%%
                 \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
                 \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
             }%%
+        }{%%
+            \textsc{\@lyxam@ctxt@title}%%
         }%%
-    }{%%
-        \gdef\@mini@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
-    }%%
-% Build time and points.
-    \gdef\@mini@ctxt@title@extra{%%
-        \normalfont\scriptsize%%
-        \@concatenate{\@mini@ctxt@time}{\kern 0.8em}{\@mini@ctxt@pts}%%
-    }%%
-    {%%
-% The contexts.
-        \noindent\@mini@title@format\@mini@title@centering%%
-        \@mini@ctxt@title{}%%
 % Source as a footnote.
-        \@if@empty\@mini@ctxt@src{}{%%
-            \,\,\footnotesrc{\,\,\@mini@ctxt@src}%%
+        \@if@empty\@lyxam@ctxt@src{}{%%
+            \,\,\footnotesrc{\,\,\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
         }%%
 % Time and points
-        \@mini@title@inside{}\@mini@ctxt@title@extra%%
+        \def\@mini@ctxt@pts{%%
+            \@if@empty{\@lyxam@ctxt@pts}{}{%%
+                [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
+            }%%
+        }%%
+        \def\@mini@ctxt@time{%%
+            \@if@empty{\@lyxam@ctxt@time}{}{%%
+                (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
+            }%%
+        }%%
+        \@mini@title@inside%%
+        {%%
+            \normalfont\scriptsize%%
+            \@concatenate{\@mini@ctxt@time}{\kern 0.8em}{\@mini@ctxt@pts}%%
+        }%%
 % About note.
         \@if@empty\@lyxam@ctxt@about{\par}{%%
             \@mini@space@before@info

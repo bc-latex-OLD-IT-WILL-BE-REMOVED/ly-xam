@@ -43,21 +43,17 @@
 }
 
 % The layout command [START].
-\newlength{\@@@mini@title@maxwidth}
-\setlength{\@@@mini@title@maxwidth}{\dimexpr(\textwidth - 2em)\relax}
-
 \newcommand\@build@layout{
 % Deliver or not ? That is the question !.
     \IfStrEq{\@lyxam@deliver}{no}{}{
         \@add@delivery@material{\@lyxam@deliver}
         \@mini@space@before@all@titles{}
     }%%
-% Main title looks like "~ Homework - Math ~" (no empty main title !)
-    \def\@mini@main@title{%%
-        \@concatenate{%%
-            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-        }{\@mini@minus}{\@lyxam@subject}%%
-    }%%
+% The title of the document.
+%
+% Sources:
+    % * https://tex.stackexchange.com/a/402448/6880
+    % * https://tex.stackexchange.com/a/288394/6880
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \def\@mini@second@title{%%
         \@concatenate{\@lyxam@sector}{\@mini@minus}{\@lyxam@theme}%%
@@ -70,13 +66,11 @@
     \def\@mini@fourth@title{%%
         \@concatenate{\@lyxam@date}{\@mini@minus}{\@lyxam@longduration{\@lyxam@time}}%%
     }%%
-% The title of the document.
-%
-% Sources:
-    % * https://tex.stackexchange.com/a/402448/6880
-    % * https://tex.stackexchange.com/a/288394/6880
     {\centering\bfseries\large%%
-        \@mini@main@title{}%%
+% Main title looks like "~ Homework - Math ~" (no empty main title !)
+        \@concatenate{%%
+            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+        }{\@mini@minus}{\@lyxam@subject}%%
         \@if@empty\@mini@second@title{}{%%
             \@mini@space@before@title{}
             \@mini@second@title{}%%

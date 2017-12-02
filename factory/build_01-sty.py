@@ -2,6 +2,8 @@
 
 from collections import defaultdict
 
+
+from mistool.latex_use import install
 from mistool.os_use import PPath
 from mistool.string_use import between, joinand
 from mistool.term_use import ALL_FRAMES, withframe
@@ -13,8 +15,9 @@ from orpyste.data import ReadBlock
 
 THIS_DIR = PPath( __file__ ).parent
 
-STY_PATH   = THIS_DIR.parent / "lyxam" / "lyxam.sty"
-CONF_PATH  = THIS_DIR.parent / "lyxam" / "config"
+LYXAM_PATH = THIS_DIR.parent / "lyxam"
+STY_PATH   = LYXAM_PATH / "lyxam.sty"
+CONF_PATH  = LYXAM_PATH / "config"
 CONF_LANG  = CONF_PATH / "lang"
 CONF_STYLE = CONF_PATH / "style"
 
@@ -360,3 +363,13 @@ with STY_PATH.open(
     lyxam.write(source)
 
 print(f"{DECO}* Update of << {STY_PATH.name} >> done.")
+
+
+# -------------------------------- #
+# -- UPDATE THE LOCAL LATEX DIR -- #
+# -------------------------------- #
+
+install(
+    ppath   = LYXAM_PATH,
+    regpath = "file not::**.macros-x.txt"
+)

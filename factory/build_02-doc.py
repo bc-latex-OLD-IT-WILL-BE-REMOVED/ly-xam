@@ -58,18 +58,17 @@ LATEXFILES = []
 
 for subdir in THIS_DIR.walk("dir::"):
     subdir_name = str(subdir.name)
+    subdir_str  = str(subdir)
 
-    if subdir_name in [
-        "config",
-    ] or subdir_name[:2] == "x-":
+    if subdir_name in ["config", "style"] \
+    or "x-" in subdir_str:
         continue
-
 
     for extrafile in subdir.walk("file::**doc\[fr\]*.jpg"):
         EXTRAFILES.append(extrafile)
 
     LATEXFILES += [
-        l for l in subdir.walk("file::**\[fr\].tex")
+        l for l in subdir.walk("file::*\[fr\].tex")
         if not l.stem.endswith("-nodoc[fr]")
     ]
 
@@ -77,11 +76,11 @@ for subdir in THIS_DIR.walk("dir::"):
 LATEXFILES.sort()
 
 for latexfile in LATEXFILES:
-    print(latexfile)
     with latexfile.open(
         mode     = "r",
         encoding = "utf-8"
     ) as texfile:
+        print(latexfile)
         _, content, _ = between(
             text = texfile.read(),
             seps = [

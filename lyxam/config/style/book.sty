@@ -1,0 +1,147 @@
+% ----------------------------- %
+% -- EXTRA PACKAGES REQUIRED -- %
+% ----------------------------- %
+
+\RequirePackage{bigfoot}
+\RequirePackage{mparhack}
+\RequirePackage{stackengine}
+
+
+% ----------------- %
+% -- DEFINITIONS -- %
+% ----------------- %
+
+\setlength{\parindent}{0cm}
+
+% Source for same space after/before the header/footer rule :
+%    * https://tex.stackexchange.com/a/375288/6880
+\advance \footskip by \ht\strutbox
+
+% Settings
+\newcommand\@book@space@before@title{\par\addvspace{0.65em}}
+\newcommand\@book@space@after@title{\par\addvspace{0.45em}}
+\newcommand\@book@space@after@preamble{\par\addvspace{0.45em}}
+
+\newcommand\@book@slashtext{\,\,/ }
+
+% The layout command [START].
+
+\newcommand\@build@layout{
+    \hyphenpenalty=-200%%
+% Deliver or not ? That is the question !.
+    \IfStrEq{\@lyxam@deliver}{no}{}{%%
+        \PackageWarning{lyxam}{no deliver material with option book}%%
+    }%%
+    \def\@book@kind@nb@subnb{%%
+        \@concatenate{%%
+            \@concatenate{\@lyxam@kind}{~}{\@lyxam@nb}%%
+        }{\,$\cdot$\,}{\@lyxam@subnb}%%
+    }%%
+    \def\@book@subject@theme@sector{%%
+        \@concatenate{\@lyxam@subject}{\@book@slashtext}{%%
+            \@concatenate{\@lyxam@theme}{\@book@slashtext}{\@lyxam@sector}%%
+        }%%
+    }%%
+    \def\@book@class@location{%%
+        \@concatenate{\@lyxam@class}{\@book@slashtext}{\@lyxam@location}%%
+    }%%
+    \def\@book@date@time{%%
+        \@concatenate{\@lyxam@longdate{\@lyxam@date}}%%
+            {\@book@slashtext}%%
+            {\@lyxam@longduration{\@lyxam@time}}%%
+    }%%
+% The title of the document.
+    \@book@space@before@title%%
+    \textbf{%%
+        \large
+        \@concatenate{\@book@kind@nb@subnb}{\@book@slashtext}{%%
+            \@concatenate{\@book@subject@theme@sector}{\@book@slashtext}{%%
+                \@concatenate{\@book@class@location}%%
+                    {\@book@slashtext}%%
+                    {\@book@date@time}%%
+            }%%
+        }%%
+    }
+    \par
+    \@book@space@after@title{}%%
+}
+% The layout command [END].
+
+% Preamble [START].
+\newenvironment{@preamble@style}%%
+    {\setlength\parindent{0pt}\small\itshape}%%
+    {\@book@space@after@preamble{}}
+% Preamble [END].
+
+% Spacings
+\newcommand\@book@space@before@ctxt{\par\addvspace{0.45em}}
+\newcommand\@book@space@piece@ctxt{\,\,}
+\newcommand\@book@space@after@ctxt{\kern 2ex}
+
+% Special footnotes for sources
+\DeclareNewFootnote{src}
+\MakeSortedPerPage{footnotesrc}
+\renewcommand\thefootnotesrc{%%
+    \raisebox{0.08em}{$\lceil$}\alph{footnotesrc}\raisebox{-0.05em}{$\rfloor$}%%
+}
+
+% Settings for stacking time and points.
+\reversemarginpar
+\renewcommand\stackalignment{r}
+\newbool{@book@add@time@or@pts}
+
+% General builder for all contexts
+%     #1: name of the context
+%     #2: ``hidectxt`` or ``showctxt`
+\newcommand\@build@ctxt[2]{%%
+% Printing the context, time and points.
+    \@book@space@before@ctxt%%
+    \noindent%%
+% Write the title of the context.
+    \textbf{%%
+        \IfStrEq{#2}{showctxt}{%%
+            \textsc{%%
+                \@lyxam@ctxt@name{#1}%%
+                \@lyxam@if@end@with@colon{#1}{}{~}%%
+                \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
+            }%%
+        }{%%
+            \textsc{\@lyxam@ctxt@title{}}%%
+        }%%
+    }%%
+% Write an about info.
+    \@if@empty\@lyxam@ctxt@about{}{%%
+        \@book@space@piece@ctxt(\textit{\@lyxam@ctxt@about})%%
+    }%%
+% Write points and time.
+%
+% Source for left vertical line
+%    * https://tex.stackexchange.com/q/35815/6880
+    \def\@book@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
+    \def\@book@ctxt@time@pts{%%
+        \@if@empty\@lyxam@ctxt@time{%%
+            \@if@empty\@lyxam@ctxt@pts{}{\@book@ctxt@pts\vphantom{$H_p$}}%%
+        }{%%
+            \@if@empty\@lyxam@ctxt@pts%%
+                {\@lyxam@ctxt@time\vphantom{$H_p$}}%%
+                {\stackanchor{\@lyxam@ctxt@time}{\@book@ctxt@pts}}%%
+        }%%
+    }%%
+    \@if@empty\@book@ctxt@time@pts{}{%%
+        \marginpar{%
+            \raggedleft\scriptsize%%
+            \raisebox{0.3em}{\@book@ctxt@time@pts%%
+            \hskip 0.5em {\vrule width .6pt}}%%
+        }%%
+    }%%
+% Write a source as a footnote.
+    \@if@empty\@lyxam@ctxt@src{}{%%
+        \@book@space@piece@ctxt{}\footnotesrc{%%
+            \@book@space@piece@ctxt{}%%
+            \@lyxam@ctxt@longsource{\@lyxam@ctxt@src}%%
+        }%%
+    }%%
+% Horizontal space.
+    \@book@space@after@ctxt%%
+}

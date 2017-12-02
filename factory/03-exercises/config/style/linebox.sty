@@ -20,7 +20,6 @@
 \newcommand\@build@ctxt[2]{%%
     \def\@linebox@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
     \def\@linebox@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
-    \def\@linebox@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Printing the context, time and points.
 %
 % Warning ! Sub exercises are always centered.
@@ -36,20 +35,19 @@
     {%%
 % Build context title.
         \IfStrEq{#2}{showctxt}{%%
-            \gdef\@linebox@ctxt@title{%%
+            \def\@linebox@ctxt@title{%%
                 \textsc{%%
-                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                    \ctxtname%%
+                    \@lyxam@ctxt@name{#1}%%
                     \@lyxam@if@end@with@colon{#1}{}{~}%%
                     \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
                     \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
         }{%%
-            \gdef\@linebox@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
+            \def\@linebox@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Build time and points.
-        \gdef\@apmep@ctxt@title@extra{%%
+        \def\@apmep@ctxt@title@extra{%%
             \IfStrEq{#1}{topic}{%%
                 {\normalfont\scriptsize%%
                  \@if@empty\@lyxam@ctxt@time{}%%
@@ -102,7 +100,8 @@
 % Write source.
         \@if@empty\@lyxam@ctxt@src{}{%%
             \@linebox@space@before@info
-            {\normalfont\footnotesize\hfill\@linebox@ctxt@src}%%
+            {\normalfont\footnotesize\hfill%%
+             \@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
         }%%
     }%%%%
     \@linebox@space@before@content%%

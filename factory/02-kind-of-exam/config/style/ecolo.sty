@@ -1,0 +1,123 @@
+% == PACKAGES USED == %
+
+
+% == DEFINITIONS == %
+
+\setlength{\parindent}{0cm}
+
+% Source for same space after/before the header/footer rule :
+%    * https://tex.stackexchange.com/a/375288/6880
+\advance \footskip by \ht\strutbox
+
+% Settings
+\newcommand\@mini@space@before@all@titles{\par\addvspace{0.5em}}
+\newcommand\@mini@space@after@all@titles{\par\addvspace{0.5em}}
+
+\newcommand\@mini@space@after@preamble{\par\addvspace{0.45em}}
+
+\newcommand\@mini@space@before@title{\par}
+
+\newcommand\@mini@minus{\hspace{0.3em}--\hspace{0.3em}}
+
+% The delivery command [START].
+\newcommand\@add@delivery@material[1]{%%
+    \rule{\textwidth}{.7pt}\par%%
+    \small\IfStrEq{\@lyxam@deliver}{long}{%%
+        \expandafter\MakeUppercase\expandafter\lyxam@text@name{}:
+        \par\medskip
+        \lyxam@text@firstname{}:
+    }{%%
+        \expandafter\MakeUppercase\expandafter\lyxam@text@name{}
+        \lyxam@text@firstname{}:
+    }%%
+    \par\vspace{-0.5em}\rule{\textwidth}{.7pt}%%
+}
+% The delivery command [END].
+
+% For the headers and the footers.
+\fancypagestyle{@mini@first@page@style}{%%
+    \fancyhf{}%%
+    \renewcommand\headrulewidth{0pt}%%
+    \renewcommand\footrulewidth{0pt}%%
+    \fancyfoot[C]{\footnotesize \thepage\ / \pageref{LastPage}}%%
+}
+
+% The layout command [START].
+\newcommand\@build@layout{
+% Deliver or not ? That is the question !.
+    \IfStrEq{\@lyxam@deliver}{no}{}{
+        \@add@delivery@material{\@lyxam@deliver}
+        \@mini@space@before@all@titles{}
+    }%%
+% The title of the document.
+%
+% Sources:
+    % * https://tex.stackexchange.com/a/402448/6880
+    % * https://tex.stackexchange.com/a/288394/6880
+% The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
+    \def\@mini@second@title{%%
+        \@concatenate{\@lyxam@sector}{\@mini@minus}{\@lyxam@theme}%%
+    }%%
+% The 3rd title looks like "Name - Institute" or nothing.
+    \def\@mini@third@title{%%
+        \@concatenate{\@lyxam@class}{\@mini@minus}{\@lyxam@location}%%
+    }%%
+% The 4th title looks like "Date - Time" or nothing.
+    \def\@mini@fourth@title{%%
+        \@concatenate{\@lyxam@date}{\@mini@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+    }%%
+    {\centering\bfseries\large%%
+% Main title looks like "~ Homework - Math ~" (no empty main title !)
+        \@concatenate{%%
+            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+        }{\@mini@minus}{\@lyxam@subject}%%
+        \@if@empty\@mini@second@title{}{%%
+            \@mini@space@before@title{}
+            \@mini@second@title{}%%
+        }%%
+        \@if@empty\@mini@third@title{}{%%
+            \@mini@space@before@title{}
+            {\small\@mini@third@title{}}%%
+        }%%
+        \@if@empty\@mini@fourth@title{}{%%
+            \@mini@space@before@title{}
+            {\footnotesize\@mini@fourth@title{}}%%
+        }%%
+        \par
+    }
+    \@mini@space@after@all@titles{}%%
+% Headers and footers
+    \ifbool{@lyxam@show@headers@footers}{%%
+        \pagestyle{fancy}
+        \renewcommand\headrulewidth{.5pt}
+        \renewcommand\footrulewidth{.5pt}
+        \lhead{%%
+            \small%%
+            \@concatenate{%%
+                \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+            }{\@mini@minus}{\@lyxam@theme}%%
+        }
+%        \chead{\small CENTER UP}
+        \rhead{%%
+            \small\@concatenate{\@lyxam@class}{\@mini@minus}{\@lyxam@sector}%%
+        }%%
+        \lfoot{%%
+            \small%%
+            \@if@empty\@lyxam@location{}{\@lyxam@location}%%
+        }%%
+        \cfoot{\footnotesize \thepage\ / \pageref{LastPage}}
+        \rfoot{%%
+            \small%%
+            \@if@empty\@lyxam@date{}{\@lyxam@date}%%
+        }%%
+% Remember that this macro is called at the beginning of the document !
+        \thispagestyle{@mini@first@page@style}%%
+    }{}%%
+}
+% The layout command [END].
+
+% Preamble [START].
+\newenvironment{@preamble@style}%%
+    {\setlength\parindent{0pt}\small\itshape}%%
+    {\@mini@space@after@preamble{}}
+% Preamble [END].

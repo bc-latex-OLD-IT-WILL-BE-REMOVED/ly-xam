@@ -1,0 +1,66 @@
+\documentclass[12pt,a4paper]{scrartcl}
+
+\input{../config/header[fr].sty}
+
+
+%\usepackage[fr]{points-scale}
+
+
+% Sources :
+%    1) http://forum.mathematex.net/latex-f6/probleme-de-placement-de-texte-dans-la-marge-t13583.html#p131104
+%    2) http://forum.mathematex.net/latex-f6/probleme-de-placement-de-texte-dans-la-marge-t13583.html#p131109
+
+
+\usepackage{marginnote}
+	
+	\newcommand\pointInMarge[1]{%
+		\reversemarginpar\marginnote{%
+%			\unless\ifodd\value{page}\raggedleft\fi
+			\framebox{#1}%
+		}%
+	}
+	\newcommand\pointTotalInMarge[1]{%
+		\reversemarginpar\marginnote{%
+			\unless\ifodd\value{page}\raggedleft\fi
+			\framebox{#1/#1}%
+		}%
+	}
+	
+	\newcommand\blabla{
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla  	}
+
+
+\begin{document}
+
+bla \pointTotalInMarge{10} \blabla
+
+\begin{enumerate}
+	\item bla \pointInMarge{2} bla
+	\item bla \pointInMarge{2} bla
+
+	\begin{enumerate}
+		\item bla \pointInMarge{2} \blabla
+
+		\begin{enumerate}
+			\item bla \pointInMarge{2} \blabla
+		
+			\item bla \pointInMarge{2} bla
+		\end{enumerate}
+	
+		\item bla \pointInMarge{2} bla
+	\end{enumerate}
+\end{enumerate}
+
+bla \pointInMarge{1} \blabla
+
+
+\newpage
+
+\noindent bla \pointInMarge{1} \blabla
+
+\end{document}

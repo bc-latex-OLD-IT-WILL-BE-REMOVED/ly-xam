@@ -5,3 +5,6 @@ exam::
 
 // This will be used to write something like "Duration: 2h".
     duration = durée
+
+// This will be used to write something like "Date: 2017-12-01".
+    date = date

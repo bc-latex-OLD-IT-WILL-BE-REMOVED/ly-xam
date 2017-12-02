@@ -42,6 +42,9 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
         for p in STYLES_PATH.walk("file::*.sty"):
             style = p.stem
 
+            if style == "book" and suffix_2 == "deliver":
+                continue
+
             filetobuild = EXAMPLES_PATH / f"{style}-{suffix}.tex"
 
             if filetobuild.is_file():

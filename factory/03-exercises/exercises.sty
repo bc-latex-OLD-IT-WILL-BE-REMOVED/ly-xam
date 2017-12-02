@@ -16,6 +16,8 @@
 \newcommand{\@style@choosen}{mini}
 \DeclareOption{mini}{}
 \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+\DeclareOption{book}{\renewcommand{\@style@choosen}{book}}
+\DeclareOption{ecolo}{\renewcommand{\@style@choosen}{ecolo}}
 \DeclareOption{linebox}{\renewcommand{\@style@choosen}{linebox}}
 
 % Which language to use ?
@@ -202,12 +204,12 @@
     \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
     \ifshowsource\else\setKV[context@keys]{src={}}\fi
     \ifshowabout\else\setKV[context@keys]{about={}}\fi
-    \def\@lyxam@ctxt@id{\@use@context@key{id}}%%
-    \def\@lyxam@ctxt@title{\@use@context@key{title}}%%
-    \def\@lyxam@ctxt@time{\@use@context@key{time}}%%
-    \def\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
-    \def\@lyxam@ctxt@src{\@use@context@key{src}}%%
-    \def\@lyxam@ctxt@about{\@use@context@key{about}}%%
+    \edef\@lyxam@ctxt@id{\@use@context@key{id}}%%
+    \edef\@lyxam@ctxt@title{\@use@context@key{title}}%%
+    \edef\@lyxam@ctxt@time{\@use@context@key{time}}%%
+    \edef\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
+    \edef\@lyxam@ctxt@src{\@use@context@key{src}}%%
+    \edef\@lyxam@ctxt@about{\@use@context@key{about}}%%
 }
 
 \newcommand\@add@context[1]{%
@@ -267,10 +269,12 @@
 % == LOADING THE STYLE == %
 
 % Loading the good style
-\IfStrEqCase{\@style@choosen}{
-    {apmep}{\input{config/style/apmep.sty}}%
-    {mini}{\input{config/style/mini.sty}}%
-    {linebox}{\input{config/style/linebox.sty}}%
+\IfStrEqCase{\@style@choosen}{%%
+    {apmep}{\input{config/style/apmep.sty}}%%
+    {book}{\input{config/style/book.sty}}%%
+    {ecolo}{\input{config/style/ecolo.sty}}%%
+    {mini}{\input{config/style/mini.sty}}%%
+    {linebox}{\input{config/style/linebox.sty}}%%
 }
 
 % == END == %

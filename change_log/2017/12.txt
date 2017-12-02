@@ -1,0 +1,15 @@
+==========
+2017-12-02
+==========
+
+**New minor version version::``0.3.0-beta`` of ¨lyxam:** see all the changes from date::``2017-11-29`` to today.
+
+
+**Two new styles.**
+
+    1) The style ``book`` has been added to write exercises inside a book or a lesson (no delivery material, no headers and footers, and not a title centered).
+
+    2) The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less spaces as possible.
+
+
+**Internal changes :** less ``\def`` commands are used and only necessary ``\gdef`` commands have been kept.

@@ -55,14 +55,8 @@
         \@add@delivery@material{\@lyxam@deliver}
         \@apmep@space@before@all@titles{}
     }%%
-% Main title looks like "~ Homework - Math ~" (no empty main title !)
-    \def\@apmep@main@title{%%
-        \decofourleft{}\hspace{0.3em}%%
-        \@concatenate{%%
-            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-        }{\@apmep@minus}{\@lyxam@subject}%%
-        \hspace{0.3em}\decofourright{}%%
-    }%%
+% The title of the document.
+%
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \def\@apmep@second@title{%%
         \@concatenate{\@lyxam@sector}{\@apmep@minus}{\@lyxam@theme}%%
@@ -75,10 +69,16 @@
     \def\@apmep@fourth@title{%%
         \@concatenate{\@lyxam@date}{\@apmep@minus}{\@lyxam@longduration{\@lyxam@time}}%%
     }%%
-% The title of the document.
     {\parskip=0pt\par\nopagebreak\centering
 % Main title is never empty !
-        {\Large \textbf{\@apmep@main@title{}}}%%
+        {\Large \bfseries
+% Main title looks like "~ Homework - Math ~" (no empty main title !)
+            \decofourleft{}\hspace{0.3em}%%
+            \@concatenate{%%
+                \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+            }{\@apmep@minus}{\@lyxam@subject}%%
+            \hspace{0.3em}\decofourright{}%%
+        }%%
         \@if@empty\@apmep@second@title{}{%%
             \@apmep@space@before@title{}
             {\Large \textbf{\@apmep@second@title{}}}%%

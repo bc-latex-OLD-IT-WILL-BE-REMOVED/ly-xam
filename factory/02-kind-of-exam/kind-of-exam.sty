@@ -17,6 +17,8 @@
 \newcommand{\@style@choosen}{mini}
 \DeclareOption{mini}{}
 \DeclareOption{apmep}{\renewcommand{\@style@choosen}{apmep}}
+\DeclareOption{book}{\renewcommand{\@style@choosen}{book}}
+\DeclareOption{ecolo}{\renewcommand{\@style@choosen}{ecolo}}
 \DeclareOption{linebox}{\renewcommand{\@style@choosen}{linebox}}
 
 % Which language to use ?
@@ -73,6 +75,10 @@
 % Layout tools - API - START
 \newcommand\@lyxam@longduration[1]{%%
     \@if@empty{#1}{}{\lyxam@text@duration{}: #1}%%
+}
+
+\newcommand\@lyxam@longdate[1]{%%
+    \@if@empty{#1}{}{\lyxam@text@date{}: #1}%%
 }
 
 %    #1: kind of test
@@ -164,10 +170,12 @@
 % == LOADING THE STYLE == %
 
 % Loading the good style
-\IfStrEqCase{\@style@choosen}{
-    {apmep}{\input{config/style/apmep.sty}}%
-    {mini}{\input{config/style/mini.sty}}%
-    {linebox}{\input{config/style/linebox.sty}}%
+\IfStrEqCase{\@style@choosen}{%%
+    {apmep}{\input{config/style/apmep.sty}}%%
+    {book}{\input{config/style/book.sty}}%%
+    {ecolo}{\input{config/style/ecolo.sty}}%%
+    {mini}{\input{config/style/mini.sty}}%%
+    {linebox}{\input{config/style/linebox.sty}}%%
 }
 
 % == END == %

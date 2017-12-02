@@ -28,8 +28,6 @@
 
     \subsection{Important pour la suite}
 
-%Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[apmep, fr]{lyxam}+ dans le préambule.
-
 Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule ce qui charge le style par défaut parmi les différents styles proposés (voir le dossier \verb+examples+ pour choisir un style prédéfini).
 
 
@@ -110,13 +108,14 @@ Bla, bla, bla, bla, bla, ...
     \subsection{Toutes les options en action}
 
 Les fiches techniques données un peu plus bas expliquent le champs d'utilisation de chaque option.
+\textit{\textbf{Attention !} L'environnement} \verb+tcblisting+ \textit{utilisé dans ce document ne montre pas ci-dessous la note de bas page numérotée $\lceil$a$\rfloor$ qui donne la source utilisée.}
 
 \begin{tcblisting}{}
 \exercise[pts   = 0,
           time  = 3 jours,
           id    = facultatif,
           title = Devinette,
-          about = Pour spécialistes uniquement,
+          about = Pour spécialiste uniquement,
           src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}

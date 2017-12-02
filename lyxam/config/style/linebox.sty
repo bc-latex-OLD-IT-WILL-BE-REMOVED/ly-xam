@@ -64,12 +64,11 @@
         \@add@delivery@material{\@lyxam@deliver}
         \@linebox@space@before@all@titles{}
     }%%
-% Main title looks like "~ Homework - Math ~" (no empty main title !)
-    \def\@linebox@main@title{%%
-        \@concatenate{%%
-            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-        }{\@linebox@minus}{\@lyxam@subject}%%
-    }%%
+% The title of the document.
+%
+% Sources:
+    % * https://tex.stackexchange.com/a/402448/6880
+    % * https://tex.stackexchange.com/a/288394/6880
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \def\@linebox@second@title{%%
         \@concatenate{\@lyxam@sector}{\@linebox@minus}{\@lyxam@theme}%%
@@ -82,11 +81,6 @@
     \def\@linebox@fourth@title{%%
         \@concatenate{\@lyxam@date}{\@linebox@minus}{\@lyxam@longduration{\@lyxam@time}}%%
     }%%
-% The title of the document.
-%
-% Sources:
-    % * https://tex.stackexchange.com/a/402448/6880
-    % * https://tex.stackexchange.com/a/288394/6880
     {\centering\begin{tcolorbox}[blanker,
                                  hbox,
                                  borderline horizontal = {0.7pt}{0pt}{black},
@@ -94,8 +88,13 @@
                                  left = 1em, right = 1em,
                                  top = 0.6em, bottom = 0.6em]
         \begin{varwidth}{\@@@linebox@title@maxwidth}
-            \centering
-            {\large \textbf{\@linebox@main@title{}}}%%
+            \centering{%%
+                \large \bfseries%%
+    % Main title looks like "~ Homework - Math ~" (no empty main title !)
+                \@concatenate{%%
+                    \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+                }{\@linebox@minus}{\@lyxam@subject}%%
+            }%%
             \@if@empty\@linebox@second@title{}{%%
                 \@linebox@space@before@title{}
                 {\large \textbf{\@linebox@second@title{}}}%%
@@ -162,7 +161,6 @@
 \newcommand\@build@ctxt[2]{%%
     \def\@linebox@ctxt@pts{\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}}%%
     \def\@linebox@ctxt@time{\@lyxam@ctxt@longtime{\@lyxam@ctxt@time}}%%
-    \def\@linebox@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Printing the context, time and points.
 %
 % Warning ! Sub exercises are always centered.
@@ -178,20 +176,19 @@
     {%%
 % Build context title.
         \IfStrEq{#2}{showctxt}{%%
-            \gdef\@linebox@ctxt@title{%%
+            \def\@linebox@ctxt@title{%%
                 \textsc{%%
-                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                    \ctxtname%%
+                    \@lyxam@ctxt@name{#1}%%
                     \@lyxam@if@end@with@colon{#1}{}{~}%%
                     \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
                     \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
         }{%%
-            \gdef\@linebox@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
+            \def\@linebox@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Build time and points.
-        \gdef\@apmep@ctxt@title@extra{%%
+        \def\@apmep@ctxt@title@extra{%%
             \IfStrEq{#1}{topic}{%%
                 {\normalfont\scriptsize%%
                  \@if@empty\@lyxam@ctxt@time{}%%
@@ -244,7 +241,8 @@
 % Write source.
         \@if@empty\@lyxam@ctxt@src{}{%%
             \@linebox@space@before@info
-            {\normalfont\footnotesize\hfill\@linebox@ctxt@src}%%
+            {\normalfont\footnotesize\hfill%%
+             \@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
         }%%
     }%%%%
     \@linebox@space@before@content%%

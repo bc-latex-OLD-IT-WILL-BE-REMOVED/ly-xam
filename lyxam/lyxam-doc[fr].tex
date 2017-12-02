@@ -166,10 +166,10 @@
 	des mises en forme clés en main\\%
 	pour des fiches d'exercices\\%
 	{\footnotesize Code source disponible sur \url{https://github.com/bc-latex/ly-xam}.}\\%
-	{\footnotesize Version \texttt{0.2.0-beta} développée et testée sur \macosxname{}.}%
+	{\footnotesize Version \texttt{0.3.0-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
-\date{2017-11-30}
+\date{2017-12-02}
 
 \maketitle
 
@@ -215,20 +215,26 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
 	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
-	\item Pour le moment, trois styles de mise en forme sont disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
+
+	\item Voici les différents styles de mise en forme disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
 	\begin{itemize}[label={\small\textbullet}]
-		\item \verb+mini+ est le style par défaut qui utilise le moins possible de fioritures.
+        \item Style par défaut, \verb+mini+ propose une mise forme minimaliste utilisant le moins de fioritures possibles.
+        
+        \item \verb+apmep+ est inspiré fortement de la mise en forme des sujets de BAC que l'on trouvait en 2017 sur le site \href{https://www.apmep.fr}{APMEP} (Association des Professeurs de Mathématiques de l'Enseignement Public).
+        
+        \item \verb+book+ fournit une mise forme utile dans un livre ou un cours. Attention car cette option ne crée pas d'en-têtes, pas de pieds de page, et elle ne mettra pas en forme de capsules pour le nom et le prénom des élèves même si cela est demandé.
+        
+        \item \verb+ecolo+ mélange les styles \verb+mini+ et \verb+book+ pour produire des devoirs très peu consommateur d'espaces.
+        
+        \item \verb+linebox+ utilise des lignes et des cadres (il a été conçu à l'origine pour les corrigés de l'auteur de \verb+lyxam+).
 
-		\item \verb+apmep+ est un style inspiré par la mise en forme des sujets de BAC mis à disposition sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
-
-		\item \verb+linebox+ est un style utilisant des cadres et des lignes. Tous les goûts sont dans la nature...
-	\end{itemize}
+\end{itemize}
 \end{itemize}
 
 
 \begin{remark}
 	Dans la suite de cette documentation nous invoquons juste l'option \verb+fr+.
-	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+. Ceci implique l'usage du style par défaut.
+	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+ donc ce sera le style par défaut \verb+mini+ qui donnera la mise en forme.
 \end{remark}
 
 
@@ -351,8 +357,6 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 
     \subsection{Important pour la suite}
 
-%Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[apmep, fr]{lyxam}+ dans le préambule.
-
 Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule ce qui charge le style par défaut parmi les différents styles proposés (voir le dossier \verb+examples+ pour choisir un style prédéfini).
 
 
@@ -433,13 +437,14 @@ Bla, bla, bla, bla, bla, ...
     \subsection{Toutes les options en action}
 
 Les fiches techniques données un peu plus bas expliquent le champs d'utilisation de chaque option.
+\textit{\textbf{Attention !} L'environnement} \verb+tcblisting+ \textit{utilisé dans ce document ne montre pas ci-dessous la note de bas page numérotée $\lceil$a$\rfloor$ qui donne la source utilisée.}
 
 \begin{tcblisting}{}
 \exercise[pts   = 0,
           time  = 3 jours,
           id    = facultatif,
           title = Devinette,
-          about = Pour spécialistes uniquement,
+          about = Pour spécialiste uniquement,
           src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
@@ -625,11 +630,13 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
 
-    \item[NOUVELLE VERSION À VENIR...] À suivre....
+    \item[2017-12-02] Nouvelle version mineure \verb+0.3.0-beta+ du package.
     \begin{itemize}
         \item L'option de package \verb+mini+ fournit un style de mise en forme minimaliste. Ce sera le style par défaut.
 
-        \item \dots
+        \item L'option de package \verb+book+ a été ajouté pour insérer dans un document de type cours ou livre.
+
+        \item L'option de package \verb+ecolo+ mélange les mises en forme de \verb+mini+ et \verb+book+ pour rédiger des devoirs en utilisant le moins d'espaces possible.        
     \end{itemize}
 
     \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.

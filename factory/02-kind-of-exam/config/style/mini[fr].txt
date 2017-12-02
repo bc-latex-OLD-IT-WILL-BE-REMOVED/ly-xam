@@ -1,7 +1,0 @@
-% ----------------------------------------- %
-% -- VERY SHORT DESCRIPTION OF THE STYLE -- %
-% ----------------------------------------- %
-%
-% Use LaTeX syntax, this is for the documentation !
-
-Le style \verb+mini+ propose une mise forme minimaliste utilisant le moins de fioritures possibles.

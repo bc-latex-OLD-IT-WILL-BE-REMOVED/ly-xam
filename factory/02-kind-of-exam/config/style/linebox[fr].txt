@@ -1,7 +1,0 @@
-% ----------------------------------------- %
-% -- VERY SHORT DESCRIPTION OF THE STYLE -- %
-% ----------------------------------------- %
-%
-% Use LaTeX syntax, this is for the documentation !
-
-Le style \verb+linebox+ utilisant des lignes et des cadres a été conçu à l'origine pour les corrigés de l'auteur de \verb+lyxam+.

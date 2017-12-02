@@ -1,0 +1,66 @@
+% == PACKAGES USED == %
+
+
+% == DEFINITIONS == %
+
+\setlength{\parindent}{0cm}
+
+% Source for same space after/before the header/footer rule :
+%    * https://tex.stackexchange.com/a/375288/6880
+\advance \footskip by \ht\strutbox
+
+% Settings
+\newcommand\@book@space@before@title{\par\addvspace{0.65em}}
+\newcommand\@book@space@after@title{\par\addvspace{0.45em}}
+\newcommand\@book@space@after@preamble{\par\addvspace{0.45em}}
+
+\newcommand\@book@slashtext{\,\,/ }
+
+% The layout command [START].
+
+\newcommand\@build@layout{
+    \hyphenpenalty=-200%%
+% Deliver or not ? That is the question !.
+    \IfStrEq{\@lyxam@deliver}{no}{}{%%
+        \PackageWarning{lyxam}{no deliver material with option book}%%
+    }%%
+    \def\@book@kind@nb@subnb{%%
+        \@concatenate{%%
+            \@concatenate{\@lyxam@kind}{~}{\@lyxam@nb}%%
+        }{\,$\cdot$\,}{\@lyxam@subnb}%%
+    }%%
+    \def\@book@subject@theme@sector{%%
+        \@concatenate{\@lyxam@subject}{\@book@slashtext}{%%
+            \@concatenate{\@lyxam@theme}{\@book@slashtext}{\@lyxam@sector}%%
+        }%%
+    }%%
+    \def\@book@class@location{%%
+        \@concatenate{\@lyxam@class}{\@book@slashtext}{\@lyxam@location}%%
+    }%%
+    \def\@book@date@time{%%
+        \@concatenate{\@lyxam@longdate{\@lyxam@date}}%%
+            {\@book@slashtext}%%
+            {\@lyxam@longduration{\@lyxam@time}}%%
+    }%%
+% The title of the document.
+    \@book@space@before@title%%
+    \textbf{%%
+        \large
+        \@concatenate{\@book@kind@nb@subnb}{\@book@slashtext}{%%
+            \@concatenate{\@book@subject@theme@sector}{\@book@slashtext}{%%
+                \@concatenate{\@book@class@location}%%
+                    {\@book@slashtext}%%
+                    {\@book@date@time}%%
+            }%%
+        }%%
+    }
+    \par
+    \@book@space@after@title{}%%
+}
+% The layout command [END].
+
+% Preamble [START].
+\newenvironment{@preamble@style}%%
+    {\setlength\parindent{0pt}\small\itshape}%%
+    {\@book@space@after@preamble{}}
+% Preamble [END].

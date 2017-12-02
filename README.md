@@ -4,10 +4,16 @@ What about this package  ?
 **ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
 
 
-Incoming new minor version...
-=============================
+Changes in this version `0.3.0-beta`
+====================================
 
-**One new style ``mini``:** this style tries to minimise the space used for the formatting. This is the new default style.
+**Three new styles.**
+
+  1) The style ``mini`` tries to minimize the space used for the formatting. This is the new default style.
+
+  2) The style ``book`` has been added to use exercises inside a book or a lesson.
+
+  3) The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less spaces as possible.
 
 
 Changes in this version `0.2.0-beta`
@@ -29,10 +35,6 @@ Changes in this version `0.2.0-beta`
 
 
 **Customization of the numbers for contexts:** it is now possible to change the way the numbers are printed for each kind of exercises.
-
-
-
-**[to be continued...]**
 
 
 Changes in this version `0.1.0-beta`

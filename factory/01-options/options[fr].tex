@@ -25,20 +25,26 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
 
 	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
-	\item Pour le moment, trois styles de mise en forme sont disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
+
+	\item Voici les différents styles de mise en forme disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
 	\begin{itemize}[label={\small\textbullet}]
-		\item \verb+mini+ est le style par défaut qui utilise le moins possible de fioritures.
+        \item Style par défaut, \verb+mini+ propose une mise forme minimaliste utilisant le moins de fioritures possibles.
+        
+        \item \verb+apmep+ est inspiré fortement de la mise en forme des sujets de BAC que l'on trouvait en 2017 sur le site \href{https://www.apmep.fr}{APMEP} (Association des Professeurs de Mathématiques de l'Enseignement Public).
+        
+        \item \verb+book+ fournit une mise forme utile dans un livre ou un cours. Attention car cette option ne crée pas d'en-têtes, pas de pieds de page, et elle ne mettra pas en forme de capsules pour le nom et le prénom des élèves même si cela est demandé.
+        
+        \item \verb+ecolo+ mélange les styles \verb+mini+ et \verb+book+ pour produire des devoirs très peu consommateur d'espaces.
+        
+        \item \verb+linebox+ utilise des lignes et des cadres (il a été conçu à l'origine pour les corrigés de l'auteur de \verb+lyxam+).
 
-		\item \verb+apmep+ est un style inspiré par la mise en forme des sujets de BAC mis à disposition sur le site de \href{https://www.apmep.fr}{l'APMEP}, l'Association des Professeurs de Mathématiques de l'Enseignement public.
-
-		\item \verb+linebox+ est un style utilisant des cadres et des lignes. Tous les goûts sont dans la nature...
-	\end{itemize}
+\end{itemize}
 \end{itemize}
 
 
 \begin{remark}
 	Dans la suite de cette documentation nous invoquons juste l'option \verb+fr+.
-	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+. Ceci implique l'usage du style par défaut.
+	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+ donc ce sera le style par défaut \verb+mini+ qui donnera la mise en forme.
 \end{remark}
 
 \end{document}

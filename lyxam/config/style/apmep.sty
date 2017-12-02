@@ -59,14 +59,8 @@
         \@add@delivery@material{\@lyxam@deliver}
         \@apmep@space@before@all@titles{}
     }%%
-% Main title looks like "~ Homework - Math ~" (no empty main title !)
-    \def\@apmep@main@title{%%
-        \decofourleft{}\hspace{0.3em}%%
-        \@concatenate{%%
-            \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-        }{\@apmep@minus}{\@lyxam@subject}%%
-        \hspace{0.3em}\decofourright{}%%
-    }%%
+% The title of the document.
+%
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \def\@apmep@second@title{%%
         \@concatenate{\@lyxam@sector}{\@apmep@minus}{\@lyxam@theme}%%
@@ -79,10 +73,16 @@
     \def\@apmep@fourth@title{%%
         \@concatenate{\@lyxam@date}{\@apmep@minus}{\@lyxam@longduration{\@lyxam@time}}%%
     }%%
-% The title of the document.
     {\parskip=0pt\par\nopagebreak\centering
 % Main title is never empty !
-        {\Large \textbf{\@apmep@main@title{}}}%%
+        {\Large \bfseries
+% Main title looks like "~ Homework - Math ~" (no empty main title !)
+            \decofourleft{}\hspace{0.3em}%%
+            \@concatenate{%%
+                \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
+            }{\@apmep@minus}{\@lyxam@subject}%%
+            \hspace{0.3em}\decofourright{}%%
+        }%%
         \@if@empty\@apmep@second@title{}{%%
             \@apmep@space@before@title{}
             {\Large \textbf{\@apmep@second@title{}}}%%
@@ -150,17 +150,6 @@
 %     #1: name of the context
 %     #2: ``hidectxt`` or ``showctxt`
 \newcommand\@build@ctxt[2]{%%
-    \def\@mini@ctxt@pts{%%
-        \@if@empty{\@lyxam@ctxt@pts}{}{%%
-            [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
-        }%%
-    }%%
-    \def\@mini@ctxt@time{%%
-        \@if@empty{\@lyxam@ctxt@time}{}{%%
-            (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
-        }%%
-    }%%
-    \def\@apmep@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
 % Settings of the context
     \IfStrEq{#1}{topic}{%%
         \def\@apmep@title@size{\large}%%
@@ -202,9 +191,9 @@
     {%%
 % Build context title.
         \IfStrEq{#2}{showctxt}{%%
-            \gdef\@apmep@ctxt@title{%%
+            \def\@apmep@ctxt@title{%%
                 \textsc{%%
-                    \gdef\ctxtname{\@lyxam@ctxt@name{#1}}%%
+                    \def\ctxtname{\@lyxam@ctxt@name{#1}}%%
                     \ctxtname%%
                     \@lyxam@if@end@with@colon{#1}{}{~}%%
                     \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
@@ -212,10 +201,20 @@
                 }%%
             }%%
         }{%%
-            \gdef\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
+            \def\@apmep@ctxt@title{\textsc{\@lyxam@ctxt@title}}%%
         }%%
 % Build time and points.
-        \gdef\@apmep@ctxt@title@extra{{%%
+        \def\@mini@ctxt@pts{%%
+            \@if@empty{\@lyxam@ctxt@pts}{}{%%
+                [\,\@lyxam@ctxt@longpoints{\@lyxam@ctxt@pts}\,]%%
+            }%%
+        }%%
+        \def\@mini@ctxt@time{%%
+            \@if@empty{\@lyxam@ctxt@time}{}{%%
+                (\@lyxam@ctxt@longtime{\@lyxam@ctxt@time})%%
+            }%%
+        }%%
+        \def\@apmep@ctxt@title@extra{{%%
             \normalfont\scriptsize%%
             \@concatenate{\@mini@ctxt@time}{\kern 0.8em}{\@mini@ctxt@pts}%%
         }}%%
@@ -241,6 +240,7 @@
             }%%
         }%%
 % Write source.
+        \def\@apmep@ctxt@src{\@lyxam@ctxt@longsource{\@lyxam@ctxt@src}}%%
         \@if@empty\@lyxam@ctxt@src{}{%%
             \@apmep@space@before@info
             {\normalfont\@apmep@source@size%%
