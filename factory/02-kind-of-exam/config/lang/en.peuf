@@ -8,3 +8,6 @@ exam::
 
 // This will be used to write something like "Date: 2017-12-01".
     date = date
+
+// This will be used to write something like "Evaluated on".
+    eval = evaluated on

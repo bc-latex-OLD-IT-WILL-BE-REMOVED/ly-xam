@@ -12,103 +12,145 @@
 		\setcounter{lyxam@counter@problem}{0}
 		\setcounter{lyxam@counter@bonus}{0}
 		\setcounter{lyxam@counter@subpart}{0}
+		\setcounter{lyxam@counter@topic@star}{0}
+		\setcounter{lyxam@counter@exercise@star}{0}
+		\setcounter{lyxam@counter@problem@star}{0}
+		\setcounter{lyxam@counter@bonus@star}{0}
+		\setcounter{lyxam@counter@subpart@star}{0}
 	}
 \makeatletter
 
 
 \begin{document}
 
-\section{Test 1}
+% -------------------------------------- %
+
+\section{Test 0}
+
+\resetallcnt{}
+
+\exercise
+\exercise
+\exercise
+\exercise
+
+
+
+% -------------------------------------- %
+
+\newpage\section{Test 1}
 
 \resetallcnt{}
 
 \topic
-
-\exercise
-
-\problem
-
-\subpart
-
-\bonus
-
-\subpart
+\topic
+	\exercise*[id=1p24]
+		\subpart
+		\subpart
 
 
 
+% -------------------------------------- %
 
 \newpage\section{Test 2}
 
 \resetallcnt{}
 
 \topic
-
-\exercise
-
-\problem
-
-\subpart
-
-\subpart
-
+	\exercise
+		\subpart
+		\subpart
 \topic
-
-\subpart
-
-\bonus
-
-\subpart
+		\subpart
 
 
 
+% -------------------------------------- %
 
 \newpage\section{Test 3}
 
 \resetallcnt{}
 
-\topic
-
 \exercise
-
+	\subpart
 \exercise
+	\subpart
+\exercise
+	\subpart
+	\subpart
 
-\subpart
+
+
+% -------------------------------------- %
+
+\newpage\section{Test 4}
+
+\resetallcnt{}
 
 \topic
-
-\subpart
-
-\subpart
-
-\bonus
-
-\subpart
-
-\bonus
-
-\subpart
+	\exercise
+	\problem
+		\subpart
+	\bonus
+		\subpart
 
 
 
+% -------------------------------------- %
 
-\newpage\section{Bug 1 - Cf 1st doc. FR - Keep this there !}
+\newpage\section{Test 5}
+
+\resetallcnt{}
+
+\topic
+	\exercise
+	\problem
+		\subpart
+		\subpart
+\topic
+		\subpart
+	\bonus
+		\subpart
+
+
+
+% -------------------------------------- %
+
+\newpage\section{Test 6}
+
+\resetallcnt{}
+
+\topic
+	\exercise
+	\exercise
+		\subpart
+
+\topic
+		\subpart
+		\subpart
+	\bonus
+		\subpart
+	\bonus
+		\subpart
+
+
+
+% -------------------------------------- %
+
+\newpage\section{Bug Initial - Cf 1st doc. FR - Keep this there !}
 
 \resetallcnt{}
 
 \exercise
-
 \exercise
-
 \problem
-
 \bonus
+
 
 \hrule
-
 \resetallcnt{}
 
 \exercise
-
 \exercise
 
 \end{document}

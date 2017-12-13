@@ -5,8 +5,8 @@
 \RequirePackage{lastpage}
 
 \RequirePackage{calc}
-\RequirePackage{etoolbox}
 \RequirePackage{listofitems}
+\RequirePackage{marginnote}
 \RequirePackage{simplekv}
 \RequirePackage{xstring}
 
@@ -26,15 +26,18 @@
 \DeclareOption{en}{}
 \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
 
+% Show points or not ?
+\newif\ifshowpoints
+\showpointstrue
+\DeclareOption{nopts}{\showpointsfalse}
+
 
 % == LOCAL SETTINGS == %
 
 % Headers and footers or not ?
-\newbool{@lyxam@show@headers@footers}
-\setbool{@lyxam@show@headers@footers}{true}
-
-\DeclareOption{hf}{}
-\DeclareOption{nohf}{\setbool{@lyxam@show@headers@footers}{false}}
+\newif\ifshowheadersfooters
+\showheadersfooterstrue
+\DeclareOption{nohf}{\showheadersfootersfalse}
 
 
 % == PROCESSING OPTION - LOADING LANG == %
@@ -81,6 +84,12 @@
     \@if@empty{#1}{}{\lyxam@text@date{}: #1}%%
 }
 
+\newcommand\@lyxam@longpts[1]{%%
+    \@if@empty{#1}{}{%%
+        \IfStrEq{#1}{0}{}{\lyxam@text@eval{} #1}}%%
+}
+
+
 %    #1: kind of test
 %    #2: nb of the test
 %    #3: subnb of the test
@@ -90,10 +99,6 @@
     \@if@empty{#3}{}{\,(#3)}%%
 }
 % Layout tools - API - END
-
-% Deliver or not ?
-\newbool{@lyxam@show@deliver}
-\setbool{@lyxam@show@deliver}{false}
 
 % The general layout command.
 \setKVdefault[lyxam@title@keys]{%
@@ -107,12 +112,14 @@
     class    = {},    % Name of a class
     location = {},    % An institute or a school
     date     = {},    % Date of the exam
-    time     = {}     % Duration of the exam
+    time     = {},    % Duration of the exam
+    pts      = {}     % Total number of points for the evaluation
 }
 
 \newcommand\exam[1][]{%%
     \useKVdefault[lyxam@title@keys]%%
     \setKV[lyxam@title@keys]{#1}%%
+    \ifshowpoints\else\setKV[lyxam@title@keys]{pts={}}\fi%%
 % User's values
     \edef\@lyxam@deliver{\@use@lyxam@key{deliver}}%%
     \edef\@lyxam@kind{\@use@lyxam@key{kind}}%%
@@ -125,6 +132,7 @@
     \edef\@lyxam@location{\@use@lyxam@key{location}}%%
     \edef\@lyxam@date{\@use@lyxam@key{date}}%%
     \edef\@lyxam@time{\@use@lyxam@key{time}}%%
+    \edef\@lyxam@pts{\@use@lyxam@key{pts}}%%
 % Good deliver option ?
     \IfStrEqCase\@lyxam@deliver{%%
         {no}{}%%

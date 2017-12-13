@@ -1,4 +1,49 @@
 ==========
+2017-12-13
+==========
+
+**New major version version::``1.0.0-beta`` of ¨lyxam:** the very new managments of the points and the scale described above imply a major change of version. There is also a big change in the use of star versions for exercises (see above). There are also minor changes: see changes from date::``2017-11-29``.
+
+
+**New package option ``score`` and new macro ``\scpts``:** this is to work with scores or marks when evaluating the tests of students.
+
+    1) The macro ``\scpts`` allow to indicate scores for an exercise with the optionanal possibilities to give subscores and a little description of the things evaluated.
+
+    2) The option ``score`` asks to show all the "main" scores that are hidden by default.
+
+    3) **Important !** The option ``score`` also builds a extra file giving shorts infos about the scores: the file has the same name of the ¨latex but with the extension path::``.scores``. This file can be used by external tools to do more advanced things (the author has build a ¨python script that uses this extra file to produce a ¨pdf to ease the correction of a test but you can do more complicated stuff with your preferred language).
+
+
+**New way to work with star versions of exercises.**
+
+    1) No star version like ``\exercise`` is for auto-numbered exercises.
+
+    2) Simple star version like ``\exercise*`` is for unnumbered exercises.
+
+    3) Double star version like ``\exercise**`` is for exercises using a title instead of the classical name.
+
+
+**Total refactorization of the managment of the counters:** everything has changed (less counters are used). At the same time, the macro ``\@lyxam@ctxt@nb`` has been deleted and styles must use now the more poowerful macro ``\@lyxam@ctxt@name@nb@id``.
+
+
+==========
+2017-12-08
+==========
+
+**Style ``apmep``:** no more ornements printed. Not so pretty indeed !
+
+
+==========
+2017-12-05
+==========
+
+**The option \verb+pts+ added to the macro \verb+\exam+:** this allows to indicate the total number of points used to evaluate an exam.
+
+
+**Unuseful package options removed:** ``about``, ``hf``, ``noshort``, ``pts`` and ``src`` have been deleted.
+
+
+==========
 2017-12-02
 ==========
 
@@ -7,9 +52,9 @@
 
 **Two new styles.**
 
-    1) The style ``book`` has been added to write exercises inside a book or a lesson (no delivery material, no headers and footers, and not a title centered).
+    1) The style ``book`` has been added to write exercises inside a book or a lesson (no delivery material, no headers and footers, and no main title centered).
 
-    2) The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less spaces as possible.
+    2) The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less space as possible.
 
 
 **Internal changes :** less ``\def`` commands are used and only necessary ``\gdef`` commands have been kept.

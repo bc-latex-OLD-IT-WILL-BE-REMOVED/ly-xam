@@ -9,19 +9,33 @@
 
 Tous les changements sont décrits en anglais uniquement dans le dossier \verb+change_log+ : voir le code source de \verb+lyxam+ sur \verb+github+. Nous ne donnons ici qu'un très bref historique de \verb+lyxam+.
 
+\medskip
+
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
+    \item[2017-12-13] Nouvelle version majeure \verb+1.0.0-beta+.
+        \begin{itemize}
+            \item La grosse nouveauté est la possibilité d'indiquer un barème détaillé via l'option de package \verb+score+ et la macro \verb+\scpts+.
 
-    \item[2017-12-02] Nouvelle version mineure \verb+0.3.0-beta+ du package.
+            \item Les exercices ont dorénavant une version étoilée qui cache le numéro et demande d'utiliser \verb+id+, et une version doublement étoilée qui cache le type d'exercice et nécessite l'emploi de \verb+title+.
+
+            \item Une nouvelle option \verb+pts+ pour la macro \verb+\exam+ permet d'indiquer sur combien un devoir sera évalué.
+
+            \item Les options de package \verb+about+, \verb+hf+, \verb+noshort+, \verb+pts+ et \verb+src+ ont été supprimées car elles étaient inutiles.
+        \end{itemize}
+
+
+    \item[2017-12-02] Nouvelle version mineure \verb+0.3.0-beta+.
     \begin{itemize}
         \item L'option de package \verb+mini+ fournit un style de mise en forme minimaliste. Ce sera le style par défaut.
 
-        \item L'option de package \verb+book+ a été ajouté pour insérer dans un document de type cours ou livre.
+        \item L'option de package \verb+book+ a été ajouté pour insérer des exercices dans un document de type cours ou livre.
 
-        \item L'option de package \verb+ecolo+ mélange les mises en forme de \verb+mini+ et \verb+book+ pour rédiger des devoirs en utilisant le moins d'espaces possible.        
+        \item L'option de package \verb+ecolo+ mélange les mises en forme de \verb+mini+ et \verb+book+ pour rédiger des devoirs en gaspillant le moins d'espaces possible.
     \end{itemize}
 
-    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.
+
+    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+.
     \begin{itemize}
         \item L'option de package \verb+linebox+ fournit un nouveau style de mise en forme.
 
@@ -36,7 +50,8 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
         \item Il est maintenant possible de personnaliser la numérotation des exercices.
     \end{itemize}
 
-    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
+
+    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+.
     \begin{itemize}
         \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
@@ -49,7 +64,8 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
         \item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
     \end{itemize}
 
-    \item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
+
+    \item[2017-11-03] Première version publique \verb+0.0.0-beta+.
 \end{description}
 
 \end{document}

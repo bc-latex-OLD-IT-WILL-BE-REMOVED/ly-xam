@@ -2,10 +2,10 @@
     \usepackage[utf8x]{inputenc}
 	\usepackage[T1]{fontenc}   
     \usepackage{ucs}
-    \usepackage[apmep, src]{exercises}
+    \usepackage[ecolo]{exercises}
     \usepackage{lipsum}
 
-	\newcommand\blabla{%
+	\newcommand\blabla{%%
 		\noindent Bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
 		bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
 		bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
@@ -25,18 +25,15 @@
 \noindent END OF THE LAST EXERCICE ! END OF THE LAST EXERCICE !
 
 \exercise
-
 \blabla{}
 
-\subpart*[title=Un long titre pour bien tester...]
-
+\subpart**[title=Un long titre pour bien tester...]
 \blabla{}
 
 
 \exercise
 
-\subpart*[title=Un long titre pour bien tester...]
-
+\subpart**[title=Un long titre pour bien tester...]
 \blabla{}
 
 
@@ -45,50 +42,42 @@
 
 \noindent END OF THE LAST EXERCICE ! END OF THE LAST EXERCICE !
 
-\exercise[src = My book, about = Something]
-      
+\exercise[src = My book, about = Something]   
 \blabla{}
 
 \subpart
-
 \blabla{}
 
 \subpart[pts = 2, time = 10 s, title = My title, about = Another thing, src = Mystic]
-
 \blabla{}
 
 \subpart[about = Another thing]
-
 \blabla{}
 
 
-\subpart*[title = Title alone, time = 10 s]
+\subpart**[title = Title alone, time = 10 s]
 
 
 \codeused{}
 
 \begin{verbatim}
 \exercise[src = My book, about = Something]
-      
 \blabla{}
 
 \subpart
-
 \blabla{}
 
 \subpart[pts = 2, time = 10 s, title = My title, about = Another thing, src = Mystic]
-
 \blabla{}
 
 \subpart[about = Another thing]
-
 \blabla{}
 
 % + 3.05 cm : no page break
 % + 2.10 cm : page break
 \vspace{3.1cm}
 
-\subpart*[title = Title alone, time = 10 s]\end{verbatim}
+\subpart**[title = Title alone, time = 10 s]\end{verbatim}
 
 
 
@@ -97,9 +86,8 @@
 \noindent END OF THE LAST EXERCICE ! END OF THE LAST EXERCICE !
 
 \exercise
-      
+   
 \subpart[pts = 2, about = Another thing, src = Mystic]
-
 \blabla{}
 
 \subpart
@@ -110,7 +98,6 @@
 \exercise
       
 \subpart[pts = 2, about = Another thing, src = Mystic]
-
 \blabla{}
 
 \subpart
@@ -125,7 +112,6 @@
 \exercise[pts = 4]
       
 \subpart[pts = 2, about = Another thing, src = Mystic]
-
 \blabla{}
 
 \subpart
@@ -136,9 +122,41 @@
 \exercise[pts = 4]
       
 \subpart[pts = 2, about = Another thing, src = Mystic]
-
 \blabla{}
 
+\subpart
+\end{verbatim}
+
+
+
+\newpage\section{Bug 2017-12-06}
+
+\noindent END OF THE LAST EXERCICE ! END OF THE LAST EXERCICE !
+
+\exercise
+\subpart
+\subpart
+      
+\exercise**[title = Not numbered but still a new exercise]
+\subpart
+
+\exercise
+\subpart
+\subpart
+      
+
+\codeused{}
+
+\begin{verbatim}
+\exercise
+\subpart
+\subpart
+      
+\exercise**[title = Not numbered but still a new exercise]
+\subpart
+
+\exercise
+\subpart
 \subpart
 \end{verbatim}
 

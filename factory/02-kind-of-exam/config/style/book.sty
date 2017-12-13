@@ -48,9 +48,11 @@
         \large
         \@concatenate{\@book@kind@nb@subnb}{\@book@slashtext}{%%
             \@concatenate{\@book@subject@theme@sector}{\@book@slashtext}{%%
-                \@concatenate{\@book@class@location}%%
-                    {\@book@slashtext}%%
-                    {\@book@date@time}%%
+                \@concatenate{\@book@class@location}{\@book@slashtext}{%%
+                    \@concatenate{\@book@date@time}%%
+                        {\@book@slashtext}%%
+                        {\@lyxam@longpts{\@lyxam@pts}}%%
+                }%%
             }%%
         }%%
     }

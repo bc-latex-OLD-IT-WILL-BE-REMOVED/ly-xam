@@ -70,7 +70,11 @@
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \def\@mini@fourth@title{%%
-        \@concatenate{\@lyxam@date}{\@mini@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+        \@concatenate{\@lyxam@date}{\@mini@minus}{%%
+            \@concatenate{\@lyxam@longduration{\@lyxam@time}}%%
+                {\@mini@minus}%%
+                {\@lyxam@longpts{\@lyxam@pts}}%%
+        }%%
     }%%
     {\centering\bfseries\large%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
@@ -93,7 +97,7 @@
     }
     \@mini@space@after@all@titles{}%%
 % Headers and footers
-    \ifbool{@lyxam@show@headers@footers}{%%
+    \ifshowheadersfooters%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
@@ -118,7 +122,7 @@
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@mini@first@page@style}%%
-    }{}%%
+    \fi%%
 }
 % The layout command [END].
 
@@ -183,10 +187,7 @@
         \noindent\@mini@title@format\@mini@title@centering%%
         \IfStrEq{#2}{showctxt}{%%
             \textsc{%%
-                % \def\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                \@lyxam@ctxt@name{#1}%%
-                \@lyxam@if@end@with@colon{#1}{}{~}%%
-                \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                \@lyxam@ctxt@name@nb@id{#1}%%
                 \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
             }%%
         }{%%
@@ -219,4 +220,10 @@
         }%%
     }%%
     \@mini@space@before@content%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \marginpar{\framebox{#1}}%
 }

@@ -1,0 +1,362 @@
+\documentclass[12pt,a4paper]{scrartcl}
+
+\input{../config/header[fr].sty}
+
+\usepackage[fr]{exercises}
+
+
+\begin{document}
+
+\newcommand\exosoptionsdescription{
+Toutes les options données ci-dessous sont facultatives. Attention car avec les versions simplement étoilées il faut utiliser \texttt{id},
+tandis qu'avec les versions doublement étoilées on doit se servir de l'option \texttt{title}.
+}
+
+\newcommand\exosoptions{
+\IDkey{pts} le nombre de points avec le cas particulier de $0$ qui demande d'afficher "Non noté".
+
+\IDkey{time} la durée de l'exercice.
+
+\IDkey{id} un texte de votre choix pour remplacer le numéro (ceci a pour effet de bloquer temporairement la numérotation).
+
+\IDkey{title} un titre.
+
+\IDkey{about} une petite indication liée à l'exercice (comme par exemple qu'il ne s'adresse qu'aux élèves motivés).
+
+\IDkey{src} la source utilisée pour confectionner l'exercice.
+}
+
+
+\section{Les exercices}
+
+    \subsection{Important pour la suite}
+
+Rappelons que tous les exemples utilisés dans cette documentation ont été obtenus en utilisant \verb+\usepackage[fr]{lyxam}+ dans le préambule ce qui charge le style par défaut parmi les différents styles proposés (voir le dossier \verb+examples+ pour choisir un style prédéfini).
+
+
+    \subsection{Différents types d'exercices}
+
+Voici l'ensemble des commandes disponibles pour indiquer un type d'exercice.
+
+% All kind of level 2 contexts - START
+\begin{itemize}
+\makeatletter
+    \item \verb+\activity+ correspond à "\lyxam@text@activity{}".
+    
+    \item \verb+\bonus+ correspond à "\lyxam@text@bonus{}".
+    
+    \item \verb+\exercise+ correspond à "\lyxam@text@exercise{}".
+    
+    \item \verb+\mcq+ correspond à "\lyxam@text@mcq{}".
+    
+    \item \verb+\praticalwork+ correspond à "\lyxam@text@praticalwork{}".
+    
+    \item \verb+\problem+ correspond à "\lyxam@text@problem{}".
+\makeatother
+\end{itemize}
+% All kind of level 2 contexts - END
+
+Dans la suite, nous donnerons des exemples principalement avec la commande \verb+\exercise+. Ceci n'est pas gênant car le principe reste identique pour les autres commandes.
+
+
+    \subsection{Numérotation minimaliste}
+
+En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une numérotation minimaliste de vos exercices.
+Par exemple, ci-dessous on obtient classiquement des exercices tous numérotés (vous noterez que les problèmes et les bonus ont leur propre numérotation).
+Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un seul bonus ? Nul besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+.
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\exercise
+\exercise
+\problem
+\bonus
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise
+\exercise
+\problem
+\bonus
+\examplefinished   % -----  END  ----- %
+
+
+
+    \subsection{Indiquer les points attribués à un exercice}
+
+L'option \verb+pts+ permet de donner sommairement le nombre total de points attribués à un exercice, ou bien d'indiquer qu'un exercice n'est pas noté. Voici comment faire.
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\exercise[pts = 5]
+Bla, bla, bla, bla, bla, ...
+
+\exercise[pts = 0]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise[pts = 5]
+Bla, bla, bla, bla, bla, ...
+
+\exercise[pts = 0]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
+\begin{remark*}
+La section \ref{exercises:score} explique comment indiquer un barème assez détaillé tout en obtenant un fichier externe pour faciliter la correction de devoirs d'étudiant.
+\end{remark*} 
+
+
+
+    \subsection{Utiliser une numérotation "maison"}
+
+La version étoilée \verb+\exercise*+ permet d'afficher un texte de son choix à la place de la numérotation automatique (dans ce cas, la numérotation automatique est mise en attente). Voici un exemple concret d'utilisation.
+
+\begin{tcblisting}{listing only}
+\exercise*[id = facultatif]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise*[id = facultatif]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
+
+
+    \subsection{Cacher le texte "Exercice"}
+
+La version doublement étoilée \verb+\exercise**+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ est le texte indiquant le type d'exercice (ceci est très pratique pour les sous-parties présentées dans la section \ref{exercises:subparts}). Dans ce genre de situation, il faut obligatoirement donner un titre.
+
+\begin{tcblisting}{listing only}
+\exercise**[title = Juste mon titre]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise**[title = Juste mon titre]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Toutes les options en action}
+
+Les fiches techniques données dans la section \ref{exercises:technicalids} expliquent le champs d'utilisation de chaque option.
+
+\begin{tcblisting}{listing only}
+\exercise*[pts   = 0,
+           time  = 3 jours,
+           id    = facultatif,
+           title = Devinette,
+           about = Pour spécialiste uniquement,
+           src   = Le livre des experts]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise*[pts   = 0,
+           time  = 3 jours,
+           id    = facultatif,
+           title = Devinette,
+           about = Pour spécialiste uniquement,
+           src   = Le livre des experts]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Fiches techniques} \label{exercises:technicalids}
+
+\exosoptionsdescription{}
+
+\begin{multicols}{2}% IDmacro - All kind of level 2 contexts - START
+\IDmacro{activity}{6}{}
+
+\IDmacro{activity*}{6}{}
+
+\IDmacro{activity**}{6}{}
+
+\vspace{0.7ex}
+\IDmacro{bonus}{6}{}
+
+\IDmacro{bonus*}{6}{}
+
+\IDmacro{bonus**}{6}{}
+
+\vspace{0.7ex}
+\IDmacro{exercise}{6}{}
+
+\IDmacro{exercise*}{6}{}
+
+\IDmacro{exercise**}{6}{}
+
+\vspace{0.7ex}
+\IDmacro{mcq}{6}{}
+
+\IDmacro{mcq*}{6}{}
+
+\IDmacro{mcq**}{6}{}
+
+\vspace{0.7ex}
+\IDmacro{praticalwork}{6}{}
+
+\IDmacro{praticalwork*}{6}{}
+
+\IDmacro{praticalwork**}{6}{}
+
+\vspace{0.7ex}
+\IDmacro{problem}{6}{}
+
+\IDmacro{problem*}{6}{}
+
+\IDmacro{problem**}{6}{}
+
+% IDmacro - All kind of level 2 contexts - END
+\end{multicols}
+
+\vspace{-1em}
+
+\exosoptions{}
+
+
+
+\section{Indiquer des sous-parties dans vos exercices} \label{exercises:subparts}
+
+    \subsection{Un exemple suffit\dots{} ou presque}
+
+La commande \verb+\subpart+, avec les mêmes options que les commandes de type \verb+\exercice+, sert pour des sous-parties d'un exercice qui seront numérotées relativement aux exercices comme le montre l'exemple suivant.
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\exercise
+\subpart
+\subpart
+
+\exercise
+\subpart
+\subpart
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise
+\subpart
+\subpart
+
+\exercise
+\subpart
+\subpart
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Fiche technique}
+
+\exosoptionsdescription{}
+
+\bigskip
+
+% IDmacro - All kind of level 3 contexts - START
+\IDmacro{subpart}{6}{}
+
+\IDmacro{subpart*}{6}{}
+
+\IDmacro{subpart**}{6}{}
+
+% IDmacro - All kind of level 3 contexts - END
+
+\exosoptions{}
+
+
+
+\section{Regrouper vos exercices par thèmes}
+
+    \subsection{Un exemple suffit\dots{} ou presque}
+
+La commande \verb+\topic+, avec les mêmes options que les commandes de type \verb+\exercice+, sert juste à regrouper des exercices par thématiques : fût un temps où dans les brevets du collège, il y avait une partie numérique et une autre géométrique.
+Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotation des sous-parties mais pas celles des contextes de type \verb+\exercice+.
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\topic
+\exercise
+\exercise
+
+\topic
+\exercise
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\topic
+\exercise
+\exercise
+
+\topic
+\exercise
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Fiche technique}
+
+\exosoptionsdescription{}
+
+\bigskip
+
+% IDmacro - All kind of level 1 contexts - START
+\IDmacro{topic}{6}{}
+
+\IDmacro{topic*}{6}{}
+
+\IDmacro{topic**}{6}{}
+
+% IDmacro - All kind of level 1 contexts - END
+
+\exosoptions{}
+
+
+
+\section{Personnaliser les numérotations}
+
+    \subsection{Un petit exemple}
+
+En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la numérotation de chaque type d'exercice. Voici un exemple tapé directement dans un fichier \verb+tex+, ce qui impose d'employer \verb+\makeatletter...\makeatother+.
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\makeatletter
+    \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
+\makeatother
+
+\exercise
+\exercise
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\makeatletter
+    \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
+\makeatother
+
+\exercise
+\exercise
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Fiches techniques}
+
+% IDmacro - All styles for counters - START
+\IDmacro{lyxam@counter@activity@style}{0}{1}
+
+\IDmacro{lyxam@counter@bonus@style}{0}{1}
+
+\IDmacro{lyxam@counter@exercise@style}{0}{1}
+
+\IDmacro{lyxam@counter@mcq@style}{0}{1}
+
+\IDmacro{lyxam@counter@praticalwork@style}{0}{1}
+
+\IDmacro{lyxam@counter@problem@style}{0}{1}
+
+\IDmacro{lyxam@counter@subpart@style}{0}{1}
+
+\IDmacro{lyxam@counter@topic@style}{0}{1}
+% IDmacro - All styles for counters - END
+
+\IDarg{} the \LaTeX{} counter associated to the context.
+
+
+\end{document}

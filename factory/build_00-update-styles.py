@@ -141,8 +141,7 @@ newlines = "\n".join(newlines)
 
 content = f"""{before}
 {newlines.rstrip()}
-
-{after}"""
+    {after}"""
 
 with OPTIONS_DOC.open(
     mode     = "w",

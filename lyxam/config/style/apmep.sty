@@ -2,7 +2,7 @@
 % -- EXTRA PACKAGES REQUIRED -- %
 % ----------------------------- %
 
-\RequirePackage{fourier-orns}
+\RequirePackage{etoolbox}
 \RequirePackage{tcolorbox}
 
 
@@ -71,17 +71,19 @@
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \def\@apmep@fourth@title{%%
-        \@concatenate{\@lyxam@date}{\@apmep@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+        \@concatenate{\@lyxam@date}{\@apmep@minus}{%%
+            \@concatenate{\@lyxam@longduration{\@lyxam@time}}%%
+                {\@apmep@minus}%%
+                {\@lyxam@longpts{\@lyxam@pts}}%%
+        }%%
     }%%
     {\parskip=0pt\par\nopagebreak\centering
 % Main title is never empty !
         {\Large \bfseries
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
-            \decofourleft{}\hspace{0.3em}%%
             \@concatenate{%%
                 \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
             }{\@apmep@minus}{\@lyxam@subject}%%
-            \hspace{0.3em}\decofourright{}%%
         }%%
         \@if@empty\@apmep@second@title{}{%%
             \@apmep@space@before@title{}
@@ -99,7 +101,7 @@
     }%%
     \@apmep@space@after@all@titles{}%%
 % Headers and footers
-    \ifbool{@lyxam@show@headers@footers}{%%
+    \ifshowheadersfooters%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
@@ -124,7 +126,7 @@
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@apmep@first@page@style}%%
-    }{}%%
+    \fi%%
 }
 % The layout command [END].
 
@@ -193,10 +195,7 @@
         \IfStrEq{#2}{showctxt}{%%
             \def\@apmep@ctxt@title{%%
                 \textsc{%%
-                    \def\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                    \ctxtname%%
-                    \@lyxam@if@end@with@colon{#1}{}{~}%%
-                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@lyxam@ctxt@name@nb@id{#1}%%
                     \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
@@ -253,4 +252,10 @@
         }%%
     }%%%%
     \@apmep@space@before@content%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \marginpar{\framebox{#1}}%
 }

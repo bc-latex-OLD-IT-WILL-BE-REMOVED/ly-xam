@@ -80,7 +80,6 @@ for latexfile in LATEXFILES:
         mode     = "r",
         encoding = "utf-8"
     ) as texfile:
-        print(latexfile)
         _, content, _ = between(
             text = texfile.read(),
             seps = [
@@ -137,26 +136,22 @@ for extrafile in EXTRAFILES:
 
 nbrepeat = 3
 
-for onepattern in [
-    "*.tex",
-    "examples/*.tex"
-]:
-    for latexpath in DIR_DOC_PATH.walk(f"file::{onepattern}"):
-        print(
-            f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times."
-        )
+for latexpath in DIR_DOC_PATH.walk(f"file::*.tex"):
+    print(
+        f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times."
+    )
 
-        builder = Build(
-            ppath      = latexpath,
-            repeat     = nbrepeat,
-            showoutput = True
-        )
-        builder.pdf()
+    builder = Build(
+        ppath      = latexpath,
+        repeat     = nbrepeat,
+        showoutput = True
+    )
+    builder.pdf()
 
-        print(
-            f"{DECO}* Compilation of << {latexpath.name} >> finished.",
-            f"{DECO}* Cleaning extra files.",
-            sep = "\n"
-        )
+    print(
+        f"{DECO}* Compilation of << {latexpath.name} >> finished.",
+        f"{DECO}* Cleaning extra files.",
+        sep = "\n"
+    )
 
 latexclean(DIR_DOC_PATH)

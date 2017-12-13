@@ -1,0 +1,62 @@
+\documentclass[12pt,a4paper]{scrartcl}
+
+\input{../config/header[fr].sty}
+
+\usepackage[fr]{exercises}
+
+\newenvironment{preamble}[1][]{}{}
+
+
+\begin{document}
+
+\section{Utiliser un préambule}
+
+    \subsection{Un exemple avec toutes les options}
+
+L'environnement \verb+\preamble+ sert à rédiger un ou plusieurs paragraphes en préambule de tout un examen, d'un thème, d'un exercice ou d'une partie.
+Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'intérieur du préambule, l'autre \verb+scale+ pour indiquer un coefficient multiplicatif pour la largeur allouée au préambule (ce coefficient est multiplié à \verb+\linewidth+ pour calculer la largeur souhaitée).
+
+\resetallcnt{}
+
+\begin{tcblisting}{listing only}
+\begin{preamble}[scale = 0.75, center]
+    Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{preamble}
+
+\exercise
+\begin{preamble}
+    Dans cet exercice, tout trace de recherche sera prise en compte à
+    condition de ne pas explorer le Pôle Nord quand on s'intéresse
+    au Pôle Sud. Quoique\dots
+\end{preamble}
+
+Tenter, chercher, trouver\dots
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\begin{preamble}[scale = 0.75, center]
+    Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{preamble}
+
+\exercise
+\begin{preamble}
+    Dans cet exercice, tout trace de recherche sera prise en compte à
+    condition de ne pas explorer le Pôle Nord quand on s'intéresse
+    au Pôle Sud. Quoique\dots
+\end{preamble}
+
+Tenter, chercher, trouver\dots
+\examplefinished   % -----  END  ----- %
+
+
+    \subsection{Fiches techniques}
+
+\IDenv{preamble}{2}{}
+
+\IDkey{scale} un nombre, valant $1$ par défaut, qui sera multiplié à la largeur d'une ligne pour obtenir la largeur souhaitée pour le préambule.
+
+\IDkey{center} un booléen, valant \verb+false+ par défaut, pour centrer ou non le contenu du préambule (notez que \verb+center+ est un raccourci de \verb+center = true+).
+
+
+\end{document}

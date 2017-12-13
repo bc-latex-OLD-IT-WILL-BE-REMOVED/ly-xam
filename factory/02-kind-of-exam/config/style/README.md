@@ -25,16 +25,17 @@ NOTE
 
   2) The following packages are loaded by ``lyxam``.
      i) ``calc``
-     ii) ``etoolbox``
+     ii) ``changepage``
      iii) ``fancyhdr``
      iv) ``lastpage``
      v) ``listofitems``
+     vi) ``marginnote``
      vi) ``simplekv``
      vii) ``xstring``
 
   3) The options used are stored in macros ``\@lyxam@<<KEY>>`` where ``<<KEY>>`` is one of the option of the macro ``\exam``. To test if a value is an empty string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
 
-  4) One ``etoolbox`` boolean must be managed : ``@lyxam@show@headers@footers`` is to show or hide the headers and footers.
+  4) The boolean ``\showheadersfooters`` must be used to show or hide the headers and footers.
 
   5) You have the following important translated texts to use for the delivery material :
      i) ``\lyxam@text@name``

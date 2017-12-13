@@ -54,14 +54,15 @@ with EXERCISES_STY.open(
 ) as STY_FILE:
     content = STY_FILE.read()
 
-    before, _, after = between(
-        text = content,
-        seps = [
-            "% Let's build our contexts.",
-            "% == LOADING THE STYLE == %"
-        ],
-        keepseps = True
-    )
+
+before, _, after = between(
+    text = content,
+    seps = [
+        "% Build all the contexts.",
+        "% == LOADING THE STYLE == %"
+    ],
+    keepseps = True
+)
 
 inside = []
 
@@ -74,11 +75,51 @@ for level, (cntstyle, ctxs) in CTXTS.items():
         c, _ = parse_resetme(c)
 
         inside.append(f"\@add@context{{{c}}}")
-        inside.append(f"\\newcommand\lyxam@counter@{c}@style[1]{{{cntstyle}{{#1}}}}")
+
+inside = "\n".join(inside[1:])
+
+content = f"""{before}
+{inside}
 
 
-inside += [r"""
-% Reseting of counters.
+{after.rstrip()}
+"""
+
+
+before, _, after = between(
+    text = content,
+    seps = [
+        "% The counters for contexts.",
+        "% Updating the counters for contexts."
+    ],
+    keepseps = True
+)
+
+inside = []
+
+for level, (cntstyle, ctxs) in CTXTS.items():
+    cntstyle = LATEX_CNT_STYLE[cntstyle]
+
+    for c in ctxs:
+        c, _ = parse_resetme(c)
+
+        for suffix in [
+            "",
+            "@star",
+            "@star@star"
+        ]:
+            inside += [
+                f"\\newcounter{{lyxam@counter@{c}{suffix}}}",
+                f"\\setcounter{{lyxam@counter@{c}{suffix}}}{{0}}"
+            ]
+
+        inside += [
+            f"\\newcommand\lyxam@counter@{c}@style[1]{{{cntstyle}{{#1}}}}",
+            ""
+        ]
+
+
+inside += [r"""% Auto-reset of counters.
 \setsepchar{,}
 
 \newcommand\@auto@reset@by[2]{
@@ -99,10 +140,15 @@ while level in CTXTS:
             parentctxts = []
 
             for parentlevel in range(1, level):
-                parentctxts += [
-                    f"lyxam@counter@{parse_resetme(c)[0]}"
-                    for c in CTXTS[parentlevel][1]
-                ]
+                for c in CTXTS[parentlevel][1]:
+                    for suffix in [
+                        "",
+                        "@star",
+                        "@star@star"
+                    ]:
+                        parentctxts.append(
+                            f"lyxam@counter@{parse_resetme(c)[0]}{suffix}"
+                        )
 
             parentctxts = ",".join(parentctxts)
 
@@ -112,17 +158,75 @@ while level in CTXTS:
 
     level += 1
 
+inside = "\n".join(inside)
+
+content = f"""{before}
+{inside}
+
+{after}
+"""
+
+
+before, _, after = between(
+    text = content,
+    seps = [
+        "% Building and storing infos to print or not the counters.",
+        "\AtEndDocument{%%"
+    ],
+    keepseps = True
+)
+
+allctxts = []
+
+for level, (cntstyle, ctxs) in CTXTS.items():
+    for c in ctxs:
+        c, _ = parse_resetme(c)
+
+        allctxts.append(c)
+
 inside = "\n".join(inside[1:])
+
+content = f"""{before}
+\\setsepchar{{,}}
+\\readlist\\@numbered@ctxts{{{",".join(allctxts)}}}
+\\newcommand\\@code@to@print@counters{{}}
+
+{after}
+"""
+
+
+before, _, after = between(
+    text = content,
+    seps = [
+        "% Printing or not the counters for contexts.",
+        "% Name, shorten or not, of the context with an number or an id."
+    ],
+    keepseps = True
+)
+
+inside = []
+
+for level, (cntstyle, ctxs) in CTXTS.items():
+    for c in ctxs:
+        c, _ = parse_resetme(c)
+
+        inside.append(f"""\\newcounter{{@cursor@{c}}}
+\\setcounter{{@cursor@{c}}}{{1}}
+\\@ifundefined{{@lyxam@print@{c}}}{{\\gdef\\@lyxam@print@{c}{{}}}}{{}}
+""")
+
+inside = "\n".join(inside)
+
+content = f"""{before}
+\setsepchar{{,}}
+
+{inside}
+{after}
+"""
+
 
 with EXERCISES_STY.open(
     mode     = "w",
     encoding = "utf-8"
 ) as STY_FILE:
-    STY_FILE.write(
-f"""{before}
-{inside}
-
-
-{after.rstrip()}
-"""
-    )
+    STY_FILE.write(content)

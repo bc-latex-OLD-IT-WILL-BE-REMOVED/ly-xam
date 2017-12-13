@@ -11,7 +11,7 @@ TAB = " "*4
 
 THIS_DIR = PPath(__file__).parent
 
-EXERCISES_DOC = THIS_DIR / "exercises[fr].tex"
+EXERCISES_DOC = THIS_DIR / "exercises-1-gene[fr].tex"
 
 CTXTS = {}
 
@@ -93,8 +93,10 @@ for level in range(1, 4):
         c, _ = parse_resetme(c)
 
         inside += [
-            f"\\IDmacro{{{c}}}{{6}}{{}}",
-            ""
+            f"\\IDmacro{{{c}}}{{6}}{{}}", "",
+            f"\\IDmacro{{{c}*}}{{6}}{{}}", "",
+            f"\\IDmacro{{{c}**}}{{6}}{{}}", "",
+            "\\vspace{0.7ex}"
         ]
 
     inside = "\n".join(inside[:-1])

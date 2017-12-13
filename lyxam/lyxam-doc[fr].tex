@@ -2,7 +2,6 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{ucs}
 
 \usepackage[french]{babel,varioref}
 
@@ -23,7 +22,7 @@
 
 \usepackage{amsthm}
 
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
 \usepackage{ifplatform}
@@ -31,6 +30,8 @@
 \usepackage{xstring}
 
 \usepackage{fancyvrb}
+
+
 % MISC
 
 \tcbset{%
@@ -40,10 +41,35 @@
 	colupper=red!75!blue%
 }
 
+\newcommand\examplestarted{%%
+    \par\smallskip
+    \begingroup%%
+        \centering%%
+        \setlength{\fboxrule}{0.7pt}%%
+        \rule[0.4ex]{5em}{0.7pt}%%
+        \framebox{\small\vphantom{pE}Mise en forme - Début}%%
+        \rule[0.4ex]{5em}{0.7pt}%%
+        \par\smallskip
+    \endgroup%%
+}
+
+\newcommand\examplefinished{%%
+    \par\smallskip
+    \begingroup%%
+        \centering%%
+        \setlength{\fboxrule}{0.7pt}%%
+        \rule[0.4ex]{5.5em}{0.7pt}%%
+        \framebox{\small\vphantom{pE}Mise en forme - Fin}%%
+        \rule[0.4ex]{5.5em}{0.7pt}%%
+        \par\smallskip
+    \endgroup%%
+}
+
 \setlength{\parindent}{0cm}
 
 \theoremstyle{definition}
-\newtheorem*{remark}{Remarque}
+\newtheorem*{remark*}{Remarque}
+\newtheorem{remark}{Remarque}
 
 \usepackage[raggedright]{titlesec}
 
@@ -61,12 +87,11 @@
     }
 \makeatother
 
+
 % Technical IDs
 
 \newwrite\tempfile
-
 \immediate\openout\tempfile=x-\jobname.macros-x.txt
-
 \AtEndDocument{\immediate\closeout\tempfile}
 
 
@@ -166,10 +191,10 @@
 	des mises en forme clés en main\\%
 	pour des fiches d'exercices\\%
 	{\footnotesize Code source disponible sur \url{https://github.com/bc-latex/ly-xam}.}\\%
-	{\footnotesize Version \texttt{0.3.0-beta} développée et testée sur \macosxname{}.}%
+	{\footnotesize Version \texttt{1.0.0-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
-\date{2017-12-02}
+\date{2017-12-13}
 
 \maketitle
 
@@ -205,18 +230,18 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 		Sorry for the french frogs that we are... (Trad. : Désolé pour les grenouilles françaises que nous sommes...)
 	}, et \verb+fr+ permettent d'indiquer d'utiliser l'anglais ou le français pour tous les textes ajoutés par \verb+lyxam+.
 
-	\item \verb+hf+, valeur par défaut, et \verb+nohf+ demandent d'afficher ou non les en-têtes et les pieds de page.
+	\item \verb+nohf+ permet de ne pas afficher les en-têtes et les pieds de page.
 	Les lettres \verb+hf+ sont pour "\textbf{h}-eaders" et "\textbf{f}-ooters", soit "en-tête" et "pied de page" en français.
 
-	\item \verb+pts+, valeur par défaut, et \verb+nopts+ servent à voir ou non les points donnés pour chaque exercice.
+	\item \verb+nopts+ cache les points indiquant le note total pour un devoir et un barème grossier pour chaque exercice.
 
-	\item \verb+noshort+, valeur par défaut, et \verb+short+ demandent d'utiliser le nom long ou abrégé, si possible, pour indiquer les types d'exercices, les points et le temps.
+	\item \verb+short+ demande d'utiliser si possible des noms abrégés pour les types d'exercices, les points et le temps.
 
-	\item \verb+src+, valeur par défaut, et \verb+nosrc+ feront afficher ou non les sources utilisées.
+	\item \verb+nosrc+ empêchera l'affichage des sources utilisées.
 
-	\item \verb+about+, valeur par défaut, et \verb+noabout+ feront afficher ou non les informations complémentaires sur les thèmes, les exercices et les parties.
+	\item \verb+noabout+ ne tient pas compte des informations complémentaires données pour les thèmes, les exercices et les parties.
 
-	\item Voici les différents styles de mise en forme disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
+	\item Pour finir, voici les différents styles de mise en forme disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
 	\begin{itemize}[label={\small\textbullet}]
         \item Style par défaut, \verb+mini+ propose une mise forme minimaliste utilisant le moins de fioritures possibles.
         
@@ -227,15 +252,14 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
         \item \verb+ecolo+ mélange les styles \verb+mini+ et \verb+book+ pour produire des devoirs très peu consommateur d'espaces.
         
         \item \verb+linebox+ utilise des lignes et des cadres (il a été conçu à l'origine pour les corrigés de l'auteur de \verb+lyxam+).
-
+    \end{itemize}
 \end{itemize}
-\end{itemize}
 
 
-\begin{remark}
+\begin{remark*}
 	Dans la suite de cette documentation nous invoquons juste l'option \verb+fr+.
 	Autrement dit, nous passons par \verb+\usepackage[fr]{lyxam}+ donc ce sera le style par défaut \verb+mini+ qui donnera la mise en forme.
-\end{remark}
+\end{remark*}
 
 
 
@@ -258,7 +282,8 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
       class    = 1S4,%
       location = Lycée MONGE (Chambéry),%
       date     = 20/10/2017,%
-      time     = 2h]
+      time     = 2h,%
+      pts      = 20]
 \end{tcblisting}
 
 
@@ -272,7 +297,7 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
   \label{style:default}
 \end{figure}
 
-Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
+Présentons maintenant en détail chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
     \item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie.
@@ -306,12 +331,14 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
     \item \verb+date+ est pour la date du devoir.
 
     \item \verb+time+ est pour la durée du devoir.
+
+    \item \verb+pts+ permet d'indiquer sur combien de points sera évalué un devoir.
 \end{enumerate}
 
 
     \subsection{Fiche technique}
 
-\IDmacro{exam}{11}{}
+\IDmacro{exam}{12}{}
 
 \IDkey{kind} le type de devoir, la valeur par défaut étant \verb+Test+.
 
@@ -335,8 +362,15 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 
 \IDkey{time} le texte indiquant juste la durée du devoir.
 
+\IDkey{pts} le nombre total de points pour évaluer un devoir.
 
 
+
+
+\newcommand\exosoptionsdescription{
+Toutes les options données ci-dessous sont facultatives. Attention car avec les versions simplement étoilées il faut utiliser \texttt{id},
+tandis qu'avec les versions doublement étoilées on doit se servir de l'option \texttt{title}.
+}
 
 \newcommand\exosoptions{
 \IDkey{pts} le nombre de points avec le cas particulier de $0$ qui demande d'afficher "Non noté".
@@ -353,7 +387,7 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 }
 
 
-\section{Indiquer vos exercices}
+\section{Les exercices}
 
     \subsection{Important pour la suite}
 
@@ -387,95 +421,163 @@ Dans la suite, nous donnerons des exemples principalement avec la commande \verb
 
     \subsection{Numérotation minimaliste}
 
-En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une numérotation minimaliste de vos exercices. Tout d'abord, ci-dessous on obtient classiquement des exercices tous numérotés où vous noterez que chaque type d'exercice admet sa propre numérotation.
-
-
-\begin{tcblisting}{}
-\exercise
-\exercise
-\problem
-\problem
-\end{tcblisting}
-
-
+En \textbf{compilant deux fois} au moins, \verb+lyxam+ va pouvoir donner une numérotation minimaliste de vos exercices.
+Par exemple, ci-dessous on obtient classiquement des exercices tous numérotés (vous noterez que les problèmes et les bonus ont leur propre numérotation).
 Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un seul bonus ? Nul besoin ici d'avoir un numéro pour ces derniers. C'est ce que fait \verb+lyxam+.
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \exercise
 \exercise
 \problem
 \bonus
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise
+\exercise
+\problem
+\bonus
+\examplefinished   % -----  END  ----- %
 
 
 
-    \subsection{Indiquer le barème}
+    \subsection{Indiquer les points attribués à un exercice}
 
-La commande \verb+\exercise+ dispose de plusieurs options dont l'une permet de donner le nombre de points attribués à un exercice où lorsque l'on indique $0$ point le package indique une exercice non noté (voir la section suivante pour un exemple). Voici comment donner un barème.
+L'option \verb+pts+ permet de donner sommairement le nombre total de points attribués à un exercice, ou bien d'indiquer qu'un exercice n'est pas noté. Voici comment faire.
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \exercise[pts = 5]
 Bla, bla, bla, bla, bla, ...
+
+\exercise[pts = 0]
+Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise[pts = 5]
+Bla, bla, bla, bla, bla, ...
+
+\exercise[pts = 0]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
+\begin{remark*}
+La section \ref{exercises:score} explique comment indiquer un barème assez détaillé tout en obtenant un fichier externe pour faciliter la correction de devoirs d'étudiant.
+\end{remark*} 
+
+
+
+    \subsection{Utiliser une numérotation "maison"}
+
+La version étoilée \verb+\exercise*+ permet d'afficher un texte de son choix à la place de la numérotation automatique (dans ce cas, la numérotation automatique est mise en attente). Voici un exemple concret d'utilisation.
+
+\begin{tcblisting}{listing only}
+\exercise*[id = facultatif]
+Bla, bla, bla, bla, bla, ...
+\end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise*[id = facultatif]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
+
 
 
     \subsection{Cacher le texte "Exercice"}
 
-La version étoilée \verb+\exercise*+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ sera ici le texte "Exercice". Ceci est surtout pratique pour les sous-parties présentées un peu plus bas. Dans ce genre de situation, il faut obligatoirement donner un titre.
+La version doublement étoilée \verb+\exercise**+ permet de cacher le contexte qui du point de vue de \verb+lyxam+ est le texte indiquant le type d'exercice (ceci est très pratique pour les sous-parties présentées dans la section \ref{exercises:subparts}). Dans ce genre de situation, il faut obligatoirement donner un titre.
 
-\begin{tcblisting}{}
-\exercise*[title = Juste mon titre]
-
+\begin{tcblisting}{listing only}
+\exercise**[title = Juste mon titre]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise**[title = Juste mon titre]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
 
 
     \subsection{Toutes les options en action}
 
-Les fiches techniques données un peu plus bas expliquent le champs d'utilisation de chaque option.
-\textit{\textbf{Attention !} L'environnement} \verb+tcblisting+ \textit{utilisé dans ce document ne montre pas ci-dessous la note de bas page numérotée $\lceil$a$\rfloor$ qui donne la source utilisée.}
+Les fiches techniques données dans la section \ref{exercises:technicalids} expliquent le champs d'utilisation de chaque option.
 
-\begin{tcblisting}{}
-\exercise[pts   = 0,
-          time  = 3 jours,
-          id    = facultatif,
-          title = Devinette,
-          about = Pour spécialiste uniquement,
-          src   = Le livre des experts]
+\begin{tcblisting}{listing only}
+\exercise*[pts   = 0,
+           time  = 3 jours,
+           id    = facultatif,
+           title = Devinette,
+           about = Pour spécialiste uniquement,
+           src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise*[pts   = 0,
+           time  = 3 jours,
+           id    = facultatif,
+           title = Devinette,
+           about = Pour spécialiste uniquement,
+           src   = Le livre des experts]
+Bla, bla, bla, bla, bla, ...
+\examplefinished   % -----  END  ----- %
 
 
-    \subsection{Fiches techniques}
+    \subsection{Fiches techniques} \label{exercises:technicalids}
 
-Toutes les options données ci-dessous sont facultatives.
+\exosoptionsdescription{}
 
-\bigskip
-
-
-% IDmacro - All kind of level 2 contexts - START
+\begin{multicols}{2}% IDmacro - All kind of level 2 contexts - START
 \IDmacro{activity}{6}{}
 
+\IDmacro{activity*}{6}{}
+
+\IDmacro{activity**}{6}{}
+
+\vspace{0.7ex}
 \IDmacro{bonus}{6}{}
 
+\IDmacro{bonus*}{6}{}
+
+\IDmacro{bonus**}{6}{}
+
+\vspace{0.7ex}
 \IDmacro{exercise}{6}{}
 
+\IDmacro{exercise*}{6}{}
+
+\IDmacro{exercise**}{6}{}
+
+\vspace{0.7ex}
 \IDmacro{mcq}{6}{}
 
+\IDmacro{mcq*}{6}{}
+
+\IDmacro{mcq**}{6}{}
+
+\vspace{0.7ex}
 \IDmacro{praticalwork}{6}{}
 
+\IDmacro{praticalwork*}{6}{}
+
+\IDmacro{praticalwork**}{6}{}
+
+\vspace{0.7ex}
 \IDmacro{problem}{6}{}
+
+\IDmacro{problem*}{6}{}
+
+\IDmacro{problem**}{6}{}
+
 % IDmacro - All kind of level 2 contexts - END
+\end{multicols}
+
+\vspace{-1em}
 
 \exosoptions{}
 
 
 
-\section{Indiquer des sous-parties dans vos exercices}
+\section{Indiquer des sous-parties dans vos exercices} \label{exercises:subparts}
 
     \subsection{Un exemple suffit\dots{} ou presque}
 
@@ -483,7 +585,7 @@ La commande \verb+\subpart+, avec les mêmes options que les commandes de type \
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \exercise
 \subpart
 \subpart
@@ -492,17 +594,30 @@ La commande \verb+\subpart+, avec les mêmes options que les commandes de type \
 \subpart
 \subpart
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\exercise
+\subpart
+\subpart
+
+\exercise
+\subpart
+\subpart
+\examplefinished   % -----  END  ----- %
 
 
     \subsection{Fiche technique}
 
-Toutes les options données ci-dessous sont facultatives et identiques à celles vues précédemment.
+\exosoptionsdescription{}
 
 \bigskip
 
-
 % IDmacro - All kind of level 3 contexts - START
 \IDmacro{subpart}{6}{}
+
+\IDmacro{subpart*}{6}{}
+
+\IDmacro{subpart**}{6}{}
+
 % IDmacro - All kind of level 3 contexts - END
 
 \exosoptions{}
@@ -518,7 +633,7 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \topic
 \exercise
 \exercise
@@ -526,17 +641,29 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 \topic
 \exercise
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\topic
+\exercise
+\exercise
+
+\topic
+\exercise
+\examplefinished   % -----  END  ----- %
 
 
     \subsection{Fiche technique}
 
-Toutes les options données ci-dessous sont facultatives et identiques à celles vues précédemment.
+\exosoptionsdescription{}
 
 \bigskip
 
-
 % IDmacro - All kind of level 1 contexts - START
 \IDmacro{topic}{6}{}
+
+\IDmacro{topic*}{6}{}
+
+\IDmacro{topic**}{6}{}
+
 % IDmacro - All kind of level 1 contexts - END
 
 \exosoptions{}
@@ -551,7 +678,7 @@ En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la nu
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \makeatletter
     \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
 \makeatother
@@ -559,6 +686,14 @@ En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la nu
 \exercise
 \exercise
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\makeatletter
+    \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
+\makeatother
+
+\exercise
+\exercise
+\examplefinished   % -----  END  ----- %
 
 
     \subsection{Fiches techniques}
@@ -584,31 +719,48 @@ En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la nu
 \IDarg{} the \LaTeX{} counter associated to the context.
 
 
+
+
+
 \section{Utiliser un préambule}
 
     \subsection{Un exemple avec toutes les options}
 
 L'environnement \verb+\preamble+ sert à rédiger un ou plusieurs paragraphes en préambule de tout un examen, d'un thème, d'un exercice ou d'une partie.
-Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'intérieur du préambule, l'autre \verb+scale = ...+ un coefficient multiplicatif pour la largeur allouée au préambule (ce coefficient est multiplié à \verb+\linewidth+ pour calculer la largeur souhaitée).
+Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'intérieur du préambule, l'autre \verb+scale+ pour indiquer un coefficient multiplicatif pour la largeur allouée au préambule (ce coefficient est multiplié à \verb+\linewidth+ pour calculer la largeur souhaitée).
 
 \resetallcnt{}
 
-\begin{tcblisting}{}
+\begin{tcblisting}{listing only}
 \begin{preamble}[scale = 0.75, center]
     Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
-    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,\dots
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
 \end{preamble}
 
 \exercise
-
 \begin{preamble}
     Dans cet exercice, tout trace de recherche sera prise en compte à
     condition de ne pas explorer le Pôle Nord quand on s'intéresse
-    au Pôle Sud. Quoique...
+    au Pôle Sud. Quoique\dots
 \end{preamble}
 
-Trouver ....
+Tenter, chercher, trouver\dots
 \end{tcblisting}
+\examplestarted    % ----- START ----- %
+\begin{preamble}[scale = 0.75, center]
+    Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
+    bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{preamble}
+
+\exercise
+\begin{preamble}
+    Dans cet exercice, tout trace de recherche sera prise en compte à
+    condition de ne pas explorer le Pôle Nord quand on s'intéresse
+    au Pôle Sud. Quoique\dots
+\end{preamble}
+
+Tenter, chercher, trouver\dots
+\examplefinished   % -----  END  ----- %
 
 
     \subsection{Fiches techniques}
@@ -623,23 +775,45 @@ Trouver ....
 
 
 
+\section{Détailler le barème} \label{exercises:score}
+
+score : affiche + crée fichier externe
+
+nopts + score : cahce mais crée fichier externe
+
+
+
 \section{Historique}
 
 Tous les changements sont décrits en anglais uniquement dans le dossier \verb+change_log+ : voir le code source de \verb+lyxam+ sur \verb+github+. Nous ne donnons ici qu'un très bref historique de \verb+lyxam+.
 
+\medskip
+
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
+    \item[2017-12-13] Nouvelle version majeure \verb+1.0.0-beta+.
+        \begin{itemize}
+            \item La grosse nouveauté est la possibilité d'indiquer un barème détaillé via l'option de package \verb+score+ et la macro \verb+\scpts+.
 
-    \item[2017-12-02] Nouvelle version mineure \verb+0.3.0-beta+ du package.
+            \item Les exercices ont dorénavant une version étoilée qui cache le numéro et demande d'utiliser \verb+id+, et une version doublement étoilée qui cache le type d'exercice et nécessite l'emploi de \verb+title+.
+
+            \item Une nouvelle option \verb+pts+ pour la macro \verb+\exam+ permet d'indiquer sur combien un devoir sera évalué.
+
+            \item Les options de package \verb+about+, \verb+hf+, \verb+noshort+, \verb+pts+ et \verb+src+ ont été supprimées car elles étaient inutiles.
+        \end{itemize}
+
+
+    \item[2017-12-02] Nouvelle version mineure \verb+0.3.0-beta+.
     \begin{itemize}
         \item L'option de package \verb+mini+ fournit un style de mise en forme minimaliste. Ce sera le style par défaut.
 
-        \item L'option de package \verb+book+ a été ajouté pour insérer dans un document de type cours ou livre.
+        \item L'option de package \verb+book+ a été ajouté pour insérer des exercices dans un document de type cours ou livre.
 
-        \item L'option de package \verb+ecolo+ mélange les mises en forme de \verb+mini+ et \verb+book+ pour rédiger des devoirs en utilisant le moins d'espaces possible.        
+        \item L'option de package \verb+ecolo+ mélange les mises en forme de \verb+mini+ et \verb+book+ pour rédiger des devoirs en gaspillant le moins d'espaces possible.
     \end{itemize}
 
-    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+ du package.
+
+    \item[2017-11-28] Nouvelle version mineure \verb+0.2.0-beta+.
     \begin{itemize}
         \item L'option de package \verb+linebox+ fournit un nouveau style de mise en forme.
 
@@ -654,7 +828,8 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
         \item Il est maintenant possible de personnaliser la numérotation des exercices.
     \end{itemize}
 
-    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+ du package.
+
+    \item[2017-11-12] Nouvelle version mineure \verb+0.1.0-beta+.
     \begin{itemize}
         \item Les nouvelles options \verb+hf+ et \verb+nohf+ permettent au chargement du package de montrer ou cacher les en-têtes et les pieds de page.
 
@@ -667,7 +842,8 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
         \item En interne, l'utilisation de \verb+simplekv+ a permis une refonte complète du code en simplifiant la méthode à utiliser pour créer de nouvelles mises en page "maison".
     \end{itemize}
 
-    \item[2017-11-03] Première version publique \verb+0.0.0-beta+ du package.
+
+    \item[2017-11-03] Première version publique \verb+0.0.0-beta+.
 \end{description}
 
 

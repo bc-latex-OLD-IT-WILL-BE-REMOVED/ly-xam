@@ -32,8 +32,7 @@ for option, default in [
     ('--pdf' , False),
     ('--bash', False),
     ('--all' , False),
-    ('--quick' , False),
-    ('--noex', False)
+    ('--noex' , False)
 ]:
     parser.add_argument(
         option,
@@ -43,15 +42,10 @@ for option, default in [
 
 ARGS = parser.parse_args()
 
-if ARGS.quick:
-    ARGS.pdf  = False
-    ARGS.bash = False
-    ARGS.noex = True
-
 if ARGS.all:
-    ARGS.pdf  = True
-    ARGS.bash = True
-
+    ARGS.pdf   = True
+    ARGS.bash  = True
+    ARGS.noex = False
 
 # -------------------------------------- #
 # -- LAUNCHING ALL THE BUILDING TOOLS -- #

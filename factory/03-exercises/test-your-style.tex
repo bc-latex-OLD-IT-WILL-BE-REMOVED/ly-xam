@@ -2,16 +2,17 @@
     \usepackage[utf8x]{inputenc}
     \usepackage[T1]{fontenc}
     \usepackage{ucs}
-    \usepackage[%%short,
-                fr, src, about,
-%    		    apmep,
-%    			linebox,
-%				mini,
-%				book,
-                ecolo,
+    \usepackage[%short,
+%                fr,
+%                nosrc,
+%                noabout,
+% Style tested
+    		     apmep,
+%    			 linebox,
+%				 mini,
+%				 book,
+%                ecolo,
 	]{exercises}
-
-    \usepackage{pgffor}
 
     \newcommand\blabla{%
         \noindent Bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
@@ -22,11 +23,6 @@
         bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
         bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
     }
-
-    \newcommand\codeused{
-        \blabla{} \medskip  \\ \noindent $\rightarrow$ We have used :
-    }
-
 
 
 \begin{document}
@@ -95,36 +91,36 @@
 
 \newpage \section{No point and no context to finish}
 
-\topic*[title = One topic,
-        time = 10 min,
-        src = The book of easy exercises,
-        about = Only for the specialists]
+\topic**[title = One topic,
+         time = 10 min,
+         src = The book of easy exercises,
+         about = Only for the specialists]
 
-\exercise*[title = One exercise,
-           src = The book of easy exercises,
-           about = Only for the specialists]
+\exercise**[title = One exercise,
+            src = The book of easy exercises,
+            about = Only for the specialists]
 
-\subpart*[title = One subpart,
-          time = 10 min,
-          about = Only for the specialists]
-\blabla{}
-
-\subpart*[title = One subpart,
-          time = 10 min,
-          about = Only for the specialists]
-\blabla{}
-
-
-\exercise*[title = One exercise,
-           pts = 10,
-           src = The book of easy exercises,
+\subpart**[title = One subpart,
+           time = 10 min,
            about = Only for the specialists]
 \blabla{}
 
-\subpart*[title = One subpart,
-          time = 10 min,
-          src = The book of easy exercises,
-          about = Only for the specialists]
+\subpart**[title = One subpart,
+           time = 10 min,
+           about = Only for the specialists]
+\blabla{}
+
+
+\exercise**[title = One exercise,
+            pts = 10,
+            src = The book of easy exercises,
+            about = Only for the specialists]
+\blabla{}
+
+\subpart**[title = One subpart,
+           time = 10 min,
+           src = The book of easy exercises,
+           about = Only for the specialists]
 \blabla{}
 
 \end{document}

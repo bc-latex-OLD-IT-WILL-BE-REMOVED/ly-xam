@@ -56,9 +56,11 @@
         \large
         \@concatenate{\@book@kind@nb@subnb}{\@book@slashtext}{%%
             \@concatenate{\@book@subject@theme@sector}{\@book@slashtext}{%%
-                \@concatenate{\@book@class@location}%%
-                    {\@book@slashtext}%%
-                    {\@book@date@time}%%
+                \@concatenate{\@book@class@location}{\@book@slashtext}{%%
+                    \@concatenate{\@book@date@time}%%
+                        {\@book@slashtext}%%
+                        {\@lyxam@longpts{\@lyxam@pts}}%%
+                }%%
             }%%
         }%%
     }
@@ -86,7 +88,6 @@
 }
 
 % Settings for stacking time and points.
-\reversemarginpar
 \renewcommand\stackalignment{r}
 \newbool{@book@add@time@or@pts}
 
@@ -101,9 +102,7 @@
     \textbf{%%
         \IfStrEq{#2}{showctxt}{%%
             \textsc{%%
-                \@lyxam@ctxt@name{#1}%%
-                \@lyxam@if@end@with@colon{#1}{}{~}%%
-                \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                \@lyxam@ctxt@name@nb@id{#1}%%
                 \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
             }%%
         }{%%
@@ -129,6 +128,7 @@
         }%%
     }%%
     \@if@empty\@book@ctxt@time@pts{}{%%
+        \reversemarginpar%%
         \marginpar{%
             \raggedleft\scriptsize%%
             \raisebox{0.3em}{\@book@ctxt@time@pts%%
@@ -144,4 +144,11 @@
     }%%
 % Horizontal space.
     \@book@space@after@ctxt%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \normalmarginpar%%
+    \marginpar{\framebox{#1}}%
 }

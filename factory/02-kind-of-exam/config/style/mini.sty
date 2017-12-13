@@ -64,7 +64,11 @@
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \def\@mini@fourth@title{%%
-        \@concatenate{\@lyxam@date}{\@mini@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+        \@concatenate{\@lyxam@date}{\@mini@minus}{%%
+            \@concatenate{\@lyxam@longduration{\@lyxam@time}}%%
+                {\@mini@minus}%%
+                {\@lyxam@longpts{\@lyxam@pts}}%%
+        }%%
     }%%
     {\centering\bfseries\large%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
@@ -87,7 +91,7 @@
     }
     \@mini@space@after@all@titles{}%%
 % Headers and footers
-    \ifbool{@lyxam@show@headers@footers}{%%
+    \ifshowheadersfooters%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
@@ -112,7 +116,7 @@
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@mini@first@page@style}%%
-    }{}%%
+    \fi%%
 }
 % The layout command [END].
 

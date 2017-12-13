@@ -23,7 +23,8 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
       class    = 1S4,%
       location = Lycée MONGE (Chambéry),%
       date     = 20/10/2017,%
-      time     = 2h]
+      time     = 2h,%
+      pts      = 20]
 \end{tcblisting}
 
 
@@ -37,7 +38,7 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
   \label{style:default}
 \end{figure}
 
-Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
+Présentons maintenant en détail chacun des paramètres qui sont tous optionnels. Lorsqu'aucune valeur par défaut n'est indiquée, c'est que cette valeur est un texte vide.
 
 \begin{enumerate}
     \item \verb+deliver+, valant \verb+no+ par défaut, est pour un sujet à rendre avec la copie.
@@ -71,12 +72,14 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
     \item \verb+date+ est pour la date du devoir.
 
     \item \verb+time+ est pour la durée du devoir.
+
+    \item \verb+pts+ permet d'indiquer sur combien de points sera évalué un devoir.
 \end{enumerate}
 
 
     \subsection{Fiche technique}
 
-\IDmacro{exam}{11}{}
+\IDmacro{exam}{12}{}
 
 \IDkey{kind} le type de devoir, la valeur par défaut étant \verb+Test+.
 
@@ -99,5 +102,7 @@ Expliquons maintenant en détail le rôle de chacun des paramètres qui sont tou
 \IDkey{date} le texte donnant la date du devoir.
 
 \IDkey{time} le texte indiquant juste la durée du devoir.
+
+\IDkey{pts} le nombre total de points pour évaluer un devoir.
 
 \end{document}

@@ -1,6 +1,5 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{ucs}
 
 \usepackage[french]{babel,varioref}
 
@@ -21,7 +20,7 @@
 
 \usepackage{amsthm}
 
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \tcbuselibrary{listingsutf8}
 
 \usepackage{ifplatform}
@@ -29,6 +28,8 @@
 \usepackage{xstring}
 
 \usepackage{fancyvrb}
+
+
 % MISC
 
 \tcbset{%
@@ -38,10 +39,35 @@
 	colupper=red!75!blue%
 }
 
+\newcommand\examplestarted{%%
+    \par\smallskip
+    \begingroup%%
+        \centering%%
+        \setlength{\fboxrule}{0.7pt}%%
+        \rule[0.4ex]{5em}{0.7pt}%%
+        \framebox{\small\vphantom{pE}Mise en forme - Début}%%
+        \rule[0.4ex]{5em}{0.7pt}%%
+        \par\smallskip
+    \endgroup%%
+}
+
+\newcommand\examplefinished{%%
+    \par\smallskip
+    \begingroup%%
+        \centering%%
+        \setlength{\fboxrule}{0.7pt}%%
+        \rule[0.4ex]{5.5em}{0.7pt}%%
+        \framebox{\small\vphantom{pE}Mise en forme - Fin}%%
+        \rule[0.4ex]{5.5em}{0.7pt}%%
+        \par\smallskip
+    \endgroup%%
+}
+
 \setlength{\parindent}{0cm}
 
 \theoremstyle{definition}
-\newtheorem*{remark}{Remarque}
+\newtheorem*{remark*}{Remarque}
+\newtheorem{remark}{Remarque}
 
 \usepackage[raggedright]{titlesec}
 
@@ -59,12 +85,11 @@
     }
 \makeatother
 
+
 % Technical IDs
 
 \newwrite\tempfile
-
 \immediate\openout\tempfile=x-\jobname.macros-x.txt
-
 \AtEndDocument{\immediate\closeout\tempfile}
 
 

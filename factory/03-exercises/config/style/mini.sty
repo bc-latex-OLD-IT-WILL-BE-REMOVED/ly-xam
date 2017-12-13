@@ -60,10 +60,7 @@
         \noindent\@mini@title@format\@mini@title@centering%%
         \IfStrEq{#2}{showctxt}{%%
             \textsc{%%
-                % \def\ctxtname{\@lyxam@ctxt@name{#1}}%%
-                \@lyxam@ctxt@name{#1}%%
-                \@lyxam@if@end@with@colon{#1}{}{~}%%
-                \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                \@lyxam@ctxt@name@nb@id{#1}%%
                 \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
             }%%
         }{%%
@@ -96,4 +93,10 @@
         }%%
     }%%
     \@mini@space@before@content%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \marginpar{\framebox{#1}}%
 }

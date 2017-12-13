@@ -33,8 +33,13 @@ for ppath in THIS_DIR.walk("file::*.peuf"):
     ) as data:
         for _, transtalions in data.mydict("mini std").items():
             for key, val in transtalions.items():
+                if key == "eval":
+                    val = val.capitalize()
+                else:
+                    val = val.title()
+
                 content.append(
-                    f"\\newcommand\\lyxam@text@{key}{{{val.title()}}}"
+                    f"\\newcommand\\lyxam@text@{key}{{{val}}}"
                 )
 
 

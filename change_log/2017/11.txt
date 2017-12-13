@@ -26,7 +26,7 @@
 **One new style ``linebox``:** this style uses frames and lines.
 
 
-**Internal changes:** another cleaning of the code of path::``apmep.sty``.
+**Internal changes:** another cleaning of the code of path::````apmep``.sty``.
 
 
 ==========
@@ -97,7 +97,7 @@
     2) Better use of the package ``simplekv``: we use "real" empty strings.
 
 
-**Bug in the style APMEP:** the new internal version didn't manage spaces for topics. This has been corrected.
+**Bug in the style ``apmep``:** the new internal version didn't manage spaces for topics. This has been corrected.
 
 
 
@@ -124,7 +124,7 @@
 **Changes for macros like `\exercise`:** the option `note` has been renamed `about`.
 
 
-**Style `APMEP`:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by `APMEP`, just add ``\usepackage{pxfonts}`` in your preamble.
+**Style ``apmep``:** it loads ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` to only use the ornements. If you still want to have the previous font loaded by ``apmep``, just add ``\usepackage{pxfonts}`` in your preamble.
 
 
 **Internal changes.**
@@ -140,14 +140,14 @@
 2017-11-06
 ==========
 
-**Bug in the style APMEP:** the font size command ``\footnotesize`` was missing for page numbers in the footers after the first page.
+**Bug in the style ``apmep``:** the font size command ``\footnotesize`` was missing for page numbers in the footers after the first page.
 
 
 ==========
 2017-11-05
 ==========
 
-**The styles will never use their own font:** the style APMEP uses now ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` such as to only use the ornaments. The choice of the font is just a user's one.
+**The styles will never use their own font:** the style ``apmep`` uses now ``\usepackage{fourier-orns}`` instead of ``\usepackage{fourier}`` such as to only use the ornaments. The choice of the font is just a user's one.
 
 
 ==========

@@ -4,10 +4,10 @@
 
 \RequirePackage{calc}
 \RequirePackage{changepage}
-\RequirePackage{etoolbox}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
 \RequirePackage{listofitems}
+\RequirePackage{marginnote}
 \RequirePackage{simplekv}
 \RequirePackage{xstring}
 
@@ -29,40 +29,35 @@
 \DeclareOption{en}{}
 \DeclareOption{fr}{\renewcommand{\@lang@choosen}{fr}}
 
-% Headers and footers or not ?
-\newbool{@lyxam@show@headers@footers}
-\setbool{@lyxam@show@headers@footers}{true}
-
-\DeclareOption{hf}{}
-\DeclareOption{nohf}{\setbool{@lyxam@show@headers@footers}{false}}
-
-% Show infos about or not ? That is the 1st question.
-\newif\ifshowabout
-\showabouttrue
-
-\DeclareOption{about}{}
-\DeclareOption{noabout}{\showaboutfalse}
-
-% Show source or not ? That is the 2nd question.
-\newif\ifshowsource
-\showsourcetrue
-
-\DeclareOption{src}{}
-\DeclareOption{nosrc}{\showsourcefalse}
-
-% Show points or not ? That is the other question.
+% Show points or not ?
 \newif\ifshowpoints
 \showpointstrue
-
-\DeclareOption{pts}{}
 \DeclareOption{nopts}{\showpointsfalse}
 
-% Sfort versions or not ? That is the big question.
-\newbool{@lyxam@use@short@ctxt@name}
-\setbool{@lyxam@use@short@ctxt@name}{false}
+% Headers and footers or not ?
+\newif\ifshowheadersfooters
+\showheadersfooterstrue
+\DeclareOption{nohf}{\showheadersfootersfalse}
 
-\DeclareOption{short}{\setbool{@lyxam@use@short@ctxt@name}{true}}
-\DeclareOption{noshort}{}
+% Show infos about or not ?
+\newif\ifshowabout
+\showabouttrue
+\DeclareOption{noabout}{\showaboutfalse}
+
+% Show source or not ?
+\newif\ifshowsource
+\showsourcetrue
+\DeclareOption{nosrc}{\showsourcefalse}
+
+% Short versions or not ?
+\newif\ifuseshortnames
+\useshortnamesfalse
+\DeclareOption{short}{\useshortnamestrue}
+
+% Scores for points
+\newif\ifshowscores
+\showscoresfalse
+\DeclareOption{score}{\showscorestrue}
 
 % Processing the options
 \ProcessOptions
@@ -108,6 +103,12 @@
     \@if@empty{#1}{}{\lyxam@text@date{}: #1}%%
 }
 
+\newcommand\@lyxam@longpts[1]{%%
+    \@if@empty{#1}{}{%%
+        \IfStrEq{#1}{0}{}{\lyxam@text@eval{} #1}}%%
+}
+
+
 %    #1: kind of test
 %    #2: nb of the test
 %    #3: subnb of the test
@@ -117,10 +118,6 @@
     \@if@empty{#3}{}{\,(#3)}%%
 }
 % Layout tools - API - END
-
-% Deliver or not ?
-\newbool{@lyxam@show@deliver}
-\setbool{@lyxam@show@deliver}{false}
 
 % The general layout command.
 \setKVdefault[lyxam@title@keys]{%
@@ -134,12 +131,14 @@
     class    = {},    % Name of a class
     location = {},    % An institute or a school
     date     = {},    % Date of the exam
-    time     = {}     % Duration of the exam
+    time     = {},    % Duration of the exam
+    pts      = {}     % Total number of points for the evaluation
 }
 
 \newcommand\exam[1][]{%%
     \useKVdefault[lyxam@title@keys]%%
     \setKV[lyxam@title@keys]{#1}%%
+    \ifshowpoints\else\setKV[lyxam@title@keys]{pts={}}\fi%%
 % User's values
     \edef\@lyxam@deliver{\@use@lyxam@key{deliver}}%%
     \edef\@lyxam@kind{\@use@lyxam@key{kind}}%%
@@ -152,6 +151,7 @@
     \edef\@lyxam@location{\@use@lyxam@key{location}}%%
     \edef\@lyxam@date{\@use@lyxam@key{date}}%%
     \edef\@lyxam@time{\@use@lyxam@key{time}}%%
+    \edef\@lyxam@pts{\@use@lyxam@key{pts}}%%
 % Good deliver option ?
     \IfStrEqCase\@lyxam@deliver{%%
         {no}{}%%
@@ -199,82 +199,19 @@
 % -- EXERCISES -- %
 % --------------- %
 
-% Smart counters
-%
-% Sources of inspiration.
-%    * https://tex.stackexchange.com/a/38564/6880
-%    * https://tex.stackexchange.com/a/30085/6880
-%    * https://tex.stackexchange.com/q/73349/6880
-\newcounter{@next@counter}
-
-\newcommand\@build@smart@counter[1]{%
-    \newcounter{#1}%%
-    \setcounter{#1}{0}%%
-    \newcounter{@last@#1}%%
-    \newcounter{@cursor@#1}%%
-    \setcounter{@cursor@#1}{0}%%
-    \expandafter\gdef\csname @first@cnt@cursors@#1\endcsname{,}%%
-    \expandafter\newcommand\csname smart@#1\endcsname{%%
-        \refstepcounter{#1}%%
-        \stepcounter{@cursor@#1}%%
-        \setcounter{@last@#1}{\value{#1}}%%
-% Storing cursors for inital values for the actual compilation.
-        \ifnum\value{#1}=1 %%
-            \immediate\write\@auxout{%%
-              \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%%
-            }%%
-        \fi%%
-% What do we print regarding the preceding compilation ?
-        \@ifundefined{@cursors@#1@\the\value{@cursor@#1}}{%%
-            \csname #1@style\endcsname{#1}%%
-        }{%%
-            \setcounter{@next@counter}{\value{@cursor@#1} + 1}%%
-            \@ifundefined{@cursors@#1@\the\value{@next@counter}}%%
-                {\csname #1@style\endcsname{#1}}%%
-                {}%%
-        }%%
-    }%%
-    \AtEndDocument{%%
-% Special case of one last counter initialized.
-%
-% We must take care of reseting the counters : this is why we use the "last"
-% counter ``@last@#1``.
-        \ifnum\value{@last@#1}=1 %%
-            \stepcounter{@cursor@#1}%%
-            \immediate\write\@auxout{%%
-              \string\global\string\@namedef{@cursors@#1@\the\value{@cursor@#1}}{}%%
-            }%%
-        \fi%%
-    }%%
-}
-
-% Name, shorten or not, of the context
-\newcommand\@lyxam@ctxt@name[1]{%%
-    \ifbool{@lyxam@use@short@ctxt@name}{%%
+% Short or long version.
+\newcommand\lyxam@short@long[1]{%%
+    \ifuseshortnames%%
         \csname lyxam@shorttext@#1\endcsname%%
-    }{%%
+    \else%%
         \csname lyxam@text@#1\endcsname%%
-    }%%
+    \fi%%
 }
-
-\newcommand\@lyxam@if@end@with@colon[3]{%%
-    \@@@lyxam@if@end@with@colon{\@lyxam@ctxt@name{#1}}{#2}{#3}%%
-}
-
-\newcommand\@@@lyxam@if@end@with@colon[3]{%%
-    \IfEndWith{#1}{.}{#2}{#3}%%
-}
-
-% Number of the context
-\newcommand\@lyxam@ctxt@nb[1]{%%
-    \csname smart@lyxam@counter@#1\endcsname%%
-}
-
 % Long version for points
 \newcommand\@lyxam@ctxt@longpoints[1]{%%
     \@if@empty{#1}{}{%%
-        \IfStrEq{#1}{0}{\@lyxam@ctxt@name{nopoint}}{%%
-            #1 \IfStrEq{#1}{1}{\@lyxam@ctxt@name{point}}{\@lyxam@ctxt@name{points}}%%
+        \IfStrEq{#1}{0}{\lyxam@short@long{nopoint}}{%%
+            #1 \IfStrEq{#1}{1}{\lyxam@short@long{point}}{\lyxam@short@long{points}}%%
         }%%
     }%%
 }
@@ -282,85 +219,81 @@
 % Long version of sources
 %     #1: \lyxam@<CONTEXT>@source (user initial source)
 \newcommand\@lyxam@ctxt@longsource[1]{%%
-    \@if@empty{#1}{}{\@lyxam@ctxt@name{source}: #1}%%
+    \@if@empty{#1}{}{\lyxam@short@long{source}: #1}%%
 }
 
 % Long version of time
 %     #1: \lyxam@<CONTEXT>@time (user initial source)
 \newcommand\@lyxam@ctxt@longtime[1]{%%
-    \@if@empty{#1}{}{\@lyxam@ctxt@name{time}: #1}%%
+    \@if@empty{#1}{}{\lyxam@short@long{time}: #1}%%
 }
 
-% For keys and values
-\newcommand\@use@context@key[1]{\useKV[context@keys]{#1}}
-
-% The commands for contexts
-\setKVdefault[context@keys]{%
-    id    = {},  % For "12 page 345" instead of an automaic number
-    title = {},  % You can add an extra title
-    time  = {},  % Use "no" to see only the title
-    pts   = {},  % Number of points for the exercise
-    src   = {},  % A short reference for a source used
-    about = {}   % One additional special note
-}
-
-% Making the commands for each contexts
-\newcommand\@build@values[1]{
-    \useKVdefault[context@keys]%%
-    \setKV[context@keys]{#1}%%
-    \ifshowpoints\else\setKV[context@keys]{pts={}}\fi
-    \ifshowsource\else\setKV[context@keys]{src={}}\fi
-    \ifshowabout\else\setKV[context@keys]{about={}}\fi
-    \edef\@lyxam@ctxt@id{\@use@context@key{id}}%%
-    \edef\@lyxam@ctxt@title{\@use@context@key{title}}%%
-    \edef\@lyxam@ctxt@time{\@use@context@key{time}}%%
-    \edef\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
-    \edef\@lyxam@ctxt@src{\@use@context@key{src}}%%
-    \edef\@lyxam@ctxt@about{\@use@context@key{about}}%%
-}
-
-\newcommand\@add@context[1]{%
-    \@build@smart@counter{lyxam@counter@#1}
-
-    \expandafter\newcommand\csname#1\endcsname{%%
-        \@ifstar{\csname @#1@star\endcsname}{\csname @#1@no@star\endcsname}%%
-    }
-
-% User's commands for contexts
-    \expandafter\newcommand\csname @#1@star\endcsname[1][]{
-        \@build@values{##1}%%
-        \@if@empty\@lyxam@ctxt@title{
-            \PackageError{lyxam}{no title and no context}{}%%
-        }{}%%
-        \@build@ctxt{#1}{hidectxt}%%
-    }
-    \expandafter\newcommand\csname @#1@no@star\endcsname[1][]{
-        \@build@values{##1}%%
-        \@build@ctxt{#1}{showctxt}%%
-    }
-}
-
-% Let's build our contexts.
-\@add@context{topic}
+% The counters for contexts.
+\newcounter{lyxam@counter@topic}
+\setcounter{lyxam@counter@topic}{0}
+\newcounter{lyxam@counter@topic@star}
+\setcounter{lyxam@counter@topic@star}{0}
+\newcounter{lyxam@counter@topic@star@star}
+\setcounter{lyxam@counter@topic@star@star}{0}
 \newcommand\lyxam@counter@topic@style[1]{\Roman{#1}}
 
-\@add@context{activity}
+\newcounter{lyxam@counter@activity}
+\setcounter{lyxam@counter@activity}{0}
+\newcounter{lyxam@counter@activity@star}
+\setcounter{lyxam@counter@activity@star}{0}
+\newcounter{lyxam@counter@activity@star@star}
+\setcounter{lyxam@counter@activity@star@star}{0}
 \newcommand\lyxam@counter@activity@style[1]{\arabic{#1}}
-\@add@context{bonus}
+
+\newcounter{lyxam@counter@bonus}
+\setcounter{lyxam@counter@bonus}{0}
+\newcounter{lyxam@counter@bonus@star}
+\setcounter{lyxam@counter@bonus@star}{0}
+\newcounter{lyxam@counter@bonus@star@star}
+\setcounter{lyxam@counter@bonus@star@star}{0}
 \newcommand\lyxam@counter@bonus@style[1]{\arabic{#1}}
-\@add@context{exercise}
+
+\newcounter{lyxam@counter@exercise}
+\setcounter{lyxam@counter@exercise}{0}
+\newcounter{lyxam@counter@exercise@star}
+\setcounter{lyxam@counter@exercise@star}{0}
+\newcounter{lyxam@counter@exercise@star@star}
+\setcounter{lyxam@counter@exercise@star@star}{0}
 \newcommand\lyxam@counter@exercise@style[1]{\arabic{#1}}
-\@add@context{mcq}
+
+\newcounter{lyxam@counter@mcq}
+\setcounter{lyxam@counter@mcq}{0}
+\newcounter{lyxam@counter@mcq@star}
+\setcounter{lyxam@counter@mcq@star}{0}
+\newcounter{lyxam@counter@mcq@star@star}
+\setcounter{lyxam@counter@mcq@star@star}{0}
 \newcommand\lyxam@counter@mcq@style[1]{\arabic{#1}}
-\@add@context{praticalwork}
+
+\newcounter{lyxam@counter@praticalwork}
+\setcounter{lyxam@counter@praticalwork}{0}
+\newcounter{lyxam@counter@praticalwork@star}
+\setcounter{lyxam@counter@praticalwork@star}{0}
+\newcounter{lyxam@counter@praticalwork@star@star}
+\setcounter{lyxam@counter@praticalwork@star@star}{0}
 \newcommand\lyxam@counter@praticalwork@style[1]{\arabic{#1}}
-\@add@context{problem}
+
+\newcounter{lyxam@counter@problem}
+\setcounter{lyxam@counter@problem}{0}
+\newcounter{lyxam@counter@problem@star}
+\setcounter{lyxam@counter@problem@star}{0}
+\newcounter{lyxam@counter@problem@star@star}
+\setcounter{lyxam@counter@problem@star@star}{0}
 \newcommand\lyxam@counter@problem@style[1]{\arabic{#1}}
 
-\@add@context{subpart}
+\newcounter{lyxam@counter@subpart}
+\setcounter{lyxam@counter@subpart}{0}
+\newcounter{lyxam@counter@subpart@star}
+\setcounter{lyxam@counter@subpart@star}{0}
+\newcounter{lyxam@counter@subpart@star@star}
+\setcounter{lyxam@counter@subpart@star@star}{0}
 \newcommand\lyxam@counter@subpart@style[1]{\Alph{#1}}
 
-% Reseting of counters.
+% Auto-reset of counters.
 \setsepchar{,}
 
 \newcommand\@auto@reset@by[2]{
@@ -370,7 +303,251 @@
     }%%
 }
 
-\@auto@reset@by{lyxam@counter@subpart}{lyxam@counter@topic,lyxam@counter@activity,lyxam@counter@bonus,lyxam@counter@exercise,lyxam@counter@mcq,lyxam@counter@praticalwork,lyxam@counter@problem}
+\@auto@reset@by{lyxam@counter@subpart}{lyxam@counter@topic,lyxam@counter@topic@star,lyxam@counter@topic@star@star,lyxam@counter@activity,lyxam@counter@activity@star,lyxam@counter@activity@star@star,lyxam@counter@bonus,lyxam@counter@bonus@star,lyxam@counter@bonus@star@star,lyxam@counter@exercise,lyxam@counter@exercise@star,lyxam@counter@exercise@star@star,lyxam@counter@mcq,lyxam@counter@mcq@star,lyxam@counter@mcq@star@star,lyxam@counter@praticalwork,lyxam@counter@praticalwork@star,lyxam@counter@praticalwork@star@star,lyxam@counter@problem,lyxam@counter@problem@star,lyxam@counter@problem@star@star}
+
+% Updating the counters for contexts.
+%
+% Source
+%     * https://tex.stackexchange.com/a/38201/6880
+\newcommand\@lyxam@counters@history{}
+
+\newcommand\@update@lyxam@counter[1]{%%
+    \stepcounter{lyxam@counter@#1}%%
+    \ifnum\value{lyxam@counter@#1}=1 %%
+        \edef\@lyxam@counters@history{%%
+            \unexpanded\expandafter{\@lyxam@counters@history},#1-1%%
+        }%%
+    \else%%
+        \edef\@lyxam@counters@history{%%
+            \unexpanded\expandafter{\@lyxam@counters@history},#1-0%%
+        }%%
+    \fi%%
+}
+
+% Building and storing infos to print or not the counters.
+\setsepchar{,}
+\readlist\@numbered@ctxts{topic,activity,bonus,exercise,mcq,praticalwork,problem,subpart}
+\newcommand\@code@to@print@counters{}
+
+\AtEndDocument{%%
+    \@if@empty\@lyxam@counters@history{}{%%
+        \foreachitem\onectxt\in\@numbered@ctxts{%%
+            \edef\@code@to@print@counters{}%%
+            \def\lastval{none}%%
+            \setsepchar{,/-}%%
+            \readlist\infoscounters{\@lyxam@counters@history}%%
+            \foreachitem\oneinfo\in\infoscounters{%%
+                \@if@empty\oneinfo{}{%%
+                    \IfStrEq{\infoscounters[\oneinfocnt,1]}{\onectxt}{%%
+                        \edef\newval{\infoscounters[\oneinfocnt,2]}%%
+                        \IfStrEq{\lastval}{1}{%%
+                            \IfStrEq{\newval}{1}{%%
+                                \edef\@code@to@print@counters{%%
+                                    \unexpanded\expandafter{\@code@to@print@counters},0%%
+                                }%%
+                            }{%%
+                                \edef\@code@to@print@counters{%%
+                                    \unexpanded\expandafter{\@code@to@print@counters},1%%
+                                }%%
+                            }%%
+                        }{}%%
+                        \edef\lastval{\newval}%%
+                    }%%
+                }%%
+            }%%
+            \IfStrEq{\lastval}{1}{%%
+                \edef\@code@to@print@counters{%%
+                    \unexpanded\expandafter{\@code@to@print@counters},0%%
+                }%%
+            }{}%%
+            \immediate\write\@auxout{%%
+                \string\global\string\@namedef{@lyxam@print@\onectxt}%%
+                    {\@code@to@print@counters,}%%
+            }%%
+        }%%
+    }%%
+}
+
+% Printing or not the counters for contexts.
+\setsepchar{,}
+
+\newcounter{@cursor@topic}
+\setcounter{@cursor@topic}{1}
+\@ifundefined{@lyxam@print@topic}{\gdef\@lyxam@print@topic{}}{}
+
+\newcounter{@cursor@activity}
+\setcounter{@cursor@activity}{1}
+\@ifundefined{@lyxam@print@activity}{\gdef\@lyxam@print@activity{}}{}
+
+\newcounter{@cursor@bonus}
+\setcounter{@cursor@bonus}{1}
+\@ifundefined{@lyxam@print@bonus}{\gdef\@lyxam@print@bonus{}}{}
+
+\newcounter{@cursor@exercise}
+\setcounter{@cursor@exercise}{1}
+\@ifundefined{@lyxam@print@exercise}{\gdef\@lyxam@print@exercise{}}{}
+
+\newcounter{@cursor@mcq}
+\setcounter{@cursor@mcq}{1}
+\@ifundefined{@lyxam@print@mcq}{\gdef\@lyxam@print@mcq{}}{}
+
+\newcounter{@cursor@praticalwork}
+\setcounter{@cursor@praticalwork}{1}
+\@ifundefined{@lyxam@print@praticalwork}{\gdef\@lyxam@print@praticalwork{}}{}
+
+\newcounter{@cursor@problem}
+\setcounter{@cursor@problem}{1}
+\@ifundefined{@lyxam@print@problem}{\gdef\@lyxam@print@problem{}}{}
+
+\newcounter{@cursor@subpart}
+\setcounter{@cursor@subpart}{1}
+\@ifundefined{@lyxam@print@subpart}{\gdef\@lyxam@print@subpart{}}{}
+
+% Name, shorten or not, of the context with an number or an id.
+\newcommand\@lyxam@ctxt@name@nb@id[1]{%%
+    \edef\name{\lyxam@short@long{#1}}%%
+    \name%%
+    \IfEndWith{\name}{.}{}{~}%%
+    \@if@empty\@lyxam@ctxt@id{%%
+        \ifnum\the\value{lyxam@counter@#1}=1%%
+            \expandafter\StrGobbleLeft\csname @lyxam@print@#1\endcsname{\the\value{@cursor@#1}}[\rightpart]%%
+            \StrBefore{\rightpart}{,}[\showorhideme]%%
+            \IfStrEq\showorhideme{1}{%%
+                \csname lyxam@counter@#1@style\endcsname{lyxam@counter@#1}%%
+            }{}%%
+            \addtocounter{@cursor@#1}{2}%%
+        \else%%
+            \ifnum\the\value{lyxam@counter@#1}=0 \else
+                \csname lyxam@counter@#1@style\endcsname{lyxam@counter@#1}%%
+            \fi
+        \fi%%
+    }{\@lyxam@ctxt@id}%%
+}
+
+% Scores.
+\ifshowscores
+    \newwrite\tempscoresfile
+    \immediate\openout\tempscoresfile=\jobname.scores
+    \immediate\write\tempscoresfile{// ctxt=pts::kind::nb::id::title}
+    \immediate\write\tempscoresfile{%%
+        // ---> Note: an empty value is indicated by {}%%
+    }
+    \immediate\write\tempscoresfile{%%
+        // eval=short text describing what is evaluated%%
+    }
+    \immediate\write\tempscoresfile{%%
+        // scores=max::optional subscore 1::optional subscore 2::...%%
+    }
+    \AtEndDocument{\immediate\closeout\tempscoresfile}
+\fi
+
+\newcommand\@write@score@ctxt[1]{
+    \immediate\write\tempscoresfile{%%
+        ctxt=\@lyxam@ctxt@pts::#1::\the\value{lyxam@counter@#1}::%%
+        \@lyxam@ctxt@id::\@lyxam@ctxt@title%%
+    }%%
+}
+
+\newcommand\scpts[2][]{
+    \ifshowscores%%
+        \setsepchar{,}%%
+        \readlist*\infoscore{#2}%%
+        \immediate\write\tempscoresfile{eval=#1}%%
+        \foreachitem\oneinfo\in\infoscore{%%
+            \ifnum\oneinfocnt=1 %%
+                \def\subscores{\infoscore[1]}
+            \else%%
+                \edef\subscores{%%
+                    \unexpanded\expandafter{\subscores}::\oneinfo%%
+                }%%
+            \fi%%
+        }%%
+        \immediate\write\tempscoresfile{scores=\subscores}%%
+        \@build@score{\infoscore[1]}%%
+    \fi%%
+}
+
+% Keys and values fo the contexts.
+\setKVdefault[lyxam@context@keys]{%
+    id    = {},  % For "12 page 345" instead of an automaic number
+    title = {},  % You can add an extra title
+    time  = {},  % Use "no" to see only the title
+    pts   = {},  % Number of points for the exercise
+    src   = {},  % A short reference for a source used
+    about = {}   % One additional special note
+}
+
+\newcommand\@use@context@key[1]{\useKV[lyxam@context@keys]{#1}}
+
+% Making the (La)TeX commands for each contexts
+\newcommand\@build@values[1]{
+    \useKVdefault[lyxam@context@keys]%%
+    \setKV[lyxam@context@keys]{#1}%%
+    \ifshowpoints\else\setKV[lyxam@context@keys]{pts={}}\fi
+    \ifshowsource\else\setKV[lyxam@context@keys]{src={}}\fi
+    \ifshowabout\else\setKV[lyxam@context@keys]{about={}}\fi
+    \edef\@lyxam@ctxt@id{\@use@context@key{id}}%%
+    \edef\@lyxam@ctxt@title{\@use@context@key{title}}%%
+    \edef\@lyxam@ctxt@time{\@use@context@key{time}}%%
+    \edef\@lyxam@ctxt@pts{\@use@context@key{pts}}%%
+    \edef\@lyxam@ctxt@src{\@use@context@key{src}}%%
+    \edef\@lyxam@ctxt@about{\@use@context@key{about}}%%
+}
+
+\newcommand\@add@context[1]{%
+    \expandafter\newcommand\csname#1\endcsname{%%
+        \@ifstar{\csname @#1@prestar\endcsname}{\csname @#1@no@star\endcsname}%%
+    }
+
+    \expandafter\newcommand\csname @#1@prestar\endcsname{%%
+        \@ifstar{\csname @#1@star@star\endcsname}{\csname @#1@star\endcsname}%%
+    }
+
+% User's commands for contexts (no star, star and star-star versions).
+    \expandafter\newcommand\csname @#1@no@star\endcsname[1][]{%%
+        \@update@lyxam@counter{#1}%%
+        \@build@values{##1}%%
+        \@if@empty\@lyxam@ctxt@id{}{%%
+            \PackageError{lyxam}{id illegal with numbered context}{}%%
+        }%%
+        \@build@ctxt{#1}{showctxt}%%
+        \ifshowscores\@write@score@ctxt{#1}\fi%%
+    }
+    \expandafter\newcommand\csname @#1@star\endcsname[1][]{
+        \@update@lyxam@counter{#1@star}%%
+        \@build@values{##1}%%
+        \@if@empty\@lyxam@ctxt@id{
+            \PackageError{lyxam}{no id and unumbered context}{}%%
+        }{}%%
+        \@build@ctxt{#1}{showctxt}%%
+        \ifshowscores\@write@score@ctxt{#1}\fi%%
+    }
+
+    \expandafter\newcommand\csname @#1@star@star\endcsname[1][]{
+        \@update@lyxam@counter{#1@star@star}%%
+        \@build@values{##1}%%
+        \@if@empty\@lyxam@ctxt@title{
+            \PackageError{lyxam}{no title and no context}{}%%
+        }{}%%
+        \@if@empty\@lyxam@ctxt@id{}{%%
+            \PackageError{lyxam}{id illegal with no context}{}%%
+        }%%
+        \@build@ctxt{#1}{hidectxt}%%
+        \ifshowscores\@write@score@ctxt{#1}\fi%%
+    }
+}
+
+% Build all the contexts.
+\@add@context{topic}
+
+\@add@context{activity}
+\@add@context{bonus}
+\@add@context{exercise}
+\@add@context{mcq}
+\@add@context{praticalwork}
+\@add@context{problem}
+
+\@add@context{subpart}
 
 
 % ------------- %

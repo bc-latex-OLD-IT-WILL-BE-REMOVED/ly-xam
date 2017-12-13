@@ -18,14 +18,14 @@
 \advance \footskip by \ht\strutbox
 
 % Settings
-\newcommand\@mini@space@before@all@titles{\par\addvspace{0.5em}}
-\newcommand\@mini@space@after@all@titles{\par\addvspace{0.5em}}
+\newcommand\@ecolo@space@before@all@titles{\par\addvspace{0.5em}}
+\newcommand\@ecolo@space@after@all@titles{\par\addvspace{0.5em}}
 
-\newcommand\@mini@space@after@preamble{\par\addvspace{0.45em}}
+\newcommand\@ecolo@space@after@preamble{\par\addvspace{0.45em}}
 
-\newcommand\@mini@space@before@title{\par}
+\newcommand\@ecolo@space@before@title{\par}
 
-\newcommand\@mini@minus{\hspace{0.3em}--\hspace{0.3em}}
+\newcommand\@ecolo@minus{\hspace{0.3em}--\hspace{0.3em}}
 
 % The delivery command [START].
 \newcommand\@add@delivery@material[1]{%%
@@ -43,7 +43,7 @@
 % The delivery command [END].
 
 % For the headers and the footers.
-\fancypagestyle{@mini@first@page@style}{%%
+\fancypagestyle{@ecolo@first@page@style}{%%
     \fancyhf{}%%
     \renewcommand\headrulewidth{0pt}%%
     \renewcommand\footrulewidth{0pt}%%
@@ -55,7 +55,7 @@
 % Deliver or not ? That is the question !.
     \IfStrEq{\@lyxam@deliver}{no}{}{
         \@add@delivery@material{\@lyxam@deliver}
-        \@mini@space@before@all@titles{}
+        \@ecolo@space@before@all@titles{}
     }%%
 % The title of the document.
 %
@@ -63,39 +63,43 @@
     % * https://tex.stackexchange.com/a/402448/6880
     % * https://tex.stackexchange.com/a/288394/6880
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
-    \def\@mini@second@title{%%
-        \@concatenate{\@lyxam@sector}{\@mini@minus}{\@lyxam@theme}%%
+    \def\@ecolo@second@title{%%
+        \@concatenate{\@lyxam@sector}{\@ecolo@minus}{\@lyxam@theme}%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
-    \def\@mini@third@title{%%
-        \@concatenate{\@lyxam@class}{\@mini@minus}{\@lyxam@location}%%
+    \def\@ecolo@third@title{%%
+        \@concatenate{\@lyxam@class}{\@ecolo@minus}{\@lyxam@location}%%
     }%%
 % The 4th title looks like "Date - Time" or nothing.
-    \def\@mini@fourth@title{%%
-        \@concatenate{\@lyxam@date}{\@mini@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+    \def\@ecolo@fourth@title{%%
+        \@concatenate{\@lyxam@date}{\@ecolo@minus}{%%
+            \@concatenate{\@lyxam@longduration{\@lyxam@time}}%%
+                {\@ecolo@minus}%%
+                {\@lyxam@longpts{\@lyxam@pts}}%%
+        }%%
     }%%
     {\centering\bfseries\large%%
 % Main title looks like "~ Homework - Math ~" (no empty main title !)
         \@concatenate{%%
             \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-        }{\@mini@minus}{\@lyxam@subject}%%
-        \@if@empty\@mini@second@title{}{%%
-            \@mini@space@before@title{}
-            \@mini@second@title{}%%
+        }{\@ecolo@minus}{\@lyxam@subject}%%
+        \@if@empty\@ecolo@second@title{}{%%
+            \@ecolo@space@before@title{}
+            \@ecolo@second@title{}%%
         }%%
-        \@if@empty\@mini@third@title{}{%%
-            \@mini@space@before@title{}
-            {\small\@mini@third@title{}}%%
+        \@if@empty\@ecolo@third@title{}{%%
+            \@ecolo@space@before@title{}
+            {\small\@ecolo@third@title{}}%%
         }%%
-        \@if@empty\@mini@fourth@title{}{%%
-            \@mini@space@before@title{}
-            {\footnotesize\@mini@fourth@title{}}%%
+        \@if@empty\@ecolo@fourth@title{}{%%
+            \@ecolo@space@before@title{}
+            {\footnotesize\@ecolo@fourth@title{}}%%
         }%%
         \par
     }
-    \@mini@space@after@all@titles{}%%
+    \@ecolo@space@after@all@titles{}%%
 % Headers and footers
-    \ifbool{@lyxam@show@headers@footers}{%%
+    \ifshowheadersfooters%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
@@ -103,11 +107,11 @@
             \small%%
             \@concatenate{%%
                 \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-            }{\@mini@minus}{\@lyxam@theme}%%
+            }{\@ecolo@minus}{\@lyxam@theme}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%
-            \small\@concatenate{\@lyxam@class}{\@mini@minus}{\@lyxam@sector}%%
+            \small\@concatenate{\@lyxam@class}{\@ecolo@minus}{\@lyxam@sector}%%
         }%%
         \lfoot{%%
             \small%%
@@ -119,15 +123,15 @@
             \@if@empty\@lyxam@date{}{\@lyxam@date}%%
         }%%
 % Remember that this macro is called at the beginning of the document !
-        \thispagestyle{@mini@first@page@style}%%
-    }{}%%
+        \thispagestyle{@ecolo@first@page@style}%%
+    \fi%%
 }
 % The layout command [END].
 
 % Preamble [START].
 \newenvironment{@preamble@style}%%
     {\setlength\parindent{0pt}\small\itshape}%%
-    {\@mini@space@after@preamble{}}
+    {\@ecolo@space@after@preamble{}}
 % Preamble [END].
 
 % Spacings
@@ -146,7 +150,6 @@
 }
 
 % Settings for stacking time and points.
-\reversemarginpar
 \renewcommand\stackalignment{r}
 \newbool{@book@add@time@or@pts}
 
@@ -167,9 +170,7 @@
     \textbf{%%
         \IfStrEq{#2}{showctxt}{%%
             \textsc{%%
-                \@lyxam@ctxt@name{#1}%%
-                \@lyxam@if@end@with@colon{#1}{}{~}%%
-                \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                \@lyxam@ctxt@name@nb@id{#1}%%
                 \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
             }%%
         }{%%
@@ -195,6 +196,7 @@
         }%%
     }%%
     \@if@empty\@ecolo@ctxt@time@pts{}{%%
+        \reversemarginpar%%
         \marginpar{%
             \raggedleft\scriptsize%%
             \raisebox{0.3em}{\@ecolo@ctxt@time@pts%%
@@ -210,4 +212,11 @@
     }%%
 % Horizontal space.
     \@book@space@after@ctxt%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \normalmarginpar%%
+    \marginpar{\framebox{#1}}%
 }

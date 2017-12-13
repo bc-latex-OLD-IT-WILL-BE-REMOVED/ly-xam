@@ -79,7 +79,11 @@
     }%%
 % The 4th title looks like "Date - Time" or nothing.
     \def\@linebox@fourth@title{%%
-        \@concatenate{\@lyxam@date}{\@linebox@minus}{\@lyxam@longduration{\@lyxam@time}}%%
+        \@concatenate{\@lyxam@date}{\@linebox@minus}{%%
+            \@concatenate{\@lyxam@longduration{\@lyxam@time}}%%
+                {\@linebox@minus}%%
+                {\@lyxam@longpts{\@lyxam@pts}}%%
+        }%%
     }%%
     {\centering\begin{tcolorbox}[blanker,
                                  hbox,
@@ -112,7 +116,7 @@
     \end{tcolorbox}}
     \@linebox@space@after@all@titles{}%%
 % Headers and footers
-    \ifbool{@lyxam@show@headers@footers}{%%
+    \ifshowheadersfooters%%
         \pagestyle{fancy}
         \renewcommand\headrulewidth{.5pt}
         \renewcommand\footrulewidth{.5pt}
@@ -137,7 +141,7 @@
         }%%
 % Remember that this macro is called at the beginning of the document !
         \thispagestyle{@linebox@first@page@style}%%
-    }{}%%
+    \fi%%
 }
 % The layout command [END].
 
@@ -178,9 +182,7 @@
         \IfStrEq{#2}{showctxt}{%%
             \def\@linebox@ctxt@title{%%
                 \textsc{%%
-                    \@lyxam@ctxt@name{#1}%%
-                    \@lyxam@if@end@with@colon{#1}{}{~}%%
-                    \@if@empty\@lyxam@ctxt@id{\@lyxam@ctxt@nb{#1}}{\@lyxam@ctxt@id}%%
+                    \@lyxam@ctxt@name@nb@id{#1}%%
                     \@if@empty\@lyxam@ctxt@title{}{: \@lyxam@ctxt@title}%%
                 }%%
             }%%
@@ -246,4 +248,10 @@
         }%%
     }%%%%
     \@linebox@space@before@content%%
+}
+
+% General builder for scores
+%     #1: the number of points
+\newcommand\@build@score[1]{%%
+    \marginpar{\framebox{#1}}%
 }
