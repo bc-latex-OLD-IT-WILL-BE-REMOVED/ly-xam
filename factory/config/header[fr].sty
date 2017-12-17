@@ -8,7 +8,7 @@
 
 \usepackage{enumitem}
 
-\usepackage{color}
+\usepackage[x11names]{xcolor}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -39,29 +39,29 @@
 	colupper=red!75!blue%
 }
 
-\newcommand\examplestarted{%%
-    \par\smallskip
-    \begingroup%%
-        \centering%%
-        \setlength{\fboxrule}{0.7pt}%%
-        \rule[0.4ex]{5em}{0.7pt}%%
-        \framebox{\small\vphantom{pE}Mise en forme - Début}%%
-        \rule[0.4ex]{5em}{0.7pt}%%
+\makeatletter
+    \newcommand\@example@start@end[2]{%%
         \par\smallskip
-    \endgroup%%
-}
+        \begingroup%%
+            \centering%%
+            \setlength{\fboxrule}{0.7pt}%%
+            \rule[0.4ex]{#2}{0.7pt}%%
+            \framebox{\footnotesize\vphantom{pE}Mise en forme - #1}%%
+            \rule[0.4ex]{#2}{0.7pt}%%
+            \par\smallskip
+        \endgroup%%
+    }
 
-\newcommand\examplefinished{%%
-    \par\smallskip
-    \begingroup%%
-        \centering%%
-        \setlength{\fboxrule}{0.7pt}%%
-        \rule[0.4ex]{5.5em}{0.7pt}%%
-        \framebox{\small\vphantom{pE}Mise en forme - Fin}%%
-        \rule[0.4ex]{5.5em}{0.7pt}%%
-        \par\smallskip
-    \endgroup%%
-}
+    \newcommand\examplestart{
+        \color{-red!75!green!50}
+        \@example@start@end{Début}{5em}
+    }
+
+    \newcommand\exampleend{
+        \@example@start@end{Fin}{5.5em}
+        \color{black}
+    }
+\makeatother
 
 \setlength{\parindent}{0cm}
 

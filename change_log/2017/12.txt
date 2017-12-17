@@ -1,8 +1,22 @@
 ==========
+2017-12-17
+==========
+
+**Documentations updated for scores.**
+
+
+==========
+2017-12-14
+==========
+
+**Better formatting of scores in the margin:** all styles work with ``marginnote`` instead of ``marginpar`` (this gives good positions).
+
+
+==========
 2017-12-13
 ==========
 
-**New major version version::``1.0.0-beta`` of ¨lyxam:** the very new managments of the points and the scale described above imply a major change of version. There is also a big change in the use of star versions for exercises (see above). There are also minor changes: see changes from date::``2017-11-29``.
+**New major version version::``1.0.0-beta`` of ¨lyxam:** the very new managments of points and scores described above imply a major change of version. There is also a big change in the use of star versions for exercises (see above). There are also minor changes: see changes from date::``2017-11-29``.
 
 
 **New package option ``score`` and new macro ``\scpts``:** this is to work with scores or marks when evaluating the tests of students.

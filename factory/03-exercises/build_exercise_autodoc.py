@@ -11,7 +11,8 @@ TAB = " "*4
 
 THIS_DIR = PPath(__file__).parent
 
-EXERCISES_DOC = THIS_DIR / "exercises-1-gene[fr].tex"
+EXERCISES_DOC_1 = THIS_DIR / "exercises-1-gene[fr].tex"
+EXERCISES_DOC_3 = THIS_DIR / "exercises-3-score[fr].tex"
 
 CTXTS = {}
 
@@ -36,21 +37,21 @@ def parse_resetme(ctxt):
     return ctxt, True
 
 
-# -------------------------- #
-# -- UPDATE EXERCISES.TEX -- #
-# -------------------------- #
+# --------------------------------- #
+# -- UPDATE EXERCISES-1-GENE.TEX -- #
+# --------------------------------- #
 
-with EXERCISES_DOC.open(
+with EXERCISES_DOC_1.open(
     mode     = "r",
     encoding = "utf-8"
-) as STY_FILE:
-    content = STY_FILE.read()
+) as TEX_FILE:
+    content = TEX_FILE.read()
 
     before, _, after = between(
         text = content,
         seps = [
-            "% All kind of level 2 contexts - START",
-            "% All kind of level 2 contexts - END"
+            "% All kinds of level 2 contexts - START",
+            "% All kinds of level 2 contexts - END"
         ],
         keepseps = True
     )
@@ -81,8 +82,8 @@ for level in range(1, 4):
     before, _, after = between(
         text = content,
         seps = [
-            f"% IDmacro - All kind of level {level} contexts - START",
-            f"% IDmacro - All kind of level {level} contexts - END"
+            f"% IDmacro - All kinds of level {level} contexts - START",
+            f"% IDmacro - All kinds of level {level} contexts - END"
         ],
         keepseps = True
     )
@@ -132,12 +133,82 @@ content = f"""{before}
 {after}
 """
 
+content = content.strip()
+content += "\n"
 
+with EXERCISES_DOC_1.open(
+    mode     = "w",
+    encoding = "utf-8"
+) as DOC_FILE:
+    DOC_FILE.write(content)
+
+
+
+# ---------------------------------- #
+# -- UPDATE EXERCISES-3-SCORE.TEX -- #
+# ---------------------------------- #
+
+with EXERCISES_DOC_3.open(
+    mode     = "r",
+    encoding = "utf-8"
+) as TEX_FILE:
+    content = TEX_FILE.read()
+
+    before, _, after = between(
+        text = content,
+        seps = [
+            "% All kinds of contexts - START",
+            "% All kinds of contexts - END"
+        ],
+        keepseps = True
+    )
+
+allctxts = []
+
+for _, ctxts in CTXTS.items():
+    for onectxt in ctxts:
+        c, _ = parse_resetme(onectxt)
+
+        allctxts.append(c)
+
+allctxts.sort()
+
+inside = []
+
+imax = len(allctxts)
+imid = imax // 2 + imax % 2
+
+for ileft in range(imid):
+    rule = [allctxts[ileft]]
+
+    iright = ileft + imid
+    if iright < imax:
+        rule.append(allctxts[iright])
+
+    else:
+        rule.append("")
+
+    rule = " &&& ".join(rule)
+
+    inside.append(f"{TAB*4}\\hline {rule} \\\\")
+
+
+inside = "\n".join(inside)
+
+content = f"""{before}
+{TAB*2}\\begin{{center}}
+{TAB*3}\\begin{{tabular}}{{|ll@{{\\hskip 0.5ex}}|l@{{\\hskip 0.5ex}}l|}}
+{inside}
+{TAB*4}\\hline
+{TAB*3}\\end{{tabular}}
+{TAB*2}\\end{{center}}
+{after}
+"""
 
 content = content.strip()
 content += "\n"
 
-with EXERCISES_DOC.open(
+with EXERCISES_DOC_3.open(
     mode     = "w",
     encoding = "utf-8"
 ) as DOC_FILE:

@@ -2,16 +2,122 @@
 
 \input{../config/header[fr].sty}
 
-\usepackage[fr]{exercises}
-
-\newenvironment{preamble}[1][]{}{}
+\usepackage[fr, score, book]{exercises}
 
 
 \begin{document}
 
-\section{Détailler le barème} \label{exercises:score}
+\section{Indiquer un barème détaillé} \label{exercises:score}
 
-score : affiche + crée fichier externe
+    \subsection{Ce qui est visible}
 
-nopts + score : cahce mais crée fichier externe
+Pour indiquer le barème d'un devoir, il faut utiliser la macro \verb+\scpts+.
+Le cas le plus basique consiste à juste indiquer le nombre maximum de points obtenus pour un morceau de réponse comme dans l'exemple suivant mais nous allons voir que \verb+\scpts+ ne fait pas que de l'affichage. Notez au passage que l'on utilise le point comme séparateur décimal !
+
+\begin{tcblisting}{listing only}
+\scpts{1} Question 1 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{0.5} Question 2 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{1.5} Question 3 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{tcblisting}
+
+\examplestart{}
+\scpts{1} Question 1 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{0.5} Question 2 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{1.5} Question 3 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\exampleend{}
+
+
+
+    \subsection{Tout ce que l'on peut détailler}
+
+La macro \verb+\scpts+ possède un argument optionnel et un argument obligatoire qui s'utilisent comme suit.
+\begin{enumerate}
+	\item L'argument obligatoire permet non seulement d'indiquer le nombre maximal de points mais aussi si besoin différents sous-scores.
+	Par exemple, \verb+\scpts{1.5,1,0.5}+ indique que l'on peut avoir soit $1,\!5$ points, soit $1$ point, soit $0,\!5$ points.
+
+	\item L'argument optionnel permet d'indiquer brièvement ce qui est évalué.
+	Par exemple, \verb&\scpts[Développement de $(a + b)^2$]{1}& précise que le développement de $(a + b)^2$ rapporte $1$ point sans sous-score possible.
+\end{enumerate}
+
+
+\medskip
+
+À quoi bon donner autant d'informations ? Le plus simple est de considérer un exemple.
+Nous supposons que le fichier de chemin \verb+/Users/login/test_scores.tex+ ne contient qu'une seule utilisation de la macro \verb+\scpts+ qui est la suivante.
+
+\begin{tcblisting}{listing only}
+\exercise
+
+\scpts[$(a + b)^2$]{1,0.75,0.5} Bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{tcblisting}
+
+
+Une fois le fichier \LaTeX{} compilé, un fichier \verb+/Users/login/test_scores.scores+ sera fabriqué par le package \verb+lyxam+ avec le contenu suivant.
+
+\begin{tcblisting}{listing only}
+// context=kind::nb::id::title::points
+// ---> Note: an empty value is indicated by {}
+// eval=short text describing what is evaluated
+// scores=max::optional subscore 1::optional subscore 2::...
+context=exercise::1::{}::{}::{}
+eval=$(a + b)^2$
+scores=1::0.75::0.5
+\end{tcblisting}
+
+Ce fichier est destiné à être utilisé par un programme tierce (on peut par exemple créer une feuille de calcul facilitant la correction de copies). La syntaxe utilisée est la suivante.
+\begin{enumerate}
+	\item Les lignes commençant par \verb+//+ sont des commentaires.
+
+	\item Une ligne du type \verb+context=kind::nb::id::title::points+ donne des informations sur un nouveau contexte rencontré, un contexte étant un thème, un exercice, une sous-partie\dots 
+	\begin{itemize}
+		\item \verb+kind+ donne le type de contexte. Voici les valeurs possibles.
+
+% All kinds of contexts - START
+        \begin{center}
+            \begin{tabular}{|ll@{\hskip 0.5ex}|l@{\hskip 0.5ex}l|}
+                \hline activity &&& praticalwork \\
+                \hline bonus &&& problem \\
+                \hline exercise &&& subpart \\
+                \hline mcq &&& topic \\
+                \hline
+            \end{tabular}
+        \end{center}
+% All kinds of contexts - END
+
+		\item \verb+nb+, \verb+id+ et \verb+title+ donnent respectivement le numéro du contexte, son identifiant personnalisé et son titre, chaque valeur pouvant prendre la valeur textuelle \verb+{}+ qui indique une valeur vide.
+
+		\item \verb+points+ correspond au nombre de points attribués à un contexte.
+	\end{itemize}
+
+	\item \verb+eval=...+ indique ce qui est évalué. Si rien n'est indiqué dans le fichier \LaTeX{}, le fichier \verb+.scores+ contiendra \verb+eval=+ et non \verb+eval={}+ (désolé pour ce manque de cohérence\dots).
+	
+	\item \verb+scores=1::0.75::0.5+ donne le score total suivis de sous-scores, avec autant de sous-scores que souhaités.
+\end{enumerate}
+
+
+    \subsection{Fiche technique}
+
+\IDmacro{scpts}{1}{1}
+
+\IDoption{} description courte de ce qui est évalué.
+
+\IDarg{} le nombre maximal de points avec le point pour séparateur décimal, puis éventuellement différents sous-scores séparés par des virgules.
+
 \end{document}

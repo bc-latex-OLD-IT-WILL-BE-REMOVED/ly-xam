@@ -70,7 +70,7 @@
     }%%
     \@if@empty\@ecolo@ctxt@time@pts{}{%%
         \reversemarginpar%%
-        \marginpar{%
+        \marginnote{%
             \raggedleft\scriptsize%%
             \raisebox{0.3em}{\@ecolo@ctxt@time@pts%%
             \hskip 0.5em {\vrule width .6pt}}%%
@@ -91,5 +91,5 @@
 %     #1: the number of points
 \newcommand\@build@score[1]{%%
     \normalmarginpar%%
-    \marginpar{\framebox{#1}}%
+    \marginnote{\framebox{#1}}%
 }

@@ -319,7 +319,7 @@
 \ifshowscores
     \newwrite\tempscoresfile
     \immediate\openout\tempscoresfile=\jobname.scores
-    \immediate\write\tempscoresfile{// ctxt=pts::kind::nb::id::title}
+    \immediate\write\tempscoresfile{// context=kind::nb::id::title::points}
     \immediate\write\tempscoresfile{%%
         // ---> Note: an empty value is indicated by {}%%
     }
@@ -334,8 +334,8 @@
 
 \newcommand\@write@score@ctxt[1]{
     \immediate\write\tempscoresfile{%%
-        ctxt=\@lyxam@ctxt@pts::#1::\the\value{lyxam@counter@#1}::%%
-        \@lyxam@ctxt@id::\@lyxam@ctxt@title%%
+        context=#1::\the\value{lyxam@counter@#1}::%%
+        \@lyxam@ctxt@id::\@lyxam@ctxt@title::\@lyxam@ctxt@pts%%
     }%%
 }
 
@@ -346,7 +346,7 @@
         \immediate\write\tempscoresfile{eval=#1}%%
         \foreachitem\oneinfo\in\infoscore{%%
             \ifnum\oneinfocnt=1 %%
-                \def\subscores{\infoscore[1]}
+                \def\subscores{\infoscore[1]}%%
             \else%%
                 \edef\subscores{%%
                     \unexpanded\expandafter{\subscores}::\oneinfo%%

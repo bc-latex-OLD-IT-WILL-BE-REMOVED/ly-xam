@@ -1,7 +1,34 @@
-What about this package  ?
-==========================
+About this package
+==================
 
 **ly-xam**, which is a contraction of **lycée** and **exam**, has been built to facilitate the writings of sheets of exercises and tests.
+
+
+I beg your pardon for my english...
+===================================
+
+English is not my native language, so be nice if you notice misunderstandings, misspellings or grammatical errors in my documents and my codes.
+
+
+<!--  - ->
+Incoming new version...
+=======================
+<!-- -->
+
+
+Changes in this version `1.0.0-beta`
+====================================
+
+**New package option ``score`` and new macro ``\scpts``:** this allows to add scores or marks when evaluating the tests of students.
+
+
+**One new option ``pts`` for the macro ``\exam``:** this allows to indicate the total number of points used to evaluate an exam.
+
+
+**New way to work with star versions of exercises:** there are now an additional simple star version for unnumbered exercises, and a double star version for exercises using a title instead of the classical name.
+
+
+**Unuseful package options removed:** ``about``, ``hf``, ``noshort``, ``pts`` and ``src`` have been deleted.
 
 
 Changes in this version `0.3.0-beta`
@@ -68,9 +95,3 @@ About this first version `0.0.0-beta`
 For the moment, there is only one french documentation `lyxam-doc[fr].pdf` inside the folder `lyxam`.
 
 The only thing needed to use the package is the folder `lyxam`.
-
-
-I beg your pardon for my english...
-===================================
-
-English is not my native language, so be nice if you notice misunderstandings, misspellings or grammatical errors in my documents and my codes.

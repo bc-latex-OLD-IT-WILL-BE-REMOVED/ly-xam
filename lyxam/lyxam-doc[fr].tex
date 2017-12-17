@@ -10,7 +10,7 @@
 
 \usepackage{enumitem}
 
-\usepackage{color}
+\usepackage[x11names]{xcolor}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -41,29 +41,29 @@
 	colupper=red!75!blue%
 }
 
-\newcommand\examplestarted{%%
-    \par\smallskip
-    \begingroup%%
-        \centering%%
-        \setlength{\fboxrule}{0.7pt}%%
-        \rule[0.4ex]{5em}{0.7pt}%%
-        \framebox{\small\vphantom{pE}Mise en forme - Début}%%
-        \rule[0.4ex]{5em}{0.7pt}%%
+\makeatletter
+    \newcommand\@example@start@end[2]{%%
         \par\smallskip
-    \endgroup%%
-}
+        \begingroup%%
+            \centering%%
+            \setlength{\fboxrule}{0.7pt}%%
+            \rule[0.4ex]{#2}{0.7pt}%%
+            \framebox{\footnotesize\vphantom{pE}Mise en forme - #1}%%
+            \rule[0.4ex]{#2}{0.7pt}%%
+            \par\smallskip
+        \endgroup%%
+    }
 
-\newcommand\examplefinished{%%
-    \par\smallskip
-    \begingroup%%
-        \centering%%
-        \setlength{\fboxrule}{0.7pt}%%
-        \rule[0.4ex]{5.5em}{0.7pt}%%
-        \framebox{\small\vphantom{pE}Mise en forme - Fin}%%
-        \rule[0.4ex]{5.5em}{0.7pt}%%
-        \par\smallskip
-    \endgroup%%
-}
+    \newcommand\examplestart{
+        \color{-red!75!green!50}
+        \@example@start@end{Début}{5em}
+    }
+
+    \newcommand\exampleend{
+        \@example@start@end{Fin}{5.5em}
+        \color{black}
+    }
+\makeatother
 
 \setlength{\parindent}{0cm}
 
@@ -178,7 +178,7 @@
 }
 \makeatother
 
-\usepackage[fr]{lyxam}
+\usepackage[fr, score]{lyxam}
 
 
 \begin{document}
@@ -194,7 +194,7 @@
 	{\footnotesize Version \texttt{1.0.0-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
-\date{2017-12-13}
+\date{2017-12-17}
 
 \maketitle
 
@@ -398,7 +398,7 @@ Rappelons que tous les exemples utilisés dans cette documentation ont été obt
 
 Voici l'ensemble des commandes disponibles pour indiquer un type d'exercice.
 
-% All kind of level 2 contexts - START
+% All kinds of level 2 contexts - START
 \begin{itemize}
 \makeatletter
     \item \verb+\activity+ correspond à "\lyxam@text@activity{}".
@@ -414,7 +414,7 @@ Voici l'ensemble des commandes disponibles pour indiquer un type d'exercice.
     \item \verb+\problem+ correspond à "\lyxam@text@problem{}".
 \makeatother
 \end{itemize}
-% All kind of level 2 contexts - END
+% All kinds of level 2 contexts - END
 
 Dans la suite, nous donnerons des exemples principalement avec la commande \verb+\exercise+. Ceci n'est pas gênant car le principe reste identique pour les autres commandes.
 
@@ -433,12 +433,13 @@ Que souhaite-t-on avoir dans un sujet ne contenant qu'un seul problème et un se
 \problem
 \bonus
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \exercise
 \exercise
 \problem
 \bonus
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
 
@@ -455,17 +456,18 @@ Bla, bla, bla, bla, bla, ...
 \exercise[pts = 0]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \exercise[pts = 5]
 Bla, bla, bla, bla, bla, ...
 
 \exercise[pts = 0]
 Bla, bla, bla, bla, bla, ...
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 \begin{remark*}
 La section \ref{exercises:score} explique comment indiquer un barème assez détaillé tout en obtenant un fichier externe pour faciliter la correction de devoirs d'étudiant.
-\end{remark*} 
+\end{remark*}
 
 
 
@@ -477,10 +479,11 @@ La version étoilée \verb+\exercise*+ permet d'afficher un texte de son choix �
 \exercise*[id = facultatif]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \exercise*[id = facultatif]
 Bla, bla, bla, bla, bla, ...
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
 
@@ -492,10 +495,11 @@ La version doublement étoilée \verb+\exercise**+ permet de cacher le contexte 
 \exercise**[title = Juste mon titre]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \exercise**[title = Juste mon titre]
 Bla, bla, bla, bla, bla, ...
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Toutes les options en action}
@@ -503,30 +507,31 @@ Bla, bla, bla, bla, bla, ...
 Les fiches techniques données dans la section \ref{exercises:technicalids} expliquent le champs d'utilisation de chaque option.
 
 \begin{tcblisting}{listing only}
-\exercise*[pts   = 0,
-           time  = 3 jours,
-           id    = facultatif,
+\exercise*[id    = facultatif,
            title = Devinette,
+           pts   = 0,
+           time  = 3 jours,
            about = Pour spécialiste uniquement,
            src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
-\exercise*[pts   = 0,
-           time  = 3 jours,
-           id    = facultatif,
+
+\examplestart{}
+\exercise*[id    = facultatif,
            title = Devinette,
+           pts   = 0,
+           time  = 3 jours,
            about = Pour spécialiste uniquement,
            src   = Le livre des experts]
 Bla, bla, bla, bla, bla, ...
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Fiches techniques} \label{exercises:technicalids}
 
 \exosoptionsdescription{}
 
-\begin{multicols}{2}% IDmacro - All kind of level 2 contexts - START
+\begin{multicols}{2}% IDmacro - All kinds of level 2 contexts - START
 \IDmacro{activity}{6}{}
 
 \IDmacro{activity*}{6}{}
@@ -568,7 +573,7 @@ Bla, bla, bla, bla, bla, ...
 
 \IDmacro{problem**}{6}{}
 
-% IDmacro - All kind of level 2 contexts - END
+% IDmacro - All kinds of level 2 contexts - END
 \end{multicols}
 
 \vspace{-1em}
@@ -594,7 +599,8 @@ La commande \verb+\subpart+, avec les mêmes options que les commandes de type \
 \subpart
 \subpart
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \exercise
 \subpart
 \subpart
@@ -602,7 +608,7 @@ La commande \verb+\subpart+, avec les mêmes options que les commandes de type \
 \exercise
 \subpart
 \subpart
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Fiche technique}
@@ -611,14 +617,14 @@ La commande \verb+\subpart+, avec les mêmes options que les commandes de type \
 
 \bigskip
 
-% IDmacro - All kind of level 3 contexts - START
+% IDmacro - All kinds of level 3 contexts - START
 \IDmacro{subpart}{6}{}
 
 \IDmacro{subpart*}{6}{}
 
 \IDmacro{subpart**}{6}{}
 
-% IDmacro - All kind of level 3 contexts - END
+% IDmacro - All kinds of level 3 contexts - END
 
 \exosoptions{}
 
@@ -641,14 +647,15 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 \topic
 \exercise
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \topic
 \exercise
 \exercise
 
 \topic
 \exercise
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Fiche technique}
@@ -657,14 +664,14 @@ Chaque nouvelle utilisation de \verb+\topic+ remet juste à zéro la numérotati
 
 \bigskip
 
-% IDmacro - All kind of level 1 contexts - START
+% IDmacro - All kinds of level 1 contexts - START
 \IDmacro{topic}{6}{}
 
 \IDmacro{topic*}{6}{}
 
 \IDmacro{topic**}{6}{}
 
-% IDmacro - All kind of level 1 contexts - END
+% IDmacro - All kinds of level 1 contexts - END
 
 \exosoptions{}
 
@@ -686,14 +693,15 @@ En mettant un peu les mains dans le cambouis, on peut modifier à sa guise la nu
 \exercise
 \exercise
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \makeatletter
     \renewcommand\lyxam@counter@exercise@style[1]{-- \arabic{#1} --}
 \makeatother
 
 \exercise
 \exercise
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Fiches techniques}
@@ -746,7 +754,8 @@ Il propose deux options : l'une \verb+center+ pour centrer le contenu à l'inté
 
 Tenter, chercher, trouver\dots
 \end{tcblisting}
-\examplestarted    % ----- START ----- %
+
+\examplestart{}
 \begin{preamble}[scale = 0.75, center]
     Cet exercice est indépendant \verb+;-)+. Bla, bla, bla, bla, bla, bla,
     bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
@@ -760,7 +769,7 @@ Tenter, chercher, trouver\dots
 \end{preamble}
 
 Tenter, chercher, trouver\dots
-\examplefinished   % -----  END  ----- %
+\exampleend{}
 
 
     \subsection{Fiches techniques}
@@ -775,11 +784,119 @@ Tenter, chercher, trouver\dots
 
 
 
-\section{Détailler le barème} \label{exercises:score}
+\section{Indiquer un barème détaillé} \label{exercises:score}
 
-score : affiche + crée fichier externe
+    \subsection{Ce qui est visible}
 
-nopts + score : cahce mais crée fichier externe
+Pour indiquer le barème d'un devoir, il faut utiliser la macro \verb+\scpts+.
+Le cas le plus basique consiste à juste indiquer le nombre maximum de points obtenus pour un morceau de réponse comme dans l'exemple suivant mais nous allons voir que \verb+\scpts+ ne fait pas que de l'affichage. Notez au passage que l'on utilise le point comme séparateur décimal !
+
+\begin{tcblisting}{listing only}
+\scpts{1} Question 1 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{0.5} Question 2 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{1.5} Question 3 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{tcblisting}
+
+\examplestart{}
+\scpts{1} Question 1 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{0.5} Question 2 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+
+\scpts{1.5} Question 3 : bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, 
+bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\exampleend{}
+
+
+
+    \subsection{Tout ce que l'on peut détailler}
+
+La macro \verb+\scpts+ possède un argument optionnel et un argument obligatoire qui s'utilisent comme suit.
+\begin{enumerate}
+	\item L'argument obligatoire permet non seulement d'indiquer le nombre maximal de points mais aussi si besoin différents sous-scores.
+	Par exemple, \verb+\scpts{1.5,1,0.5}+ indique que l'on peut avoir soit $1,\!5$ points, soit $1$ point, soit $0,\!5$ points.
+
+	\item L'argument optionnel permet d'indiquer brièvement ce qui est évalué.
+	Par exemple, \verb&\scpts[Développement de $(a + b)^2$]{1}& précise que le développement de $(a + b)^2$ rapporte $1$ point sans sous-score possible.
+\end{enumerate}
+
+
+\medskip
+
+À quoi bon donner autant d'informations ? Le plus simple est de considérer un exemple.
+Nous supposons que le fichier de chemin \verb+/Users/login/test_scores.tex+ ne contient qu'une seule utilisation de la macro \verb+\scpts+ qui est la suivante.
+
+\begin{tcblisting}{listing only}
+\exercise
+
+\scpts[$(a + b)^2$]{1,0.75,0.5} Bla, bla, bla, bla, bla, bla, bla, bla, bla,
+bla, bla, bla, bla, bla, bla, bla, bla, bla\dots
+\end{tcblisting}
+
+
+Une fois le fichier \LaTeX{} compilé, un fichier \verb+/Users/login/test_scores.scores+ sera fabriqué par le package \verb+lyxam+ avec le contenu suivant.
+
+\begin{tcblisting}{listing only}
+// context=kind::nb::id::title::points
+// ---> Note: an empty value is indicated by {}
+// eval=short text describing what is evaluated
+// scores=max::optional subscore 1::optional subscore 2::...
+context=exercise::1::{}::{}::{}
+eval=$(a + b)^2$
+scores=1::0.75::0.5
+\end{tcblisting}
+
+Ce fichier est destiné à être utilisé par un programme tierce (on peut par exemple créer une feuille de calcul facilitant la correction de copies). La syntaxe utilisée est la suivante.
+\begin{enumerate}
+	\item Les lignes commençant par \verb+//+ sont des commentaires.
+
+	\item Une ligne du type \verb+context=kind::nb::id::title::points+ donne des informations sur un nouveau contexte rencontré, un contexte étant un thème, un exercice, une sous-partie\dots 
+	\begin{itemize}
+		\item \verb+kind+ donne le type de contexte. Voici les valeurs possibles.
+
+% All kinds of contexts - START
+        \begin{center}
+            \begin{tabular}{|ll@{\hskip 0.5ex}|l@{\hskip 0.5ex}l|}
+                \hline activity &&& praticalwork \\
+                \hline bonus &&& problem \\
+                \hline exercise &&& subpart \\
+                \hline mcq &&& topic \\
+                \hline
+            \end{tabular}
+        \end{center}
+% All kinds of contexts - END
+
+		\item \verb+nb+, \verb+id+ et \verb+title+ donnent respectivement le numéro du contexte, son identifiant personnalisé et son titre, chaque valeur pouvant prendre la valeur textuelle \verb+{}+ qui indique une valeur vide.
+
+		\item \verb+points+ correspond au nombre de points attribués à un contexte.
+	\end{itemize}
+
+	\item \verb+eval=...+ indique ce qui est évalué. Si rien n'est indiqué dans le fichier \LaTeX{}, le fichier \verb+.scores+ contiendra \verb+eval=+ et non \verb+eval={}+ (désolé pour ce manque de cohérence\dots).
+	
+	\item \verb+scores=1::0.75::0.5+ donne le score total suivis de sous-scores, avec autant de sous-scores que souhaités.
+\end{enumerate}
+
+
+    \subsection{Fiche technique}
+
+\IDmacro{scpts}{1}{1}
+
+\IDoption{} description courte de ce qui est évalué.
+
+\IDarg{} le nombre maximal de points avec le point pour séparateur décimal, puis éventuellement différents sous-scores séparés par des virgules.
+
 
 
 
