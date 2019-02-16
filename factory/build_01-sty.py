@@ -321,37 +321,27 @@ for lang, lines in LANGS.items():
 
 ALL_PACKAGES = "\n".join(ALL_PACKAGES)
 
-source = """{0}
+source = f"""{MYFRAME("PACKAGES REQUIRED")}
 
-{1}
-
-
-{2}
-
-{3}
-
-{4}
-
-{5}
+{ALL_PACKAGES}
 
 
-{6}
+{MYFRAME("OPTIONS")}
+
+{general_settings}
+
+{ALL_LOCAL_SETTINGS}
+
+{option_lang_load}
 
 
-{7}
+{ALL_MACROS}
 
-{8}
-""".format(
-    MYFRAME("PACKAGES REQUIRED"),
-    ALL_PACKAGES,
-    MYFRAME("OPTIONS"),
-    general_settings,
-    ALL_LOCAL_SETTINGS,
-    option_lang_load,
-    ALL_MACROS,
-    MYFRAME("OPTIONS"),
-    style_load
-)
+
+{MYFRAME("OPTIONS")}
+
+{style_load}
+"""
 
 
 STY_PATH.create("file")
@@ -363,13 +353,3 @@ with STY_PATH.open(
     lyxam.write(source)
 
 print(f"{DECO}* Update of << {STY_PATH.name} >> done.")
-
-
-# -------------------------------- #
-# -- UPDATE THE LOCAL LATEX DIR -- #
-# -------------------------------- #
-
-install(
-    ppath   = LYXAM_PATH,
-    regpath = "file not::**.macros-x.txt"
-)

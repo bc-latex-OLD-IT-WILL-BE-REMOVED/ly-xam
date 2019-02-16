@@ -215,7 +215,7 @@
 
 \section{Introduction}
 
-Le but du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
+L'objectif du tout petit package \verb+lyxam+ est de fournir un moyen simple de rédiger des feuilles d'exercices pour des entraînements ou des évaluations dans le cadre d'un enseignement.
 
 
 
@@ -233,7 +233,9 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 	\item \verb+nohf+ permet de ne pas afficher les en-têtes et les pieds de page.
 	Les lettres \verb+hf+ sont pour "\textbf{h}-eaders" et "\textbf{f}-ooters", soit "en-tête" et "pied de page" en français.
 
-	\item \verb+nopts+ cache les points indiquant le note total pour un devoir et un barème grossier pour chaque exercice.
+	\item \verb+nopts+ cache les points indiquant la note total pour un devoir et un barème grossier pour chaque exercice.
+
+	\item \verb+score+ permet d'afficher un barème détaillé pour chaque exercice si celui-ci a été renséigné.
 
 	\item \verb+short+ demande d'utiliser si possible des noms abrégés pour les types d'exercices, les points et le temps.
 
@@ -277,7 +279,7 @@ Le code ci-dessous utilise toutes les options disponibles, et la figure \ref{sty
       nb       = 1,%
       subnb    = Sujet A,%
       subject  = Mathématiques,%
-      theme    = Probabilités,%
+      topic    = Probabilités,%
       sector   = Série Scientifique,%
       class    = 1S4,%
       location = Lycée MONGE (Chambéry),%
@@ -320,7 +322,7 @@ Présentons maintenant en détail chacun des paramètres qui sont tous optionnel
 
     \item \verb+subject+ permet de donner la thématique générale du devoir comme par exemple \emph{"Mathématiques"}, \emph{"Informatique Générale"}...
 
-    \item \verb+theme+ complète la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
+    \item \verb+topic+ complète la thématique générale en indiquant un ou des points particuliers comme par exemple \emph{"Probabilités"}, \emph{"Réseaux"} ...
 
     \item \verb+sector+ sert à indiquer une section, au sens administratif, à laquelle s'adresse le devoir. Par exemple, pour un sujet de Baccalauréat S en France, on serait amené à utiliser \verb+sector = Série Scientifique+.
 
@@ -350,7 +352,7 @@ Présentons maintenant en détail chacun des paramètres qui sont tous optionnel
 
 \IDkey{subject} la matière, le sujet au sens large du devoir.
 
-\IDkey{theme} un sous-thème ou une sous-partie de la matière ou du sujet du devoir.
+\IDkey{topic} un sous-thème ou une sous-partie de la matière ou du sujet du devoir.
 
 \IDkey{sector} un secteur, une section, au sens administratif, à laquelle s'adresse le devoir.
 
@@ -908,6 +910,17 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
+%    \item[Nouvelle version à venir]\dots
+    \item[2019-02-16] Nouvelle version mineure \verb+1.0.1-beta+.
+        \begin{itemize}
+            \item L'option \verb+theme+ de la macro \verb+exam+ a été renommée \verb+topic+.
+
+            \item Plus de fond gris car ceci posait des problèmes lors des photocopies des sujets.
+
+            \item Refonte de la \verb+factory+ pour qu'elle fasse un travail plus propre.
+        \end{itemize}
+
+
     \item[2017-12-13] Nouvelle version majeure \verb+1.0.0-beta+.
         \begin{itemize}
             \item La grosse nouveauté est la possibilité d'indiquer un barème détaillé via l'option de package \verb+score+ et la macro \verb+\scpts+.

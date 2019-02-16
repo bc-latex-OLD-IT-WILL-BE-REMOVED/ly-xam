@@ -9,16 +9,17 @@ I beg your pardon for my english...
 
 English is not my native language, so be nice if you notice misunderstandings, misspellings or grammatical errors in my documents and my codes.
 
+
 <!--
 Incoming new version...
 =======================
   -->
 
-
 Minor changes in this version `1.0.1-beta`
 ==========================================
 
 **Update of the design:** backgrounds no longer have a color because this can cause problem when photocopying exams.
+
 
 
 Changes in this version `1.0.0-beta`
@@ -30,7 +31,13 @@ Changes in this version `1.0.0-beta`
 **One new option ``pts`` for the macro ``\exam``:** this allows to indicate the total number of points used to evaluate an exam.
 
 
-**New way to work with star versions of exercises:** there are now an additional simple star version for unnumbered exercises, and a double star version for exercises using a title instead of the classical name.
+**Star versions of exercises.**
+
+  1) No star version like ``\exercise`` is for auto-numbered exercises.
+
+  2) Simple star version like ``\exercise*`` is for unnumbered exercises.
+
+  3) Double star version like ``\exercise**`` is for exercises using a title instead of the standard name.
 
 
 **Unuseful package options removed:** ``about``, ``hf``, ``noshort``, ``pts`` and ``src`` have been deleted.

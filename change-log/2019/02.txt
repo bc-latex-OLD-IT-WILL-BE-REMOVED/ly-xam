@@ -1,0 +1,9 @@
+==========
+2019-02-16
+==========
+
+**Cleaning of the factory**
+
+    1) path::``build_01-sty.py`` used to update local installation but it didn't have to do this. This has been repaired.
+
+    2) Local installation of the package will be no longer automatic (the project being public we don't have to impose a local installation).

@@ -24,6 +24,7 @@ NOTE
   1) The name of your ``sty`` file will be the name of your style.
 
   2) The following packages are loaded by ``lyxam``.
+
      i) ``calc``
      ii) ``changepage``
      iii) ``fancyhdr``

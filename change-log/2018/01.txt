@@ -1,0 +1,5 @@
+==========
+2018-01-17
+==========
+
+**Update of the design:** backgrounds no longer have a color because this can cause problem when photocopying exams.

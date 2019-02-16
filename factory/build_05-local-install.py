@@ -2,13 +2,18 @@
 
 from collections import defaultdict
 
-
 from mistool.latex_use import install, PPath
 
+DECO = " "*4
 
-THIS_DIR = PPath( __file__ ).parent
+answer = input(f"{DECO}* Local installation ? [Y/N] ")
 
-install(
-    ppath   = THIS_DIR.parent / "lyxam",
-    regpath = "file not::**.macros-x.txt"
-)
+if answer.lower() == "y":
+    THIS_DIR = PPath( __file__ ).parent
+
+    install(
+        ppath   = THIS_DIR.parent / "lyxam",
+        regpath = "file not::**.macros-x.txt"
+    )
+
+    print(f"{DECO}* Installation has been done.")

@@ -8,7 +8,6 @@ from mistool.os_use import cd, PPath, runthis
 LYXAM_DIR = PPath( __file__ ).parent.parent / "lyxam"
 
 STYLES_PATH   = LYXAM_DIR / "config" / "style"
-EXAMPLES_PATH = LYXAM_DIR / "examples"
 
 
 # ----------------------- #
@@ -28,7 +27,7 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
     for suffix_2 in ["deliver", "no-deliver"]:
         suffix = f"{suffix_1}-{suffix_2}"
 
-        templatefile = EXAMPLES_PATH / f"apmep-{suffix}.tex"
+        templatefile = LYXAM_DIR / f"examples-apmep-{suffix}.tex"
 
         if not templatefile.is_file():
             continue
@@ -45,7 +44,7 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
             if style == "book" and suffix_2 == "deliver":
                 continue
 
-            filetobuild = EXAMPLES_PATH / f"{style}-{suffix}.tex"
+            filetobuild = LYXAM_DIR / f"examples-{style}-{suffix}.tex"
 
             if filetobuild.is_file():
                 continue
@@ -65,7 +64,7 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
 
 nbrepeat = 3
 
-for latexpath in EXAMPLES_PATH.walk(f"file::*.tex"):
+for latexpath in LYXAM_DIR.walk(f"file::examples-*.tex"):
     print(
         f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times."
     )
@@ -83,4 +82,4 @@ for latexpath in EXAMPLES_PATH.walk(f"file::*.tex"):
         sep = "\n"
     )
 
-latexclean(EXAMPLES_PATH)
+latexclean(LYXAM_DIR)

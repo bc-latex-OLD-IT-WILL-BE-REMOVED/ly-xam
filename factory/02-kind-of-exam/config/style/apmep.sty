@@ -30,7 +30,7 @@
 
 % The delivery command [START].
 \newcommand\@add@delivery@material[1]{
-    \begin{tcolorbox}[width=\linewidth]
+    \begin{tcolorbox}[width=\linewidth,colback=white]
         \IfStrEq{\@lyxam@deliver}{long}{%%
             \medskip
             \expandafter\MakeUppercase\expandafter\lyxam@text@name: \hrulefill
@@ -58,7 +58,7 @@
 %
 % The 2nd title looks like "Scientific Cursus - Complex Numbers" or nothing.
     \def\@apmep@second@title{%%
-        \@concatenate{\@lyxam@sector}{\@apmep@minus}{\@lyxam@theme}%%
+        \@concatenate{\@lyxam@sector}{\@apmep@minus}{\@lyxam@topic}%%
     }%%
 % The 3rd title looks like "Name - Institute" or nothing.
     \def\@apmep@third@title{%%
@@ -104,7 +104,7 @@
             \small%%
             \@concatenate{%%
                 \@lyxam@kind@numbered{\@lyxam@kind}{\@lyxam@nb}{\@lyxam@subnb}%%
-            }{\@apmep@minus}{\@lyxam@theme}%%
+            }{\@apmep@minus}{\@lyxam@topic}%%
         }
 %        \chead{\small CENTER UP}
         \rhead{%%

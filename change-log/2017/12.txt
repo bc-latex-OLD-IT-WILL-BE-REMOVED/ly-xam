@@ -1,4 +1,11 @@
 ==========
+2017-12-20
+==========
+
+**New name for the option ``theme`` of the macro ``exam``:** ``theme`` has been replaced by ``topic``.
+
+
+==========
 2017-12-17
 ==========
 
@@ -9,7 +16,7 @@
 2017-12-14
 ==========
 
-**Better formatting of scores in the margin:** all styles work with ``marginnote`` instead of ``marginpar`` (this gives good positions).
+**Better formatting of scores in the margin:** all styles work with ``marginnote`` instead of ``marginpar`` (sucha as to have good positions).
 
 
 ==========
@@ -34,7 +41,7 @@
 
     2) Simple star version like ``\exercise*`` is for unnumbered exercises.
 
-    3) Double star version like ``\exercise**`` is for exercises using a title instead of the classical name.
+    3) Double star version like ``\exercise**`` is for exercises using a title instead of the standard name.
 
 
 **Total refactorization of the managment of the counters:** everything has changed (less counters are used). At the same time, the macro ``\@lyxam@ctxt@nb`` has been deleted and styles must use now the more poowerful macro ``\@lyxam@ctxt@name@nb@id``.
