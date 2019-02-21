@@ -158,7 +158,7 @@
 	\IfStrEq{#2}{}{%
 		\@IDoptargStar{#1}{}%
 	}{%
-		\@IDoptargStar{#1}{\##2}%
+		\@IDoptargStar{#1}{#2}%
 	}%
 }
 
@@ -191,10 +191,10 @@
 	des mises en forme clés en main\\%
 	pour des fiches d'exercices\\%
 	{\footnotesize Code source disponible sur \url{https://github.com/bc-latex/ly-xam}.}\\%
-	{\footnotesize Version \texttt{1.0.1-beta} développée et testée sur \macosxname{}.}%
+	{\footnotesize Version \texttt{1.0.2-beta} développée et testée sur \macosxname{}.}%
 }
 \author{Christophe BAL}
-\date{2019-02-16}
+\date{2019-02-21}
 
 \maketitle
 
@@ -243,13 +243,16 @@ Avant d'entrer dans le vif du sujet, nous donnons ici toutes les options utilisa
 
 	\item \verb+noabout+ ne tient pas compte des informations complémentaires données pour les thèmes, les exercices et les parties.
 
-	\item Pour finir, voici les différents styles de mise en forme disponibles (dans le dossier \verb+examples+ se trouvent divers \verb+PDFs+ donnant un aperçu de ces styles prédéfinis).
-	\begin{itemize}[label={\small\textbullet}]
+	\item Pour finir, voici les différents styles de mise en forme disponibles
+	\footnote{
+		Dans le dossier \texttt{lyxam} se trouvent divers \texttt{PDFs} donnant un aperçu des styles prédéfinis.
+	}.
+	\begin{itemize}[label=--]
         \item Style par défaut, \verb+mini+ propose une mise forme minimaliste utilisant le moins de fioritures possibles.
         
-        \item \verb+apmep+ est inspiré fortement de la mise en forme des sujets de BAC que l'on trouvait en 2017 sur le site \href{https://www.apmep.fr}{APMEP} (Association des Professeurs de Mathématiques de l'Enseignement Public).
+        \item \verb+apmep+ est inspiré très fortement de la mise en forme des sujets de BAC que l'on trouvait en 2017 sur le site \href{https://www.apmep.fr}{APMEP} (Association des Professeurs de Mathématiques de l'Enseignement Public).
         
-        \item \verb+book+ fournit une mise forme utile dans un livre ou un cours. Attention car cette option ne crée pas d'en-têtes, pas de pieds de page, et elle ne mettra pas en forme de capsules pour le nom et le prénom des élèves même si cela est demandé.
+        \item \verb+book+ fournit une mise forme utile dans un livre ou un cours. Attention car cette option ne crée pas d'en-têtes, pas de pieds de page, et elle ne mettra pas en forme de capsules pour le nom et le prénom des élèves même si tout ceci est demandé.
         
         \item \verb+ecolo+ mélange les styles \verb+mini+ et \verb+book+ pour produire des devoirs très peu consommateur d'espaces.
         
@@ -911,13 +914,14 @@ Tous les changements sont décrits en anglais uniquement dans le dossier \verb+c
 \begin{description}[leftmargin=1em]
     \setlength\itemsep{1em}
 %    \item[Nouvelle version à venir]\dots
-    \item[2019-02-16] Nouvelle version mineure \verb+1.0.1-beta+.
+    \item[2019-02-21] Nouvelle version patchée \verb+1.0.2-beta+ : correction d'un gros bug vis à vis de l'option \verb+deliver+ de la macro \verb+\exam+.
+
+
+    \item[2019-02-16] Nouvelle version patchée \verb+1.0.1-beta+.
         \begin{itemize}
             \item L'option \verb+theme+ de la macro \verb+exam+ a été renommée \verb+topic+.
 
-            \item Plus de fond gris car ceci posait des problèmes lors des photocopies des sujets.
-
-            \item Refonte de la \verb+factory+ pour qu'elle fasse un travail plus propre.
+            \item On n'utilise plus de fond gris car ceci posait des problèmes lors des photocopies des sujets.
         \end{itemize}
 
 

@@ -9,7 +9,10 @@ from orpyste.data import ReadBlock
 
 THIS_DIR = PPath(__file__).parent
 
-STY_HEADER = withframe(text = "CONTEXTS", frame = ALL_FRAMES["latex_pretty"])
+STY_HEADER = withframe(
+    text  = "CONTEXTS",
+    frame = ALL_FRAMES["latex_pretty"]
+)
 
 
 # ----------- #

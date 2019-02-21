@@ -16,7 +16,7 @@
 2017-12-14
 ==========
 
-**Better formatting of scores in the margin:** all styles work with ``marginnote`` instead of ``marginpar`` (sucha as to have good positions).
+**Better formatting of scores in the margin:** all styles work with ``marginnote`` instead of ``marginpar`` (such as to have good positions).
 
 
 ==========

@@ -107,7 +107,7 @@ with OPTIONS_DOC.open(
 before, _, after = between(
     text = content,
     seps = [
-        r"\begin{itemize}[label={\small\textbullet}]",
+        r"\begin{itemize}[label=--]",
         r"\end{itemize}"
     ],
     keepseps = True

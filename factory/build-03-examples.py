@@ -5,14 +5,13 @@ from collections import defaultdict
 from mistool.latex_use import Build, clean as latexclean
 from mistool.os_use import cd, PPath, runthis
 
-LYXAM_DIR = PPath( __file__ ).parent.parent / "lyxam"
-
-STYLES_PATH   = LYXAM_DIR / "config" / "style"
-
 
 # ----------------------- #
 # -- TOOLS & CONSTANTS -- #
 # ----------------------- #
+
+LYXAM_DIR   = PPath( __file__ ).parent.parent / "lyxam"
+STYLES_PATH = LYXAM_DIR / "config" / "style"
 
 DECO = " "*4
 
@@ -23,26 +22,26 @@ DECO = " "*4
 
 templates = {}
 
-for suffix_1 in ["about-src", "noabout-nosrc"]:
-    for suffix_2 in ["deliver", "no-deliver"]:
-        suffix = f"{suffix_1}-{suffix_2}"
+for p in STYLES_PATH.walk("file::*.sty"):
+    style = p.stem
 
-        templatefile = LYXAM_DIR / f"examples-apmep-{suffix}.tex"
-
-        if not templatefile.is_file():
-            continue
-
-        with templatefile.open(
-            mode     = "r",
-            encoding = "utf8"
-        ) as f:
-            template = "".join(f.readlines())
-
-        for p in STYLES_PATH.walk("file::*.sty"):
-            style = p.stem
-
+    for suffix_1 in ["about-src", "no-about-no-src"]:
+        for suffix_2 in ["deliver", "no-deliver"]:
             if style == "book" and suffix_2 == "deliver":
                 continue
+
+            suffix = f"{suffix_1}-{suffix_2}"
+
+            templatefile = LYXAM_DIR / f"examples-apmep-{suffix}.tex"
+
+            if not templatefile.is_file():
+                continue
+
+            with templatefile.open(
+                mode     = "r",
+                encoding = "utf8"
+            ) as f:
+                template = "".join(f.readlines())
 
             filetobuild = LYXAM_DIR / f"examples-{style}-{suffix}.tex"
 
@@ -53,9 +52,7 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
                 mode     = "w",
                 encoding = "utf8"
             ) as f:
-                f.write(
-                    template.replace("[apmep", f"[{style}")
-                )
+                f.write(template.replace("apmep]", f"{style}]"))
 
 
 # ------------------------ #
@@ -64,7 +61,13 @@ for suffix_1 in ["about-src", "noabout-nosrc"]:
 
 nbrepeat = 3
 
-for latexpath in LYXAM_DIR.walk(f"file::examples-*.tex"):
+allexamples = [
+    p for p in LYXAM_DIR.walk(f"file::examples-*.tex")
+]
+
+allexamples.sort()
+
+for latexpath in allexamples:
     print(
         f"{DECO}* Compilations of << {latexpath.name} >> started : {nbrepeat} times."
     )

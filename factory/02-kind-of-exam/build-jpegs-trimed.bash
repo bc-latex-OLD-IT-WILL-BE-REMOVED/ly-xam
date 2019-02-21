@@ -100,3 +100,5 @@ for i in '0' '1'
 do
     convert "example-doc[fr]-$i.jpg" -crop "$wrect"x"$hrect"+$x+$y "example-doc[fr]-$i.jpg"
 done
+
+echo "    * ImageMagick's manipulations: the job has been done."

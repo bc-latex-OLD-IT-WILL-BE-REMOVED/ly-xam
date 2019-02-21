@@ -1,23 +1,25 @@
-\documentclass[12pt]{article}
-    \usepackage[ecolo]{lyxam}
+\documentclass[10pt,a4paper]{scrartcl}
 
-    \input{examples-contents/header.sty}
+\usepackage[top=3.5cm, bottom=3.5cm, left=2cm, right=2cm]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[french]{babel}
+\usepackage[ecolo]{lyxam}
+
+\newcommand\blabla{%%
+	\noindent%%
+	Bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+	bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+	bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,
+	bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla
+}
 
 
 \begin{document}
 
-\exam[deliver  = short,%
-      kind     = Test,%
-      nb       = 2,%
-      topic    = Probability \& Functions,%
-      class    = 1S4,%
-      location = Lycée France (Paris),%
-      date     = 2017-11-02,%
-      time     = 4h,
-      pts      = 20%
-]
-
-
-\input{examples-contents/fake.tex}
+\input{examples-fake/deliver.tex}
+\input{examples-fake/content.tex}
 
 \end{document}

@@ -43,20 +43,21 @@ for option, default in [
 ARGS = parser.parse_args()
 
 if ARGS.all:
-    ARGS.pdf   = True
-    ARGS.bash  = True
+    ARGS.pdf  = True
+    ARGS.bash = True
     ARGS.noex = False
+
 
 # -------------------------------------- #
 # -- LAUNCHING ALL THE BUILDING TOOLS -- #
 # -------------------------------------- #
 
-PATTERNS = ["file::**build_*.py"]
+PATTERNS = ["file::**build-*.py"]
 
 if ARGS.bash:
-    PATTERNS.append("file::**build_*.bash")
+    PATTERNS.append("file::**build-*.bash")
 
-PATTERNS.append("file::build_*.py")
+PATTERNS.append("file::build-*.py")
 
 for pattern in PATTERNS:
     cmd = EXT_2_CMDS[pattern.split('.')[-1]]
@@ -65,11 +66,19 @@ for pattern in PATTERNS:
     allpaths.sort()
 
     for onepath in allpaths:
-        if ARGS.noex and onepath.name == "build_03-examples.py":
-            print(f'+ Ignoring "{onepath - THIS_DIR}"')
+        filename = (onepath - THIS_DIR).stem
+
+        if ARGS.noex and onepath.name == "build-03-examples.py":
+            print(f'+ Ignoring "{filename}"')
             continue
 
-        print(f'+ Launching "{onepath - THIS_DIR}"')
+        if filename[7].isdigit():
+            comment = ""
+
+        else:
+            comment = "  [this is a sub builder]"
+
+        print(f'+ Launching "{filename}"{comment}')
 
         runthis(
             cmd        = f'{cmd} "{onepath}"',

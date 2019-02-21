@@ -1,4 +1,11 @@
 ==========
+2019-02-21
+==========
+
+**One small bug repaired:** the factory stopped to make PDF examples ! This is has been fixed.
+
+
+==========
 2019-02-16
 ==========
 

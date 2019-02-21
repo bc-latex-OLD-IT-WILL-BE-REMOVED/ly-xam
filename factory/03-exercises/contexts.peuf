@@ -1,4 +1,4 @@
-// * indicates to no reset of counters by one of its parent.
+// * indicates to not reset the counter by one of its parent.
 
 _1-I::
     topic*

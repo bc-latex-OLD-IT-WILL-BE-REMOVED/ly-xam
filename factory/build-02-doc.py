@@ -95,8 +95,6 @@ for latexfile in LATEXFILES:
 # -- UPDATE THE DOC FILE -- #
 # ------------------------- #
 
-print(f"{DECO}* Update of << {DOC_PATH.name} >> done.")
-
 with TEMPLATE_PATH.open(
     mode     = "r",
     encoding = "utf-8"
@@ -104,8 +102,8 @@ with TEMPLATE_PATH.open(
     content = DOUBLE_BRACES(docfile.read())
     content = PYFORMAT(content)
     content = content.format(
-        HEADER,
-        "\n".join(CONTENTS)
+        header  = HEADER,
+        content = "\n".join(CONTENTS)
     )
 
 
@@ -114,6 +112,9 @@ with DOC_PATH.open(
     encoding = "utf-8"
 ) as docfile:
     docfile.write(content)
+
+
+print(f"{DECO}* Update of << {DOC_PATH.name} >> done.")
 
 
 # ------------------------------- #

@@ -11,38 +11,47 @@ TODO
 
 You must define two commands and one environment :
 
-  1) ``@build@layout`` builds the main layout.
+1. ``@build@layout`` builds the main layout.
 
-  2) ``@add@delivery@material`` adds material where the students must give their name.
+2. ``@add@delivery@material`` adds material where the students must give their name.
 
-  3) ``@preamble@style`` is a basic environment just for the style to use with preambles (centering and width are managed before by ``lyxam``).
+3. ``@preamble@style`` is a basic environment just for the style to use with preambles (centering and width are managed before by ``lyxam``).
 
 
 NOTE
 ----
 
-  1) The name of your ``sty`` file will be the name of your style.
+1. The name of your ``sty`` file will be the name of your style.
 
-  2) The following packages are loaded by ``lyxam``.
+2. The following packages are loaded by ``lyxam``.
 
-     i) ``calc``
-     ii) ``changepage``
-     iii) ``fancyhdr``
-     iv) ``lastpage``
-     v) ``listofitems``
-     vi) ``marginnote``
-     vi) ``simplekv``
-     vii) ``xstring``
+ i) ``calc``
 
-  3) The options used are stored in macros ``\@lyxam@<<KEY>>`` where ``<<KEY>>`` is one of the option of the macro ``\exam``. To test if a value is an empty string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
+ ii) ``changepage``
 
-  4) The boolean ``\showheadersfooters`` must be used to show or hide the headers and footers.
+ iii) ``fancyhdr``
 
-  5) You have the following important translated texts to use for the delivery material :
-     i) ``\lyxam@text@name``
-     ii) ``\lyxam@text@firstname``
+ iv) ``lastpage``
 
-  6) You can also use ``\@lyxam@longduration{#1}`` which gives the text ``"Duration:"``, or its translated version, followed by the value of ``#1``.
+ v) ``listofitems``
+
+ vi) ``marginnote``
+
+ vi) ``simplekv``
+
+ vii) ``xstring``
+
+3. The options used are stored in macros ``\@lyxam@<<KEY>>`` where ``<<KEY>>`` is one of the option of the macro ``\exam``. To test if a value is an empty string, you must use ``\@if@empty{\@lyxam@<<KEY>>}{TRUE}{FALSE}``.
+
+4. The boolean ``\showheadersfooters`` must be used to show or hide the headers and footers.
+
+5. You have the following important translated texts to use for the delivery material :
+
+ i) ``\lyxam@text@name``
+
+ ii) ``\lyxam@text@firstname``
+
+6. You can also use ``\@lyxam@longduration{#1}`` which gives the text ``"Duration:"``, or its translated version, followed by the value of ``#1``.
 
 
 GOOD PRACTICE

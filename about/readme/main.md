@@ -15,8 +15,18 @@ Incoming new version...
 =======================
   -->
 
+Minor changes in this version `1.0.2-beta`
+==========================================
+
+**One small bug repaired:** the factory stopped to make PDF examples ! This is has been fixed.
+
+
+
 Minor changes in this version `1.0.1-beta`
 ==========================================
+
+**Change of the name of the option ``theme`` of the macro ``\exam``:** now we have to use ``topic`` which is a better translation.
+
 
 **Update of the design:** backgrounds no longer have a color because this can cause problem when photocopying exams.
 
@@ -33,11 +43,11 @@ Changes in this version `1.0.0-beta`
 
 **Star versions of exercises.**
 
-  1) No star version like ``\exercise`` is for auto-numbered exercises.
+1. No star version like ``\exercise`` is for auto-numbered exercises.
 
-  2) Simple star version like ``\exercise*`` is for unnumbered exercises.
+2. Simple star version like ``\exercise*`` is for unnumbered exercises.
 
-  3) Double star version like ``\exercise**`` is for exercises using a title instead of the standard name.
+3. Double star version like ``\exercise**`` is for exercises using a title instead of the standard name.
 
 
 **Unuseful package options removed:** ``about``, ``hf``, ``noshort``, ``pts`` and ``src`` have been deleted.
@@ -48,11 +58,11 @@ Changes in this version `0.3.0-beta`
 
 **Three new styles.**
 
-  1) The style ``mini`` tries to minimize the space used for the formatting. This is the new default style.
+1. The style ``mini`` tries to minimize the space used for the formatting. This is the new default style.
 
-  2) The style ``book`` has been added to use exercises inside a book or a lesson.
+2. The style ``book`` has been added to use exercises inside a book or a lesson.
 
-  3) The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less spaces as possible.
+3. The style ``ecolo`` mixes the styles ``mini`` and ``book`` such as to print tests wasting less spaces as possible.
 
 
 Changes in this version `0.2.0-beta`
@@ -60,11 +70,11 @@ Changes in this version `0.2.0-beta`
 
 **Three new package options.**
 
-  1) ``linebox`` gives a new style for formatting things using frames and lines.
+1. ``linebox`` gives a new style for formatting things using frames and lines.
 
-  2) ``short`` and ``noshort`` allow to print or not short versions of names of contexts, of time, points...
+2. ``short`` and ``noshort`` allow to print or not short versions of names of contexts, of time, points...
 
-  3) ``about`` and ``noabout`` ask to show or hide infos about topics, exercises and parts.
+3. ``about`` and ``noabout`` ask to show or hide infos about topics, exercises and parts.
 
 
 **New name for the option ``render`` of ``\exam``:** the new name is ``deliver``.
@@ -84,9 +94,9 @@ Changes in this version `0.1.0-beta`
 
 **Changes for `\exam`.**
 
-  1) The option `preamble` has been removed, and all other options are now optional.
+1. The option `preamble` has been removed, and all other options are now optional.
 
-  2) The macro `\exam` can be used several times in the same document.
+2. The macro `\exam` can be used several times in the same document.
 
 
 **New environment `\begin{preamble}...\end{preamble}`:** you can use it anywhere.
@@ -104,6 +114,6 @@ Changes in this version `0.1.0-beta`
 About this first version `0.0.0-beta`
 =====================================
 
-For the moment, there is only one french documentation `lyxam-doc[fr].pdf` inside the folder `lyxam`.
+There is only one french documentation `lyxam-doc[fr].pdf` inside the folder `lyxam`.
 
-The only thing needed to use the package is the folder `lyxam`.
+The only thing needed to use the package is the folder `lyxam` *(you can remove the examples)*.

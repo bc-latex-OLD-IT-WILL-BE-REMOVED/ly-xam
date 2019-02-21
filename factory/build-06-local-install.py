@@ -6,7 +6,7 @@ from mistool.latex_use import install, PPath
 
 DECO = " "*4
 
-answer = input(f"{DECO}* Local installation ? [Y/N] ")
+answer = input(f"{DECO}* Local installation ? [y/n] ")
 
 if answer.lower() == "y":
     THIS_DIR = PPath( __file__ ).parent
